@@ -1,0 +1,131 @@
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import { Shell, Card, Chip } from '@/components/ui/Shell';
+import { ExerciseAnimation } from '@/components/figure/ExerciseAnimation';
+import { LevelPicker } from '@/components/LevelPicker';
+import { EXERCISES } from '@/lib/program/exercises';
+import { getToday } from '@/lib/data';
+import { animFor, levelFor } from '@/lib/program/plan';
+
+export const dynamic = 'force-dynamic';
+
+const EQUIPMENT_LABEL: Record<string, string> = {
+  ninguno: 'Sin material', mancuernas: 'Mancuernas', banda: 'Banda elástica',
+  escalon: 'Escalón', silla: 'Silla', mochila: 'Mochila cargada',
+  pared: 'Pared', esterilla: 'Esterilla', cojin: 'Cojín o pelota', pala: 'Pala',
+};
+
+export default async function ExerciseDetail({
+  params,
+}: {
+  params: Promise<{ key: string }>;
+}) {
+  const { key } = await params;
+  const ex = EXERCISES[key];
+  if (!ex) notFound();
+
+  const { plan, progress } = await getToday();
+  const offset = progress[key]?.levelOffset ?? 0;
+  const current = levelFor(key, plan.phase, offset);
+
+  return (
+    <Shell
+      title={ex.name}
+      subtitle={ex.tagline}
+      action={
+        <Link href="/ejercicios" className="shrink-0 text-sm font-semibold text-ink-400">
+          ← Volver
+        </Link>
+      }
+    >
+      <Card className="mb-4">
+        <ExerciseAnimation anim={animFor(key, plan.phase, offset)} className="mx-auto aspect-square w-full max-w-[17rem]" />
+      </Card>
+
+      <div className="mb-4 flex flex-wrap gap-1.5">
+        {ex.targets.map((t) => <Chip key={t} tone="lime">{t}</Chip>)}
+        {ex.equipment.map((e) => <Chip key={e}>{EQUIPMENT_LABEL[e] ?? e}</Chip>)}
+        {ex.unilateral ? <Chip tone="info">Una pierna cada vez</Chip> : null}
+      </div>
+
+      <Card className="mb-4">
+        <p className="mb-1.5 text-[0.7rem] font-bold uppercase tracking-wider text-lime-glow">
+          Por qué lo haces
+        </p>
+        <p className="text-[0.88rem] leading-relaxed text-ink-200">{ex.why}</p>
+      </Card>
+
+      <Card className="mb-4">
+        <p className="mb-2 text-[0.7rem] font-bold uppercase tracking-wider text-lime-glow">
+          Colocación
+        </p>
+        <ul className="mb-4 space-y-1.5">
+          {ex.setup.map((t) => (
+            <li key={t} className="flex gap-2 text-[0.88rem] leading-snug text-ink-200">
+              <span className="text-ink-500">·</span><span>{t}</span>
+            </li>
+          ))}
+        </ul>
+        <p className="mb-2 text-[0.7rem] font-bold uppercase tracking-wider text-lime-glow">
+          Ejecución
+        </p>
+        <ol className="space-y-1.5">
+          {ex.execution.map((t, i) => (
+            <li key={t} className="flex gap-2 text-[0.88rem] leading-snug text-ink-200">
+              <span className="font-bold text-ink-500">{i + 1}.</span><span>{t}</span>
+            </li>
+          ))}
+        </ol>
+      </Card>
+
+      <Card className="mb-4">
+        <p className="mb-2 text-[0.7rem] font-bold uppercase tracking-wider text-signal-alert">
+          Errores típicos
+        </p>
+        <ul className="space-y-1.5">
+          {ex.mistakes.map((t) => (
+            <li key={t} className="flex gap-2 text-[0.88rem] leading-snug text-ink-200">
+              <span className="text-signal-alert">×</span><span>{t}</span>
+            </li>
+          ))}
+        </ul>
+      </Card>
+
+      {ex.painRule ? (
+        <Card tone="warn" className="mb-4">
+          <p className="text-[0.7rem] font-bold uppercase tracking-wider text-signal-warn">
+            Regla de dolor
+          </p>
+          <p className="mt-1 text-[0.86rem] leading-snug text-ink-100">{ex.painRule}</p>
+        </Card>
+      ) : null}
+
+      <Card>
+        <p className="text-base font-bold">Progresión</p>
+        <p className="mb-3 mt-0.5 text-xs leading-snug text-ink-400">
+          La fase marca el nivel por defecto. Si te queda corto o largo, ajústalo aquí y
+          la app lo recordará.
+        </p>
+        <ol className="mb-4 space-y-2">
+          {ex.levels.map((l) => (
+            <li
+              key={l.n}
+              className={`rounded-lg border px-3 py-2.5 ${
+                current?.n === l.n
+                  ? 'border-lime-core/50 bg-lime-core/10'
+                  : 'border-ink-700 bg-ink-800/60'
+              }`}
+            >
+              <p className="text-[0.82rem] font-semibold">
+                <span className="text-ink-400">Nivel {l.n} · </span>
+                {l.name}
+              </p>
+              {l.note ? <p className="mt-0.5 text-xs text-ink-400">{l.note}</p> : null}
+            </li>
+          ))}
+        </ol>
+        <LevelPicker exerciseKey={key} offset={offset} />
+      </Card>
+    </Shell>
+  );
+}

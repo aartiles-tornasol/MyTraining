@@ -1,0 +1,100 @@
+@import "tailwindcss";
+
+/* ── MyTraining design tokens ─────────────────────────────────────────────
+   Dark-only by design: the app is used early in the morning and after
+   playing, often outdoors on the azotea. High contrast, big touch targets.
+   Accent is pickleball-ball lime.                                        */
+@theme {
+  --color-ink-950: #080b0f;
+  --color-ink-900: #0d1218;
+  --color-ink-850: #121922;
+  --color-ink-800: #18212c;
+  --color-ink-700: #222e3c;
+  --color-ink-600: #31404f;
+  --color-ink-500: #4c5f72;
+  --color-ink-400: #7488a0;
+  --color-ink-300: #a3b4c6;
+  --color-ink-100: #e6edf5;
+
+  --color-lime-glow: #d6f645;
+  --color-lime-core: #b9dd1f;
+  --color-lime-deep: #6f8a00;
+
+  --color-signal-ok: #3ddc97;
+  --color-signal-warn: #ffc043;
+  --color-signal-alert: #ff6b6b;
+  --color-signal-info: #5eb0ff;
+  --color-signal-violet: #a78bfa;
+
+  --font-sans: ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", system-ui, sans-serif;
+
+  --radius-xl2: 1.375rem;
+  --radius-xl3: 1.75rem;
+}
+
+:root {
+  color-scheme: dark;
+  --safe-t: env(safe-area-inset-top, 0px);
+  --safe-b: env(safe-area-inset-bottom, 0px);
+  --safe-l: env(safe-area-inset-left, 0px);
+  --safe-r: env(safe-area-inset-right, 0px);
+  --nav-h: 4.25rem;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  background: var(--color-ink-950);
+  /* Stop the iOS rubber-band from revealing white behind the page. */
+  overscroll-behavior-y: none;
+}
+
+body {
+  background:
+    radial-gradient(120% 70% at 50% -10%, #17202b 0%, transparent 60%),
+    var(--color-ink-950);
+  color: var(--color-ink-100);
+  font-family: var(--font-sans);
+  min-height: 100dvh;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Keep long words (exercise names) from blowing out narrow iPhone layouts. */
+h1, h2, h3, p, span {
+  overflow-wrap: break-word;
+}
+
+/* Native-feeling scrolling lists without visible bars. */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; }
+
+/* Disable text selection in the session player, where every tap is a control. */
+.no-select {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+@keyframes mt-fade-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-up { animation: mt-fade-up 0.35s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+@keyframes mt-pulse-ring {
+  0%   { transform: scale(0.96); opacity: 0.7; }
+  70%  { transform: scale(1.12); opacity: 0; }
+  100% { transform: scale(1.12); opacity: 0; }
+}
+.animate-pulse-ring { animation: mt-pulse-ring 1.6s ease-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

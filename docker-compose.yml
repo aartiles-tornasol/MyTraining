@@ -1,0 +1,35 @@
+# Dokploy: point the application at this compose file, or build the Dockerfile
+# directly and attach a Postgres service with DATABASE_URL wired in.
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgres://mytraining:${POSTGRES_PASSWORD:-mytraining}@db:5432/mytraining
+      TZ: ${TZ:-Atlantic/Canary}
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "3000:3000"
+
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: mytraining
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-mytraining}
+      POSTGRES_DB: mytraining
+      TZ: ${TZ:-Atlantic/Canary}
+    volumes:
+      - mytraining-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mytraining -d mytraining"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  mytraining-db:
