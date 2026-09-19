@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { Card, Chip } from './ui/Shell';
 import { ExerciseAnimation } from './figure/ExerciseAnimation';
+import { Figure3D } from './figure/Figure3D';
+import { FIGURE3D } from '@/lib/program/figure3d';
 import { EXERCISES } from '@/lib/program/exercises';
 import { animFor, sessionMinutes } from '@/lib/program/plan';
 import type { Phase, SessionDef, SessionItem } from '@/lib/program/types';
@@ -59,11 +61,20 @@ export function SessionCard({
               key={`${item.exercise}-${i}`}
               className="w-[5.5rem] shrink-0 rounded-lg bg-ink-800 p-1.5"
             >
-              <ExerciseAnimation
-                anim={animFor(item.exercise, phase)}
-                showLabel={false}
-                className="aspect-square w-full"
-              />
+              {FIGURE3D[item.exercise] ? (
+                <Figure3D
+                  exercise={item.exercise}
+                  showLabel={false}
+                  showOrient={false}
+                  className="aspect-square w-full"
+                />
+              ) : (
+                <ExerciseAnimation
+                  anim={animFor(item.exercise, phase)}
+                  showLabel={false}
+                  className="aspect-square w-full"
+                />
+              )}
               <p className="mt-0.5 line-clamp-2 text-center text-[0.62rem] leading-tight text-ink-300">
                 {ex.name}
               </p>

@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { Shell } from '@/components/ui/Shell';
 import { ExerciseAnimation } from '@/components/figure/ExerciseAnimation';
+import { Figure3D } from '@/components/figure/Figure3D';
+import { FIGURE3D } from '@/lib/program/figure3d';
 import { EXERCISES, EXERCISE_GROUPS } from '@/lib/program/exercises';
 import { getToday } from '@/lib/data';
 import { animFor } from '@/lib/program/plan';
@@ -26,11 +28,19 @@ export default async function Ejercicios() {
                       href={`/ejercicios/${key}`}
                       className="block rounded-xl2 border border-ink-700/70 bg-ink-850 p-2 transition active:scale-[0.98]"
                     >
-                      <ExerciseAnimation
-                        anim={animFor(key, plan.phase)}
-                        showLabel={false}
-                        className="aspect-square w-full"
-                      />
+                      {FIGURE3D[key] ? (
+                        <Figure3D
+                          exercise={key}
+                          showLabel={false}
+                          className="aspect-square w-full"
+                        />
+                      ) : (
+                        <ExerciseAnimation
+                          anim={animFor(key, plan.phase)}
+                          showLabel={false}
+                          className="aspect-square w-full"
+                        />
+                      )}
                       <p className="mt-1 line-clamp-2 text-[0.8rem] font-semibold leading-tight">
                         {ex.name}
                       </p>
