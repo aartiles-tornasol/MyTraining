@@ -82,6 +82,7 @@ export function ExerciseAnimation({
   const pose = lerpPose(state.from, state.to, state.t, base);
   const label = steadyLabel(resolved) ?? state.label;
   const hasLabels = resolved.frames.some((f) => f.label);
+  const box = viewBoxString(viewBoxFor(resolved));
 
   // The caption is a row of its own. Left as a sibling of a full-height figure
   // it spilled out of the box and sat on top of whatever came next — the rep
@@ -94,7 +95,7 @@ export function ExerciseAnimation({
         props={state.props}
         highlight={resolved.highlight}
         uid={uid}
-        viewBox={viewBoxString(viewBoxFor(resolved))}
+        viewBox={box}
         className="min-h-0 w-full flex-1"
       />
       {showLabel && hasLabels ? (

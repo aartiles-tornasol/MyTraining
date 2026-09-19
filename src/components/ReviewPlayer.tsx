@@ -129,6 +129,7 @@ export function ReviewPlayer({ screens }: { screens: ReviewScreen[] }) {
         name={screen.exerciseName}
         subtitle={screen.subtitle}
         anim={animFor(screen.exercise, screen.phase, 0)}
+        exercise={screen.exercise}
         cue={screen.item.cue}
         timer={
           timed

@@ -1,6 +1,7 @@
 'use client';
 
 import { ExerciseAnimation } from './figure/ExerciseAnimation';
+import { Figure3D, has3D } from './figure/Figure3D';
 import { TimerRing } from './ui/TimerRing';
 import type { ExerciseAnim } from './figure/anim';
 
@@ -13,6 +14,7 @@ export function WorkCard({
   name,
   subtitle,
   anim,
+  exercise,
   cue,
   timer,
   reps,
@@ -23,6 +25,8 @@ export function WorkCard({
   name: string;
   subtitle: string;
   anim: string | ExerciseAnim;
+  /** Exercise key, for the pre-rendered 3D figure. */
+  exercise?: string;
   cue?: string;
   /** A timed hold; omit for a rep-counted set. */
   timer?: { remaining: number; total: number; label: string };
@@ -57,7 +61,11 @@ export function WorkCard({
         {/* Same square box as the exercise pages. Left to grow into the spare
             height the figure filled the whole screen and ran off the bottom. */}
         <div className="relative mx-auto my-2 aspect-square w-full max-w-[17rem] shrink-0">
-          <ExerciseAnimation anim={anim} className="h-full w-full" />
+          {exercise && has3D(exercise) ? (
+            <Figure3D exercise={exercise} className="h-full w-full" />
+          ) : (
+            <ExerciseAnimation anim={anim} className="h-full w-full" />
+          )}
         </div>
 
         {cue ? (

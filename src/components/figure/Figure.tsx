@@ -53,11 +53,11 @@ function resolve(a: Anchor, s: Skeleton): Vec {
 
 /* ── Renderer ───────────────────────────────────────────────────────────── */
 
-const NEAR = '#d3dfec';
-const FAR = '#46596d';
+export const NEAR = '#d3dfec';
+export const FAR = '#46596d';
 /** Face-on poses need both sides legible, not a silhouette behind a silhouette. */
-const FAR_FRONT = '#93a7bc';
-const LIME = '#d6f645';
+export const FAR_FRONT = '#93a7bc';
+export const LIME = '#d6f645';
 
 export interface FigureProps {
   pose: PosePatch;
@@ -212,7 +212,7 @@ export function Figure({
   );
 }
 
-function PropShape({ prop, s, uid }: { prop: Prop; s: Skeleton; uid: string }) {
+export function PropShape({ prop, s, uid }: { prop: Prop; s: Skeleton; uid: string }) {
   switch (prop.k) {
     case 'step': {
       const y = GROUND_Y - prop.h;

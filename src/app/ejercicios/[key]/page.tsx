@@ -2,6 +2,8 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Shell, Card, Chip } from '@/components/ui/Shell';
 import { ExerciseAnimation } from '@/components/figure/ExerciseAnimation';
+import { Figure3D } from '@/components/figure/Figure3D';
+import { FIGURE3D } from '@/lib/program/figure3d';
 import { LevelPicker } from '@/components/LevelPicker';
 import { ExerciseHeaderNav, ExerciseNav } from '@/components/ExerciseNav';
 import { EXERCISES, exerciseNeighbours } from '@/lib/program/exercises';
@@ -45,10 +47,14 @@ export default async function ExerciseDetail({
       }
     >
       <Card className="mb-4">
-        <ExerciseAnimation
-          anim={animFor(key, plan.phase, offset)}
-          className="mx-auto aspect-square w-full max-w-[17rem]"
-        />
+        {FIGURE3D[key] ? (
+          <Figure3D exercise={key} className="mx-auto aspect-square w-full max-w-[17rem]" />
+        ) : (
+          <ExerciseAnimation
+            anim={animFor(key, plan.phase, offset)}
+            className="mx-auto aspect-square w-full max-w-[17rem]"
+          />
+        )}
       </Card>
 
       <div className="mb-4 flex flex-wrap gap-1.5">

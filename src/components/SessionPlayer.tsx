@@ -345,6 +345,7 @@ export function SessionPlayer({
           (level ? ` · ${level.name}` : '')
         }
         anim={animFor(item.exercise, phase, levelOffsets[item.exercise] ?? 0)}
+        exercise={item.exercise}
         cue={item.cue}
         timer={timed ? { remaining, total: step.seconds, label: running ? 'aguanta' : 'listo' } : undefined}
         reps={timed ? undefined : item.work}
