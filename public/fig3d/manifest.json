@@ -1,0 +1,1096 @@
+{
+ "iso-calf-double": {
+  "key": "iso-calf-double",
+  "frames": [
+   "f00.webp",
+   "f01.webp",
+   "f02.webp",
+   "f03.webp",
+   "f04.webp",
+   "f05.webp",
+   "f06.webp",
+   "f07.webp",
+   "f08.webp",
+   "f09.webp",
+   "f10.webp",
+   "f11.webp",
+   "f12.webp",
+   "f13.webp",
+   "f14.webp"
+  ],
+  "orient": "de-pie",
+  "camera": "tres-cuartos",
+  "labels": [
+   "Sube a puntillas",
+   "Aguanta arriba",
+   "Baja despacio"
+  ],
+  "msPerFrame": 280,
+  "steps": 5
+ },
+ "iso-calf-single": {
+  "key": "iso-calf-single",
+  "frames": [
+   "f00.webp",
+   "f01.webp",
+   "f02.webp",
+   "f03.webp",
+   "f04.webp",
+   "f05.webp",
+   "f06.webp",
+   "f07.webp",
+   "f08.webp",
+   "f09.webp",
+   "f10.webp",
+   "f11.webp",
+   "f12.webp",
+   "f13.webp",
+   "f14.webp"
+  ],
+  "orient": "de-pie",
+  "camera": "tres-cuartos",
+  "labels": [
+   "Sobre una pierna, sube",
+   "Aguanta arriba",
+   "Baja despacio"
+  ],
+  "msPerFrame": 280,
+  "steps": 5
+ },
+ "calf-raise-floor": {
+  "key": "calf-raise-floor",
+  "frames": [
+   "f00.webp",
+   "f01.webp",
+   "f02.webp",
+   "f03.webp",
+   "f04.webp",
+   "f05.webp",
+   "f06.webp",
+   "f07.webp",
+   "f08.webp",
+   "f09.webp",
+   "f10.webp",
+   "f11.webp",
+   "f12.webp",
+   "f13.webp",
+   "f14.webp"
+  ],
+  "orient": "de-pie",
+  "camera": "tres-cuartos",
+  "labels": [
+   "Sube en 2 s",
+   "Aprieta arriba",
+   "Baja en 3 s"
+  ],
+  "msPerFrame": 300,
+  "steps": 5
+ },
+ "calf-raise-single": {
+  "key": "calf-raise-single",
+  "frames": [
+   "f00.webp",
+   "f01.webp",
+   "f02.webp",
+   "f03.webp",
+   "f04.webp",
+   "f05.webp",
+   "f06.webp",
+   "f07.webp",
+   "f08.webp",
+   "f09.webp",
+   "f10.webp",
+   "f11.webp",
+   "f12.webp",
+   "f13.webp",
+   "f14.webp"
+  ],
+  "orient": "de-pie",
+  "camera": "tres-cuartos",
+  "labels": [
+   "Sube sobre una pierna",
+   "Aprieta arriba",
+   "Baja en 3 s"
+  ],
+  "msPerFrame": 300,
+  "steps": 5
+ },
+ "heel-drop-step": {
+  "key": "heel-drop-step",
+  "frames": [
+   "f00.webp",
+   "f01.webp",
+   "f02.webp",
+   "f03.webp",
+   "f04.webp",
+   "f05.webp",
+   "f06.webp",
+   "f07.webp",
+   "f08.webp",
+   "f09.webp"
+  ],
+  "orient": "de-pie",
+  "camera": "lateral",
+  "labels": [
+   "En el escalón, arriba",
+   "Baja el talón por debajo"
+  ],
+  "msPerFrame": 360,
+  "steps": 5
+ },
+ "soleus-seated": {
+  "key": "soleus-seated",
+  "frames": [
+   "f00.webp",
+   "f01.webp",
+   "f02.webp",
+   "f03.webp",
+   "f04.webp",
+   "f05.webp",
+   "f06.webp",
+   "f07.webp",
+   "f08.webp",
+   "f09.webp"
+  ],
+  "orient": "sentado",
+  "camera": "lateral",
+  "labels": [
+   "Talones arriba",
+   "Baja despacio"
+  ],
+  "msPerFrame": 280,
+  "steps": 5
+ },
+ "soleus-wall-iso": {
+  "key": "soleus-wall-iso",
+  "frames": [
+   "f00.webp",
+   "f01.webp",
+   "f02.webp",
+   "f03.webp",
+   "f04.webp",
+   "f05.webp",
+   "f06.webp",
+   "f07.webp",
+   "f08.webp",
+   "f09.webp"
+  ],
+  "orient": "de-pie",
+  "camera": "lateral",
+  "labels": [
+   "Rodilla doblada contra la pared",
+   "Aguanta el sóleo"
+  ],
+  "msPerFrame": 320,
+  "steps": 5
+ },
+ "knee-to-wall": {
+  "key": "knee-to-wall",
+  "frames": [
+   "f00.webp",
+   "f01.webp",
+   "f02.webp",
+   "f03.webp",
+   "f04.webp",
+   "f05.webp",
+   "f06.webp",
+   "f07.webp",
+   "f08.webp",
+   "f09.webp"
+  ],
+  "orient": "de-pie",
+  "camera": "lateral",
+  "labels": [
+   "Rodilla lejos de la pared",
+   "Lleva la rodilla a tocar"
+  ],
+  "msPerFrame": 300,
+  "steps": 5
+ },
+ "toe-walk": {
+  "key": "toe-walk",
+  "frames": [
+   "f00.webp",
+   "f01.webp",
+   "f02.webp",
+   "f03.webp",
+   "f04.webp",
+   "f05.webp",
+   "f06.webp",
+   "f07.webp",
+   "f08.webp",
+   "f09.webp"
+  ],
+  "orient": "de-pie",
+  "camera": "tres-cuartos",
+  "labels": [
+   "De puntillas, paso corto",
+   "Sin bajar los talones"
+  ],
+  "msPerFrame": 180,
+  "steps": 5
+ },
+ "adductor-squeeze": {
+  "key": "adductor-squeeze",
+  "frames": [
+   "f00.webp",
+   "f01.webp",
+   "f02.webp",
+   "f03.webp",
+   "f04.webp",
+   "f05.webp",
+   "f06.webp",
+   "f07.webp",
+   "f08.webp",
+   "f09.webp"
+  ],
+  "orient": "boca-arriba",
+  "camera": "tres-cuartos-alto",
+  "labels": [
+   "Boca arriba, rodillas dobladas",
+   "Aprieta el cojín al 80 %"
+  ],
+  "msPerFrame": 320,
+  "steps": 5
+ },
+ "copenhagen-short": {
+  "key": "copenhagen-short",
+  "frames": [
+   "f00.webp",
+   "f01.webp",
+   "f02.webp",
+   "f03.webp",
+   "f04.webp",
+   "f05.webp",
+   "f06.webp",
+   "f07.webp",
+   "f08.webp",
+   "f09.webp"
+  ],
+  "orient": "de-lado",
+  "camera": "tres-cuartos-alto",
+  "labels": [
+   "De lado, rodilla en la silla",
+   "Sube la cadera a la línea"
+  ],
+  "msPerFrame": 360,
+  "steps": 5
+ },
+ "copenhagen-long": {
+  "key": "copenhagen-long",
+  "frames": [
+   "f00.webp",
+   "f01.webp",
+   "f02.webp",
+   "f03.webp",
+   "f04.webp",
+   "f05.webp",
+   "f06.webp",
+   "f07.webp",
+   "f08.webp",
+   "f09.webp"
+  ],
+  "orient": "de-lado",
+  "camera": "tres-cuartos-alto",
+  "labels": [
+   "De lado, pie en la silla",
+   "Sube la cadera, cuerpo recto"
+  ],
+  "msPerFrame": 360,
+  "steps": 5
+ },
+ "side-lying-adduction": {
+  "key": "side-lying-adduction",
+  "frames": [
+   "f00.webp",
+   "f01.webp",
+   "f02.webp",
+   "f03.webp",
+   "f04.webp",
+   "f05.webp",
+   "f06.webp",
+   "f07.webp",
+   "f08.webp",
+   "f09.webp"
+  ],
+  "orient": "de-lado",
+  "camera": "tres-cuartos-alto",
+  "labels": [
+   "Tumbado de lado",
+   "Sube la pierna de abajo"
+  ],
+  "msPerFrame": 320,
+  "steps": 5
+ },
+ "lateral-lunge": {
+  "key": "lateral-lunge",
+  "frames": [
+   "f00.webp",
+   "f01.webp",
+   "f02.webp",
+   "f03.webp",
+   "f04.webp",
+   "f05.webp",
+   "f06.webp",
+   "f07.webp",
+   "f08.webp",
+   "f09.webp"
+  ],
+  "orient": "de-pie",
+  "camera": "frontal",
+  "labels": [
+   "De pie, pies juntos",
+   "Paso largo al lado"
+  ],
+  "msPerFrame": 320,
+  "steps": 5
+ },
+ "cossack-squat": {
+  "key": "cossack-squat",
+  "frames": [
+   "f00.webp",
+   "f01.webp",
+   "f02.webp",
+   "f03.webp",
+   "f04.webp",
+   "f05.webp",
+   "f06.webp",
+   "f07.webp",
+   "f08.webp",
+   "f09.webp"
+  ],
+  "orient": "de-pie",
+  "camera": "frontal",
+  "labels": [
+   "Pies muy abiertos",
+   "Baja sobre una pierna"
+  ],
+  "msPerFrame": 360,
+  "steps": 5
+ },
+ "glute-bridge": {
+  "key": "glute-bridge",
+  "frames": [
+   "f00.webp",
+   "f01.webp",
+   "f02.webp",
+   "f03.webp",
+   "f04.webp",
+   "f05.webp",
+   "f06.webp",
+   "f07.webp",
+   "f08.webp",
+   "f09.webp"
+  ],
+  "orient": "boca-arriba",
+  "camera": "tres-cuartos",
+  "labels": [
+   "Boca arriba, cadera abajo",
+   "Sube la cadera"
+  ],
+  "msPerFrame": 300,
+  "steps": 5
+ },
+ "single-leg-bridge": {
+  "key": "single-leg-bridge",
+  "frames": [
+   "f00.webp",
+   "f01.webp",
+   "f02.webp",
+   "f03.webp",
+   "f04.webp",
+   "f05.webp",
+   "f06.webp",
+   "f07.webp",
+   "f08.webp",
+   "f09.webp"
+  ],
+  "orient": "boca-arriba",
+  "camera": "tres-cuartos",
+  "labels": [
+   "Una pierna en el suelo",
+   "Sube la cadera"
+  ],
+  "msPerFrame": 300,
+  "steps": 5
+ },
+ "clamshell-band": {
+  "key": "clamshell-band",
+  "frames": [
+   "f00.webp",
+   "f01.webp",
+   "f02.webp",
+   "f03.webp",
+   "f04.webp",
+   "f05.webp",
+   "f06.webp",
+   "f07.webp",
+   "f08.webp",
+   "f09.webp"
+  ],
+  "orient": "de-lado",
+  "camera": "tres-cuartos-alto",
+  "labels": [
+   "De lado, rodillas dobladas",
+   "Abre la rodilla de arriba"
+  ],
+  "msPerFrame": 280,
+  "steps": 5
+ },
+ "side-plank-abduction": {
+  "key": "side-plank-abduction",
+  "frames": [
+   "f00.webp",
+   "f01.webp",
+   "f02.webp",
+   "f03.webp",
+   "f04.webp",
+   "f05.webp",
+   "f06.webp",
+   "f07.webp",
+   "f08.webp",
+   "f09.webp"
+  ],
+  "orient": "de-lado",
+  "camera": "tres-cuartos-alto",
+  "labels": [
+   "Plancha lateral sobre el codo",
+   "Sube la pierna de arriba"
+  ],
+  "msPerFrame": 320,
+  "steps": 5
+ },
+ "banded-lateral-walk": {
+  "key": "banded-lateral-walk",
+  "frames": [
+   "f00.webp",
+   "f01.webp",
+   "f02.webp",
+   "f03.webp",
+   "f04.webp",
+   "f05.webp",
+   "f06.webp",
+   "f07.webp",
+   "f08.webp",
+   "f09.webp"
+  ],
+  "orient": "de-pie",
+  "camera": "frontal",
+  "labels": [
+   "Semiflexión, banda tensa",
+   "Paso lateral sin juntar"
+  ],
+  "msPerFrame": 240,
+  "steps": 5
+ },
+ "hip-airplane": {
+  "key": "hip-airplane",
+  "frames": [
+   "f00.webp",
+   "f01.webp",
+   "f02.webp",
+   "f03.webp",
+   "f04.webp",
+   "f05.webp",
+   "f06.webp",
+   "f07.webp",
+   "f08.webp",
+   "f09.webp",
+   "f10.webp",
+   "f11.webp",
+   "f12.webp",
+   "f13.webp",
+   "f14.webp"
+  ],
+  "orient": "de-pie",
+  "camera": "tres-cuartos-alto",
+  "labels": [
+   "De pie sobre una pierna, bisagra",
+   "Abre la cadera despacio",
+   "Cierra con control"
+  ],
+  "msPerFrame": 380,
+  "steps": 5
+ },
+ "hip-90-90": {
+  "key": "hip-90-90",
+  "frames": [
+   "f00.webp",
+   "f01.webp",
+   "f02.webp",
+   "f03.webp",
+   "f04.webp",
+   "f05.webp",
+   "f06.webp",
+   "f07.webp",
+   "f08.webp",
+   "f09.webp"
+  ],
+  "orient": "sentado",
+  "camera": "tres-cuartos-alto",
+  "labels": [
+   "Sentado, 90 y 90",
+   "Gira las dos rodillas al otro lado"
+  ],
+  "msPerFrame": 360,
+  "steps": 5
+ },
+ "figure-4-stretch": {
+  "key": "figure-4-stretch",
+  "frames": [
+   "f00.webp",
+   "f01.webp",
+   "f02.webp",
+   "f03.webp",
+   "f04.webp",
+   "f05.webp",
+   "f06.webp",
+   "f07.webp",
+   "f08.webp",
+   "f09.webp"
+  ],
+  "orient": "boca-arriba",
+  "camera": "tres-cuartos-alto",
+  "labels": [
+   "Boca arriba, tobillo sobre la rodilla",
+   "Acerca la rodilla al pecho"
+  ],
+  "msPerFrame": 360,
+  "steps": 5
+ },
+ "single-leg-rdl": {
+  "key": "single-leg-rdl",
+  "frames": [
+   "f00.webp",
+   "f01.webp",
+   "f02.webp",
+   "f03.webp",
+   "f04.webp",
+   "f05.webp",
+   "f06.webp",
+   "f07.webp",
+   "f08.webp",
+   "f09.webp",
+   "f10.webp",
+   "f11.webp",
+   "f12.webp",
+   "f13.webp",
+   "f14.webp"
+  ],
+  "orient": "de-pie",
+  "camera": "tres-cuartos",
+  "labels": [
+   "De pie sobre una pierna",
+   "La cadera va hacia atrás",
+   "Espalda y pierna en línea"
+  ],
+  "msPerFrame": 340,
+  "steps": 5
+ },
+ "goblet-squat": {
+  "key": "goblet-squat",
+  "frames": [
+   "f00.webp",
+   "f01.webp",
+   "f02.webp",
+   "f03.webp",
+   "f04.webp",
+   "f05.webp",
+   "f06.webp",
+   "f07.webp",
+   "f08.webp",
+   "f09.webp"
+  ],
+  "orient": "de-pie",
+  "camera": "tres-cuartos",
+  "labels": [
+   "De pie con el peso al pecho",
+   "Baja en 3 s"
+  ],
+  "msPerFrame": 340,
+  "steps": 5
+ },
+ "split-squat": {
+  "key": "split-squat",
+  "frames": [
+   "f00.webp",
+   "f01.webp",
+   "f02.webp",
+   "f03.webp",
+   "f04.webp",
+   "f05.webp",
+   "f06.webp",
+   "f07.webp",
+   "f08.webp",
+   "f09.webp"
+  ],
+  "orient": "de-pie",
+  "camera": "tres-cuartos",
+  "labels": [
+   "Zancada, un pie delante",
+   "Baja la rodilla de atrás"
+  ],
+  "msPerFrame": 340,
+  "steps": 5
+ },
+ "step-up": {
+  "key": "step-up",
+  "frames": [
+   "f00.webp",
+   "f01.webp",
+   "f02.webp",
+   "f03.webp",
+   "f04.webp",
+   "f05.webp",
+   "f06.webp",
+   "f07.webp",
+   "f08.webp",
+   "f09.webp"
+  ],
+  "orient": "de-pie",
+  "camera": "lateral",
+  "labels": [
+   "Un pie en el escalón",
+   "Sube sin impulso"
+  ],
+  "msPerFrame": 340,
+  "steps": 5
+ },
+ "wall-sit": {
+  "key": "wall-sit",
+  "frames": [
+   "f00.webp",
+   "f01.webp",
+   "f02.webp",
+   "f03.webp",
+   "f04.webp",
+   "f05.webp",
+   "f06.webp",
+   "f07.webp",
+   "f08.webp",
+   "f09.webp"
+  ],
+  "orient": "de-pie",
+  "camera": "lateral",
+  "labels": [
+   "Espalda en la pared",
+   "Aguanta 90 grados"
+  ],
+  "msPerFrame": 320,
+  "steps": 5
+ },
+ "dead-bug": {
+  "key": "dead-bug",
+  "frames": [
+   "f00.webp",
+   "f01.webp",
+   "f02.webp",
+   "f03.webp",
+   "f04.webp",
+   "f05.webp",
+   "f06.webp",
+   "f07.webp",
+   "f08.webp",
+   "f09.webp"
+  ],
+  "orient": "boca-arriba",
+  "camera": "tres-cuartos-alto",
+  "labels": [
+   "Boca arriba, brazos al techo",
+   "Estira brazo y pierna contrarios"
+  ],
+  "msPerFrame": 320,
+  "steps": 5
+ },
+ "pallof-press": {
+  "key": "pallof-press",
+  "frames": [
+   "f00.webp",
+   "f01.webp",
+   "f02.webp",
+   "f03.webp",
+   "f04.webp",
+   "f05.webp",
+   "f06.webp",
+   "f07.webp",
+   "f08.webp",
+   "f09.webp"
+  ],
+  "orient": "de-pie",
+  "camera": "frontal",
+  "labels": [
+   "Banda al pecho, no te gires",
+   "Estira los brazos al frente"
+  ],
+  "msPerFrame": 300,
+  "steps": 5
+ },
+ "side-plank": {
+  "key": "side-plank",
+  "frames": [
+   "f00.webp",
+   "f01.webp",
+   "f02.webp",
+   "f03.webp",
+   "f04.webp",
+   "f05.webp",
+   "f06.webp",
+   "f07.webp",
+   "f08.webp",
+   "f09.webp"
+  ],
+  "orient": "de-lado",
+  "camera": "tres-cuartos-alto",
+  "labels": [
+   "Plancha lateral sobre el codo",
+   "Cadera arriba, cuerpo recto"
+  ],
+  "msPerFrame": 320,
+  "steps": 5
+ },
+ "bird-dog": {
+  "key": "bird-dog",
+  "frames": [
+   "f00.webp",
+   "f01.webp",
+   "f02.webp",
+   "f03.webp",
+   "f04.webp",
+   "f05.webp",
+   "f06.webp",
+   "f07.webp",
+   "f08.webp",
+   "f09.webp"
+  ],
+  "orient": "cuadrupedia",
+  "camera": "tres-cuartos",
+  "labels": [
+   "A cuatro patas",
+   "Estira brazo y pierna contrarios"
+  ],
+  "msPerFrame": 340,
+  "steps": 5
+ },
+ "pogo-hops": {
+  "key": "pogo-hops",
+  "frames": [
+   "f00.webp",
+   "f01.webp",
+   "f02.webp",
+   "f03.webp",
+   "f04.webp",
+   "f05.webp",
+   "f06.webp",
+   "f07.webp",
+   "f08.webp",
+   "f09.webp"
+  ],
+  "orient": "de-pie",
+  "camera": "tres-cuartos",
+  "labels": [
+   "Contacto corto y rígido",
+   "Rebota desde el tobillo"
+  ],
+  "msPerFrame": 84,
+  "steps": 5
+ },
+ "lateral-bound": {
+  "key": "lateral-bound",
+  "frames": [
+   "f00.webp",
+   "f01.webp",
+   "f02.webp",
+   "f03.webp",
+   "f04.webp",
+   "f05.webp",
+   "f06.webp",
+   "f07.webp",
+   "f08.webp",
+   "f09.webp"
+  ],
+  "orient": "de-pie",
+  "camera": "frontal",
+  "labels": [
+   "Salta al lado",
+   "Congela 1 s el aterrizaje"
+  ],
+  "msPerFrame": 220,
+  "steps": 5
+ },
+ "split-step": {
+  "key": "split-step",
+  "frames": [
+   "f00.webp",
+   "f01.webp",
+   "f02.webp",
+   "f03.webp",
+   "f04.webp",
+   "f05.webp",
+   "f06.webp",
+   "f07.webp",
+   "f08.webp",
+   "f09.webp"
+  ],
+  "orient": "de-pie",
+  "camera": "tres-cuartos",
+  "labels": [
+   "Pequeño salto",
+   "Cae listo para salir"
+  ],
+  "msPerFrame": 124,
+  "steps": 5
+ },
+ "skater-hold": {
+  "key": "skater-hold",
+  "frames": [
+   "f00.webp",
+   "f01.webp",
+   "f02.webp",
+   "f03.webp",
+   "f04.webp",
+   "f05.webp",
+   "f06.webp",
+   "f07.webp",
+   "f08.webp",
+   "f09.webp"
+  ],
+  "orient": "de-pie",
+  "camera": "frontal",
+  "labels": [
+   "Cae sobre una pierna",
+   "Aguanta sin que la rodilla caiga"
+  ],
+  "msPerFrame": 300,
+  "steps": 5
+ },
+ "band-external-rotation": {
+  "key": "band-external-rotation",
+  "frames": [
+   "f00.webp",
+   "f01.webp",
+   "f02.webp",
+   "f03.webp",
+   "f04.webp",
+   "f05.webp",
+   "f06.webp",
+   "f07.webp",
+   "f08.webp",
+   "f09.webp"
+  ],
+  "orient": "de-pie",
+  "camera": "frontal",
+  "labels": [
+   "Codo pegado al cuerpo",
+   "Abre el antebrazo"
+  ],
+  "msPerFrame": 300,
+  "steps": 5
+ },
+ "band-pull-apart": {
+  "key": "band-pull-apart",
+  "frames": [
+   "f00.webp",
+   "f01.webp",
+   "f02.webp",
+   "f03.webp",
+   "f04.webp",
+   "f05.webp",
+   "f06.webp",
+   "f07.webp",
+   "f08.webp",
+   "f09.webp"
+  ],
+  "orient": "de-pie",
+  "camera": "frontal",
+  "labels": [
+   "Brazos al frente",
+   "Abre hasta el pecho"
+  ],
+  "msPerFrame": 300,
+  "steps": 5
+ },
+ "wall-slide": {
+  "key": "wall-slide",
+  "frames": [
+   "f00.webp",
+   "f01.webp",
+   "f02.webp",
+   "f03.webp",
+   "f04.webp",
+   "f05.webp",
+   "f06.webp",
+   "f07.webp",
+   "f08.webp",
+   "f09.webp"
+  ],
+  "orient": "de-pie",
+  "camera": "frontal",
+  "labels": [
+   "Brazos en la pared, codos abajo",
+   "Desliza hacia arriba"
+  ],
+  "msPerFrame": 320,
+  "steps": 5
+ },
+ "march-jog": {
+  "key": "march-jog",
+  "frames": [
+   "f00.webp",
+   "f01.webp",
+   "f02.webp",
+   "f03.webp",
+   "f04.webp",
+   "f05.webp",
+   "f06.webp",
+   "f07.webp",
+   "f08.webp",
+   "f09.webp"
+  ],
+  "orient": "de-pie",
+  "camera": "tres-cuartos",
+  "labels": [
+   "Trote muy suave",
+   "Casi andando"
+  ],
+  "msPerFrame": 140,
+  "steps": 5
+ },
+ "leg-swings": {
+  "key": "leg-swings",
+  "frames": [
+   "f00.webp",
+   "f01.webp",
+   "f02.webp",
+   "f03.webp",
+   "f04.webp",
+   "f05.webp",
+   "f06.webp",
+   "f07.webp",
+   "f08.webp",
+   "f09.webp"
+  ],
+  "orient": "de-pie",
+  "camera": "lateral",
+  "labels": [
+   "Pierna adelante",
+   "Pierna atrás, relajada"
+  ],
+  "msPerFrame": 200,
+  "steps": 5
+ },
+ "ankle-circles": {
+  "key": "ankle-circles",
+  "frames": [
+   "f00.webp",
+   "f01.webp",
+   "f02.webp",
+   "f03.webp",
+   "f04.webp",
+   "f05.webp",
+   "f06.webp",
+   "f07.webp",
+   "f08.webp",
+   "f09.webp"
+  ],
+  "orient": "de-pie",
+  "camera": "tres-cuartos",
+  "labels": [
+   "Dibuja círculos con el tobillo",
+   "En los dos sentidos"
+  ],
+  "msPerFrame": 200,
+  "steps": 5
+ },
+ "shadow-strokes": {
+  "key": "shadow-strokes",
+  "frames": [
+   "f00.webp",
+   "f01.webp",
+   "f02.webp",
+   "f03.webp",
+   "f04.webp",
+   "f05.webp",
+   "f06.webp",
+   "f07.webp",
+   "f08.webp",
+   "f09.webp"
+  ],
+  "orient": "de-pie",
+  "camera": "tres-cuartos",
+  "labels": [
+   "Prepara el golpe",
+   "Acompaña con el cuerpo"
+  ],
+  "msPerFrame": 200,
+  "steps": 5
+ },
+ "calf-stretch-wall": {
+  "key": "calf-stretch-wall",
+  "frames": [
+   "f00.webp",
+   "f01.webp",
+   "f02.webp",
+   "f03.webp",
+   "f04.webp",
+   "f05.webp",
+   "f06.webp",
+   "f07.webp",
+   "f08.webp",
+   "f09.webp"
+  ],
+  "orient": "de-pie",
+  "camera": "lateral",
+  "labels": [
+   "Pierna atrás estirada",
+   "Ahora dobla la de atrás, sóleo"
+  ],
+  "msPerFrame": 360,
+  "steps": 5
+ },
+ "hip-flexor-lunge": {
+  "key": "hip-flexor-lunge",
+  "frames": [
+   "f00.webp",
+   "f01.webp",
+   "f02.webp",
+   "f03.webp",
+   "f04.webp",
+   "f05.webp",
+   "f06.webp",
+   "f07.webp",
+   "f08.webp",
+   "f09.webp"
+  ],
+  "orient": "de-pie",
+  "camera": "tres-cuartos",
+  "labels": [
+   "Rodilla en el suelo",
+   "Mete la cadera hacia delante"
+  ],
+  "msPerFrame": 360,
+  "steps": 5
+ },
+ "breathing-360": {
+  "key": "breathing-360",
+  "frames": [
+   "f00.webp",
+   "f01.webp",
+   "f02.webp",
+   "f03.webp",
+   "f04.webp",
+   "f05.webp",
+   "f06.webp",
+   "f07.webp",
+   "f08.webp",
+   "f09.webp"
+  ],
+  "orient": "boca-arriba",
+  "camera": "tres-cuartos-alto",
+  "labels": [
+   "Boca arriba, manos en las costillas",
+   "Inspira abriendo las costillas"
+  ],
+  "msPerFrame": 520,
+  "steps": 5
+ }
+}
