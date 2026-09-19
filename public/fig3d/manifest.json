@@ -130,7 +130,7 @@
    "f09.webp"
   ],
   "orient": "de-pie",
-  "camera": "lateral",
+  "camera": "tres-cuartos",
   "labels": [
    "Baja el talón por debajo",
    "En el escalón, arriba"
@@ -153,7 +153,7 @@
    "f09.webp"
   ],
   "orient": "sentado",
-  "camera": "lateral",
+  "camera": "tres-cuartos",
   "labels": [
    "Baja despacio",
    "Talones arriba"
@@ -176,10 +176,10 @@
    "f09.webp"
   ],
   "orient": "de-pie",
-  "camera": "lateral",
+  "camera": "tres-cuartos-frente",
   "labels": [
-   "Aguanta el sóleo",
-   "Rodilla doblada contra la pared"
+   "Talones arriba y aguanta",
+   "Espalda en la pared, rodillas a 90"
   ],
   "msPerFrame": 320,
   "steps": 5
@@ -199,7 +199,7 @@
    "f09.webp"
   ],
   "orient": "de-pie",
-  "camera": "lateral",
+  "camera": "tres-cuartos",
   "labels": [
    "Lleva la rodilla a tocar",
    "Rodilla lejos de la pared"
@@ -648,7 +648,7 @@
    "f09.webp"
   ],
   "orient": "de-pie",
-  "camera": "lateral",
+  "camera": "tres-cuartos",
   "labels": [
    "Sube sin impulso",
    "Un pie en el escalón"
@@ -671,7 +671,7 @@
    "f09.webp"
   ],
   "orient": "de-pie",
-  "camera": "lateral",
+  "camera": "tres-cuartos-frente",
   "labels": [
    "Aguanta 90 grados",
    "Espalda en la pared"
@@ -924,7 +924,7 @@
    "f09.webp"
   ],
   "orient": "de-pie",
-  "camera": "frontal",
+  "camera": "tres-cuartos-frente",
   "labels": [
    "Desliza hacia arriba",
    "Brazos en la pared, codos abajo"
@@ -970,7 +970,7 @@
    "f09.webp"
   ],
   "orient": "de-pie",
-  "camera": "lateral",
+  "camera": "tres-cuartos",
   "labels": [
    "Pierna atrás, relajada",
    "Pierna adelante"
@@ -1039,7 +1039,7 @@
    "f09.webp"
   ],
   "orient": "de-pie",
-  "camera": "lateral",
+  "camera": "tres-cuartos",
   "labels": [
    "Ahora dobla la de atrás, sóleo",
    "Pierna atrás estirada"
@@ -1065,7 +1065,7 @@
   "camera": "tres-cuartos",
   "labels": [
    "Mete la cadera hacia delante",
-   "Rodilla en el suelo"
+   "Rodilla de atrás en el suelo"
   ],
   "msPerFrame": 360,
   "steps": 5

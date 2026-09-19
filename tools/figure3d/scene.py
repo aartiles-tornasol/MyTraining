@@ -24,13 +24,18 @@ FLOOR = (0.030, 0.040, 0.056, 1.0)
 BG = (0.020, 0.028, 0.040)
 LIME = (0.72, 0.93, 0.13, 1.0)
 
-CAMERAS = {           # azimuth in degrees, 0 = looking from the figure's front
+CAMERAS = {
     'tres-cuartos': 38,
     'lateral': 90,
     'frontal': 0,
     'tres-cuartos-alto': 38,
+    # For anything with its back to a wall. The other angles sit on the same
+    # side as that wall, so the wall ends up between the camera and the body
+    # and hides it completely.
+    'tres-cuartos-frente': 142,
 }
-ELEVATION = {'tres-cuartos': 14, 'lateral': 10, 'frontal': 10, 'tres-cuartos-alto': 32}
+ELEVATION = {'tres-cuartos': 14, 'lateral': 10, 'frontal': 10,
+             'tres-cuartos-alto': 32, 'tres-cuartos-frente': 14}
 
 
 def clear():
@@ -166,7 +171,8 @@ def build_prop(kind, mats, spec):
     scenery that is somewhere else reads as floating.
     """
     boxes = {
-        'escalon': [(0.0, 0.13, 0.085, 0.80, 0.34, 0.17)],
+        'escalon': [(0.0, 0.13, 0.085, 0.86, 0.40, 0.17)],
+        'escalon_alto': [(0.0, 0.16, 0.15, 0.86, 0.46, 0.30)],
         'silla':   [(0.0, 0.46, 0.425, 0.42, 0.40, 0.05),
                     (0.0, 0.64, 0.64, 0.42, 0.05, 0.42)],
         'pared':   [(0.0, 0.80, 0.80, 1.1, 0.05, 1.6)],
@@ -231,19 +237,23 @@ def setup(size, view, zoom=None, look=None):
     bpy.context.collection.objects.link(floor)
     floor.active_material = material('floor', FLOOR, rough=0.95)
 
-    key = bpy.data.lights.new('key', 'AREA')
-    key.energy, key.size = 240.0, 2.6
-    ko = bpy.data.objects.new('key', key)
-    ko.location = (-2.6, -2.9, 3.4)
-    ko.rotation_euler = (math.radians(42), 0.0, math.radians(-40))
-    bpy.context.collection.objects.link(ko)
+    az = math.radians(CAMERAS.get(view, 38))
+    el = math.radians(ELEVATION.get(view, 14))
 
-    rim = bpy.data.lights.new('rim', 'AREA')
-    rim.energy, rim.size = 90.0, 2.0
-    ro = bpy.data.objects.new('rim', rim)
-    ro.location = (3.0, 2.6, 2.2)
-    ro.rotation_euler = (math.radians(66), 0.0, math.radians(131))
-    bpy.context.collection.objects.link(ro)
+    def lamp(name, energy, size, swing, height, dist):
+        """Lights follow the camera. Fixed ones left the figure in silhouette
+        the moment a shot was taken from the other side."""
+        a = az + math.radians(swing)
+        light = bpy.data.lights.new(name, 'AREA')
+        light.energy, light.size = energy, size
+        o = bpy.data.objects.new(name, light)
+        o.location = (-math.sin(a) * dist, -math.cos(a) * dist, height)
+        aim = Vector((0.0, 0.0, 0.9)) - Vector(o.location)
+        o.rotation_euler = aim.to_track_quat('-Z', 'Y').to_euler()
+        bpy.context.collection.objects.link(o)
+
+    lamp('key', 260.0, 2.6, -38, 3.4, 3.6)
+    lamp('rim', 110.0, 2.0, 155, 2.4, 4.0)
 
     cam = bpy.data.cameras.new('cam')
     cam.type = 'ORTHO'
@@ -252,8 +262,6 @@ def setup(size, view, zoom=None, look=None):
     bpy.context.collection.objects.link(co)
     sc.camera = co
 
-    az = math.radians(CAMERAS.get(view, 38))
-    el = math.radians(ELEVATION.get(view, 14))
     dist = 8.0
     target = Vector((0.0, 0.0, look if look is not None else 0.80))
     co.location = target + Vector((-math.sin(az) * math.cos(el),

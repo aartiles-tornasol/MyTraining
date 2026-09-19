@@ -64,7 +64,7 @@ POSES = {
         ],
     },
     'heel-drop-step': {
-        'orient': 'de-pie', 'camera': 'lateral', 'props': ['escalon', 'pared'],
+        'orient': 'de-pie', 'camera': 'tres-cuartos', 'props': ['escalon', 'pared'],
         'prop_place': {'escalon': (0.0, 0.10, 0.0), 'pared': (0.0, -0.22, 0.0)},
         'highlight': ['gemelo_d', 'aquiles_d'], 'ms': 1800,
         'frames': [
@@ -75,7 +75,7 @@ POSES = {
         ],
     },
     'soleus-seated': {
-        'orient': 'sentado', 'camera': 'lateral', 'props': ['silla'],
+        'orient': 'sentado', 'camera': 'tres-cuartos', 'props': ['silla'],
         'prop_place': {'silla': (0.0, 0.46, 0.0, 180)},
         # The whole point is the knee being bent, which switches the calf off
         # and leaves the soleus working. Highlighting the calf said the opposite.
@@ -88,17 +88,21 @@ POSES = {
         ],
     },
     'soleus-wall-iso': {
-        'orient': 'de-pie', 'camera': 'lateral', 'props': ['pared'],
-        'highlight': ['gemelo_d', 'aquiles_d'], 'ms': 1600,
+        'orient': 'de-pie', 'camera': 'tres-cuartos-frente', 'props': ['pared'],
+        'prop_place': {'pared': (0.0, -0.95, 0.0)},
+        'highlight': ['soleo_d', 'aquiles_d'], 'ms': 1600,
         'frames': [
-            f('Rodilla doblada contra la pared', **ARMS_WALL,
-              r_hip=14, r_knee=48, r_ankle=-10, l_hip=-24, l_knee=18, l_ankle=6),
-            f('Aguanta el sóleo', **ARMS_WALL,
-              r_hip=14, r_knee=52, r_ankle=-14, l_hip=-24, l_knee=18, l_ankle=6),
+            # Back on the wall, knees at 90, and the heels off the floor — that
+            # last part is the exercise. Drawn as a lunge before.
+            f('Espalda en la pared, rodillas a 90', **ARMS_SIDE,
+              r_hip=84, l_hip=84, r_knee=90, l_knee=90, r_ankle=-18, l_ankle=-18),
+            f('Talones arriba y aguanta', **ARMS_SIDE,
+              r_hip=84, l_hip=84, r_knee=90, l_knee=90, r_ankle=-24, l_ankle=-24),
         ],
     },
+
     'knee-to-wall': {
-        'orient': 'de-pie', 'camera': 'lateral', 'props': ['pared'],
+        'orient': 'de-pie', 'camera': 'tres-cuartos', 'props': ['pared'],
         'highlight': ['gemelo_d', 'aquiles_d'], 'ms': 1500,
         'frames': [
             f('Rodilla lejos de la pared', **ARMS_WALL,
@@ -176,9 +180,12 @@ POSES = {
     'cossack-squat': {
         'orient': 'de-pie', 'camera': 'frontal', 'highlight': ['gluteo_d', 'gluteo_i'], 'ms': 1800,
         'frames': [
-            f('Pies muy abiertos', **ARMS_FRONT, r_abd=26, l_abd=26, r_knee=6, l_knee=6),
-            f('Baja sobre una pierna', **ARMS_FRONT, spine=22,
-              r_abd=22, r_hip=42, r_knee=104, l_abd=-34, l_knee=2, l_ankle=22),
+            f('Pies muy abiertos', **ARMS_FRONT, r_abd=32, l_abd=32, r_knee=6, l_knee=6),
+            # Heel of the loaded leg planted (the exercise's own listed error
+            # is lifting it) and the straight leg on its heel with the toes up.
+            f('Baja sobre una pierna', **ARMS_FRONT, spine=40,
+              r_abd=20, r_hip=85, r_knee=120, r_ankle=35,
+              l_abd=65, l_knee=2, l_ankle=35),
         ],
     },
 
@@ -302,14 +309,16 @@ POSES = {
         'orient': 'de-pie', 'camera': 'tres-cuartos', 'highlight': ['cuadriceps_d'], 'ms': 1700,
         'frames': [
             f('Zancada, un pie delante', **ARMS_HIPS,
-              r_hip=20, r_knee=22, l_hip=-30, l_knee=26, l_ankle=-12),
+              r_hip=24, r_knee=20, r_ankle=-4, l_hip=-4, l_knee=30, l_ankle=-34),
+            # The back thigh has to end vertical for the knee to reach the
+            # floor; at -42 the pelvis simply could not get low enough.
             f('Baja la rodilla de atrás', **ARMS_HIPS, spine=8,
-              r_hip=54, r_knee=84, l_hip=-42, l_knee=92, l_ankle=-26),
+              r_hip=70, r_knee=95, r_ankle=25, l_hip=0, l_knee=100, l_ankle=-60),
         ],
     },
     'step-up': {
-        'orient': 'de-pie', 'camera': 'lateral', 'props': ['escalon'],
-        'prop_place': {'escalon': (0.0, 0.30, 0.0)},
+        'orient': 'de-pie', 'camera': 'tres-cuartos', 'props': ['escalon_alto'],
+        'prop_place': {'escalon_alto': (0.0, 0.26, 0.0)},
         'highlight': ['cuadriceps_d'], 'ms': 1700,
         'frames': [
             f('Un pie en el escalón', **ARMS_HIPS,
@@ -319,7 +328,7 @@ POSES = {
         ],
     },
     'wall-sit': {
-        'orient': 'de-pie', 'camera': 'lateral', 'props': ['pared'],
+        'orient': 'de-pie', 'camera': 'tres-cuartos-frente', 'props': ['pared'],
         'prop_place': {'pared': (0.0, -0.95, 0.0)},
         'highlight': ['cuadriceps_d', 'aductor_d', 'aductor_i'], 'ms': 1600,
         'frames': [
@@ -437,8 +446,8 @@ POSES = {
         ],
     },
     'wall-slide': {
-        'orient': 'de-pie', 'camera': 'frontal', 'props': ['pared'],
-        'prop_place': {'pared': (0.0, -0.22, 0.0)},
+        'orient': 'de-pie', 'camera': 'tres-cuartos-frente', 'props': ['pared'],
+        'prop_place': {'pared': (0.0, -0.95, 0.0)},
         'highlight': ['hombro_d', 'hombro_i'], 'ms': 1600,
         'frames': [
             f('Brazos en la pared, codos abajo', r_sabd=60, l_sabd=60,
@@ -459,7 +468,7 @@ POSES = {
         ],
     },
     'leg-swings': {
-        'orient': 'de-pie', 'camera': 'lateral', 'props': ['pared'],
+        'orient': 'de-pie', 'camera': 'tres-cuartos', 'props': ['pared'],
         'prop_place': {'pared': (0.0, -0.22, 0.0)},
         'highlight': ['gluteo_d', 'isquios_d'], 'ms': 1000,
         'frames': [
@@ -490,7 +499,7 @@ POSES = {
         ],
     },
     'calf-stretch-wall': {
-        'orient': 'de-pie', 'camera': 'lateral', 'props': ['pared'],
+        'orient': 'de-pie', 'camera': 'tres-cuartos', 'props': ['pared'],
         'highlight': ['gemelo_i', 'aquiles_i'], 'ms': 1800,
         'frames': [
             f('Pierna atrás estirada', **ARMS_WALL,
@@ -503,10 +512,12 @@ POSES = {
         'orient': 'de-pie', 'camera': 'tres-cuartos', 'props': ['esterilla'],
         'highlight': ['gluteo_i', 'aductor_i'], 'ms': 1800,
         'frames': [
-            f('Rodilla en el suelo', **ARMS_HIPS,
-              r_hip=56, r_knee=76, l_hip=-14, l_knee=96, l_ankle=-30),
-            f('Mete la cadera hacia delante', **ARMS_HIPS, spine=-8,
-              r_hip=44, r_knee=70, l_hip=-34, l_knee=100, l_ankle=-34),
+            # Half kneeling: the back knee is ON the floor with the instep
+            # flat, the trunk upright, and the hip travels a few centimetres.
+            f('Rodilla de atrás en el suelo', **ARMS_HIPS,
+              r_hip=90, r_knee=95, r_ankle=5, l_hip=0, l_knee=90, l_ankle=-90),
+            f('Mete la cadera hacia delante', **ARMS_HIPS,
+              r_hip=100, r_knee=105, r_ankle=12, l_hip=-12, l_knee=92, l_ankle=-90),
         ],
     },
     'breathing-360': {

@@ -141,7 +141,7 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
       "f09.webp"
     ],
     "orient": "de-pie",
-    "camera": "lateral",
+    "camera": "tres-cuartos",
     "labels": [
       "Baja el talón por debajo",
       "En el escalón, arriba"
@@ -164,7 +164,7 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
       "f09.webp"
     ],
     "orient": "sentado",
-    "camera": "lateral",
+    "camera": "tres-cuartos",
     "labels": [
       "Baja despacio",
       "Talones arriba"
@@ -187,10 +187,10 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
       "f09.webp"
     ],
     "orient": "de-pie",
-    "camera": "lateral",
+    "camera": "tres-cuartos-frente",
     "labels": [
-      "Aguanta el sóleo",
-      "Rodilla doblada contra la pared"
+      "Talones arriba y aguanta",
+      "Espalda en la pared, rodillas a 90"
     ],
     "msPerFrame": 320,
     "steps": 5
@@ -210,7 +210,7 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
       "f09.webp"
     ],
     "orient": "de-pie",
-    "camera": "lateral",
+    "camera": "tres-cuartos",
     "labels": [
       "Lleva la rodilla a tocar",
       "Rodilla lejos de la pared"
@@ -659,7 +659,7 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
       "f09.webp"
     ],
     "orient": "de-pie",
-    "camera": "lateral",
+    "camera": "tres-cuartos",
     "labels": [
       "Sube sin impulso",
       "Un pie en el escalón"
@@ -682,7 +682,7 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
       "f09.webp"
     ],
     "orient": "de-pie",
-    "camera": "lateral",
+    "camera": "tres-cuartos-frente",
     "labels": [
       "Aguanta 90 grados",
       "Espalda en la pared"
@@ -935,7 +935,7 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
       "f09.webp"
     ],
     "orient": "de-pie",
-    "camera": "frontal",
+    "camera": "tres-cuartos-frente",
     "labels": [
       "Desliza hacia arriba",
       "Brazos en la pared, codos abajo"
@@ -981,7 +981,7 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
       "f09.webp"
     ],
     "orient": "de-pie",
-    "camera": "lateral",
+    "camera": "tres-cuartos",
     "labels": [
       "Pierna atrás, relajada",
       "Pierna adelante"
@@ -1050,7 +1050,7 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
       "f09.webp"
     ],
     "orient": "de-pie",
-    "camera": "lateral",
+    "camera": "tres-cuartos",
     "labels": [
       "Ahora dobla la de atrás, sóleo",
       "Pierna atrás estirada"
@@ -1076,7 +1076,7 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
     "camera": "tres-cuartos",
     "labels": [
       "Mete la cadera hacia delante",
-      "Rodilla en el suelo"
+      "Rodilla de atrás en el suelo"
     ],
     "msPerFrame": 360,
     "steps": 5
