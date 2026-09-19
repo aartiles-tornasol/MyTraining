@@ -197,7 +197,12 @@ def build_prop(kind, mats, spec):
     return made
 
 
-def setup(size, view):
+def setup(size, view, zoom=None, look=None):
+    """`zoom` narrows the orthographic width and `look` raises the aim, for
+    exercises where the detail is small and the body's orientation is not in
+    doubt anyway — band work for the shoulder reads as a full-body pictogram
+    otherwise. Everything else keeps the shared framing on purpose: a common
+    scale is what tells a lying body from a standing one."""
     sc = bpy.context.scene
     sc.render.engine = 'BLENDER_EEVEE'
     sc.render.resolution_x = sc.render.resolution_y = size
@@ -242,7 +247,7 @@ def setup(size, view):
 
     cam = bpy.data.cameras.new('cam')
     cam.type = 'ORTHO'
-    cam.ortho_scale = 2.35          # the same metre-per-pixel for every exercise
+    cam.ortho_scale = zoom or 2.35   # shared metre-per-pixel unless asked otherwise
     co = bpy.data.objects.new('cam', cam)
     bpy.context.collection.objects.link(co)
     sc.camera = co
@@ -250,7 +255,7 @@ def setup(size, view):
     az = math.radians(CAMERAS.get(view, 38))
     el = math.radians(ELEVATION.get(view, 14))
     dist = 8.0
-    target = Vector((0.0, 0.0, 0.80))
+    target = Vector((0.0, 0.0, look if look is not None else 0.80))
     co.location = target + Vector((-math.sin(az) * math.cos(el),
                                    -math.cos(az) * math.cos(el),
                                    math.sin(el))) * dist

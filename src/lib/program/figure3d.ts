@@ -753,8 +753,8 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
     "orient": "de-lado",
     "camera": "tres-cuartos-alto",
     "labels": [
-      "Cadera arriba, cuerpo recto",
-      "Plancha lateral sobre el codo"
+      "Sube la cadera hasta la línea",
+      "Apóyate en el codo"
     ],
     "msPerFrame": 320,
     "steps": 5
@@ -889,7 +889,7 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
       "f09.webp"
     ],
     "orient": "de-pie",
-    "camera": "frontal",
+    "camera": "tres-cuartos",
     "labels": [
       "Abre el antebrazo",
       "Codo pegado al cuerpo"
@@ -912,7 +912,7 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
       "f09.webp"
     ],
     "orient": "de-pie",
-    "camera": "frontal",
+    "camera": "tres-cuartos",
     "labels": [
       "Abre hasta el pecho",
       "Brazos al frente"

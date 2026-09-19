@@ -47,7 +47,8 @@ def ease(t):
 
 
 def render_exercise(key, spec, size, steps):
-    mats = scene.setup(size, spec.get('camera', 'tres-cuartos'))
+    mats = scene.setup(size, spec.get('camera', 'tres-cuartos'),
+                       spec.get('zoom'), spec.get('look'))
     meshes = scene.unit_meshes()
     props = []
     for p in spec.get('props', []):
