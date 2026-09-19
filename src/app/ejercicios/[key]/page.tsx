@@ -64,29 +64,29 @@ export default async function ExerciseDetail({
       </div>
 
       <Card className="mb-4">
-        <p className="mb-1.5 text-[0.7rem] font-bold uppercase tracking-wider text-lime-glow">
+        <p className="mb-1.5 text-[0.8rem] font-bold uppercase tracking-wider text-lime-glow">
           Por qué lo haces
         </p>
-        <p className="text-[0.88rem] leading-relaxed text-ink-200">{ex.why}</p>
+        <p className="text-[1.05rem] leading-relaxed text-ink-100">{ex.why}</p>
       </Card>
 
       <Card className="mb-4">
-        <p className="mb-2 text-[0.7rem] font-bold uppercase tracking-wider text-lime-glow">
+        <p className="mb-2 text-[0.8rem] font-bold uppercase tracking-wider text-lime-glow">
           Colocación
         </p>
-        <ul className="mb-4 space-y-1.5">
+        <ul className="mb-5 space-y-2.5">
           {ex.setup.map((t) => (
-            <li key={t} className="flex gap-2 text-[0.88rem] leading-snug text-ink-200">
+            <li key={t} className="flex gap-2.5 text-[1.05rem] leading-relaxed text-ink-100">
               <span className="text-ink-400">·</span><span>{t}</span>
             </li>
           ))}
         </ul>
-        <p className="mb-2 text-[0.7rem] font-bold uppercase tracking-wider text-lime-glow">
+        <p className="mb-2 text-[0.8rem] font-bold uppercase tracking-wider text-lime-glow">
           Ejecución
         </p>
-        <ol className="space-y-1.5">
+        <ol className="space-y-2.5">
           {ex.execution.map((t, i) => (
-            <li key={t} className="flex gap-2 text-[0.88rem] leading-snug text-ink-200">
+            <li key={t} className="flex gap-2.5 text-[1.05rem] leading-relaxed text-ink-100">
               <span className="font-bold text-ink-400">{i + 1}.</span><span>{t}</span>
             </li>
           ))}
@@ -94,12 +94,12 @@ export default async function ExerciseDetail({
       </Card>
 
       <Card className="mb-4">
-        <p className="mb-2 text-[0.7rem] font-bold uppercase tracking-wider text-signal-alert">
+        <p className="mb-2 text-[0.8rem] font-bold uppercase tracking-wider text-signal-alert">
           Errores típicos
         </p>
-        <ul className="space-y-1.5">
+        <ul className="space-y-2.5">
           {ex.mistakes.map((t) => (
-            <li key={t} className="flex gap-2 text-[0.88rem] leading-snug text-ink-200">
+            <li key={t} className="flex gap-2.5 text-[1.05rem] leading-relaxed text-ink-100">
               <span className="text-signal-alert">×</span><span>{t}</span>
             </li>
           ))}
@@ -108,16 +108,16 @@ export default async function ExerciseDetail({
 
       {ex.painRule ? (
         <Card tone="warn" className="mb-4">
-          <p className="text-[0.7rem] font-bold uppercase tracking-wider text-signal-warn">
+          <p className="text-[0.8rem] font-bold uppercase tracking-wider text-signal-warn">
             Regla de dolor
           </p>
-          <p className="mt-1 text-[0.86rem] leading-snug text-ink-100">{ex.painRule}</p>
+          <p className="mt-1.5 text-[1.02rem] leading-relaxed text-ink-100">{ex.painRule}</p>
         </Card>
       ) : null}
 
       <Card>
         <p className="text-base font-bold">Progresión</p>
-        <p className="mb-3 mt-0.5 text-xs leading-snug text-ink-400">
+        <p className="mb-3 mt-1 text-[0.92rem] leading-relaxed text-ink-300">
           La fase marca el nivel por defecto. Si te queda corto o largo, ajústalo aquí y
           la app lo recordará.
         </p>
@@ -131,11 +131,11 @@ export default async function ExerciseDetail({
                   : 'border-ink-700 bg-ink-800/60'
               }`}
             >
-              <p className="text-[0.82rem] font-semibold">
+              <p className="text-[0.98rem] font-semibold">
                 <span className="text-ink-400">Nivel {l.n} · </span>
                 {l.name}
               </p>
-              {l.note ? <p className="mt-0.5 text-xs text-ink-400">{l.note}</p> : null}
+              {l.note ? <p className="mt-1 text-[0.88rem] leading-snug text-ink-300">{l.note}</p> : null}
             </li>
           ))}
         </ol>

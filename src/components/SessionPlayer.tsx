@@ -461,10 +461,10 @@ export function HowTo({ exerciseKey, onClose }: { exerciseKey: string; onClose: 
       >
         <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-ink-600" />
         <p className="text-xl font-bold">{ex.name}</p>
-        <p className="mt-0.5 text-sm text-ink-400">{ex.tagline}</p>
+        <p className="mt-0.5 text-[0.95rem] text-ink-300">{ex.tagline}</p>
 
         <Block title="Por qué lo haces">
-          <p className="text-[0.86rem] leading-relaxed text-ink-200">{ex.why}</p>
+          <p className="text-[1.05rem] leading-relaxed text-ink-100">{ex.why}</p>
         </Block>
         <Block title="Colocación">
           <Bullets items={ex.setup} />
@@ -477,7 +477,7 @@ export function HowTo({ exerciseKey, onClose }: { exerciseKey: string; onClose: 
         </Block>
         {ex.painRule ? (
           <div className="mt-4 rounded-lg border border-signal-warn/35 bg-signal-warn/10 px-3 py-2.5">
-            <p className="text-[0.82rem] leading-snug text-signal-warn">{ex.painRule}</p>
+            <p className="text-[1.0rem] leading-relaxed text-signal-warn">{ex.painRule}</p>
           </div>
         ) : null}
 
@@ -496,7 +496,7 @@ export function HowTo({ exerciseKey, onClose }: { exerciseKey: string; onClose: 
 function Block({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div className="mt-4">
-      <p className="mb-1.5 text-[0.7rem] font-bold uppercase tracking-wider text-lime-glow">{title}</p>
+      <p className="mb-2 text-[0.8rem] font-bold uppercase tracking-wider text-lime-glow">{title}</p>
       {children}
     </div>
   );
@@ -512,9 +512,9 @@ function Bullets({
   tone?: 'alert';
 }) {
   return (
-    <ol className="space-y-1.5">
+    <ol className="space-y-2.5">
       {items.map((t, i) => (
-        <li key={t} className="flex gap-2 text-[0.86rem] leading-snug text-ink-200">
+        <li key={t} className="flex gap-2.5 text-[1.05rem] leading-relaxed text-ink-100">
           <span className={tone === 'alert' ? 'text-signal-alert' : 'text-ink-400'}>
             {tone === 'alert' ? '×' : numbered ? `${i + 1}.` : '·'}
           </span>

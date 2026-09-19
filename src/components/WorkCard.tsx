@@ -40,7 +40,7 @@ export function WorkCard({
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <p className="text-[1.35rem] font-bold leading-tight">{name}</p>
-          <p className="text-[0.8rem] text-ink-300">{subtitle}</p>
+          <p className="text-[0.92rem] text-ink-300">{subtitle}</p>
         </div>
         {onInfo ? (
           <button
@@ -69,7 +69,7 @@ export function WorkCard({
         </div>
 
         {cue ? (
-          <p className="mb-3 rounded-lg bg-ink-800/80 px-3 py-2 text-center text-[0.8rem] leading-snug text-ink-100">
+          <p className="mb-3 rounded-lg bg-ink-800/80 px-3 py-2.5 text-center text-[0.95rem] leading-snug text-ink-100">
             {cue}
           </p>
         ) : null}
