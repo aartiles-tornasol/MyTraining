@@ -90,6 +90,12 @@ export default async function Ajustes() {
         >
           Comparar estilos de dibujo
         </Link>
+        <Link
+          href="/revision/libreria"
+          className="mt-2 block rounded-xl border border-lime-core/40 bg-lime-core/10 py-3 text-center text-sm font-bold text-lime-glow"
+        >
+          Nuestro dibujo vs. una librería
+        </Link>
       </Card>
 
       <Card tone="warn">
