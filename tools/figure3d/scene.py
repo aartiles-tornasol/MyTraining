@@ -201,8 +201,13 @@ def setup(size, view):
     sc = bpy.context.scene
     sc.render.engine = 'BLENDER_EEVEE'
     sc.render.resolution_x = sc.render.resolution_y = size
-    sc.render.film_transparent = False
+    # Transparent sky, solid floor: the card behind the image becomes the
+    # background, so the figure sits in the UI instead of on a pasted-on
+    # rectangle. The floor is geometry, so it still renders and still catches
+    # the contact shadow, which is the cue that says the body is resting on it.
+    sc.render.film_transparent = True
     sc.render.image_settings.file_format = 'WEBP'
+    sc.render.image_settings.color_mode = 'RGBA'
     sc.render.image_settings.quality = 82
     sc.view_settings.view_transform = 'Standard'
 

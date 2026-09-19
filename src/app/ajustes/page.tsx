@@ -85,22 +85,10 @@ export default async function Ajustes() {
           Abrir modo revisión
         </Link>
         <Link
-          href="/revision/estilos/single-leg-rdl"
-          className="mt-2 block rounded-xl border border-ink-600 py-3 text-center text-sm font-bold text-ink-200"
-        >
-          Comparar estilos de dibujo
-        </Link>
-        <Link
           href="/revision/figuras"
           className="mt-2 block rounded-xl border border-lime-core/50 bg-lime-core/15 py-3 text-center text-sm font-bold text-lime-glow"
         >
-          Los 46 ejercicios en 3D
-        </Link>
-        <Link
-          href="/revision/libreria"
-          className="mt-2 block rounded-xl border border-lime-core/40 bg-lime-core/10 py-3 text-center text-sm font-bold text-lime-glow"
-        >
-          Nuestro dibujo vs. una librería
+          Ver las 46 figuras en 3D
         </Link>
       </Card>
 
