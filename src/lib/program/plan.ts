@@ -135,14 +135,17 @@ const HEAVY_TENDON = new Set([
   'pogo-hops', 'lateral-bound', 'skater-hold', 'split-step', 'toe-walk',
 ]);
 
+/** Sentinel for "never done": sorts last and always clears the 48 h gate. */
+const NEVER = Number.MAX_SAFE_INTEGER;
+
 function lastDoneIndex(history: DayInput['history'], key: string): number {
   const i = history.findIndex((h) => h.sessionKey === key);
-  return i === -1 ? Number.MAX_SAFE_INTEGER : i;
+  return i === -1 ? NEVER : i;
 }
 
 function daysSinceSession(history: DayInput['history'], today: string, pred: (k: string) => boolean) {
   const hit = history.find((h) => pred(h.sessionKey));
-  return hit ? daysBetween(hit.date, today) : Number.MAX_SAFE_INTEGER;
+  return hit ? daysBetween(hit.date, today) : NEVER;
 }
 
 export function planDay(input: DayInput): DayPlan {
@@ -187,8 +190,10 @@ export function planDay(input: DayInput): DayPlan {
     sessionKey = byStaleness[0];
     const s = SESSIONS[sessionKey];
     reason = s.heavy
-      ? 'No juegas hoy y han pasado ' + heavyGapDays + ' días desde la última sesión pesada: ' +
-        'buen momento para cargar de verdad.'
+      ? heavyGapDays === NEVER
+        ? 'No juegas hoy y aún no has hecho ninguna sesión pesada: buen momento para empezar a cargar.'
+        : 'No juegas hoy y han pasado ' + heavyGapDays + ' días desde la última sesión pesada: ' +
+          'buen momento para cargar de verdad.'
       : 'Toca ' + s.name.toLowerCase() + ' según la rotación de la semana.';
   }
 

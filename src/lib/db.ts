@@ -1,7 +1,17 @@
 import { readFile, readdir } from 'node:fs/promises';
 import path from 'node:path';
-import { Pool } from 'pg';
+import { Pool, types } from 'pg';
 import type { QueryResultRow } from 'pg';
+
+/**
+ * Hand back `date` columns as the plain 'YYYY-MM-DD' string the whole app works
+ * in. Left alone, pg builds a Date at *local* midnight; converting that back
+ * through toISOString() subtracts the UTC offset and every day read from the
+ * database slides one day earlier whenever the clock is ahead of UTC — which in
+ * Atlantic/Canary is every summer. That silently broke the 48 h rule between
+ * heavy sessions, the streak and the dates on the charts.
+ */
+types.setTypeParser(1082, (v) => v);
 
 /**
  * A single pool for the whole process. The app is deliberately usable without a

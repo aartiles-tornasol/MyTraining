@@ -34,8 +34,16 @@ export interface SessionRow {
   pain_during: number | null;
 }
 
-const asDay = (v: unknown) =>
-  v instanceof Date ? v.toISOString().slice(0, 10) : String(v);
+/**
+ * Belt and braces. db.ts already asks pg for plain 'YYYY-MM-DD' strings, but if
+ * a Date ever reaches here it is read in local time: going through
+ * toISOString() would shift the day whenever the clock is ahead of UTC.
+ */
+const asDay = (v: unknown) => {
+  if (!(v instanceof Date)) return String(v);
+  const pad = (n: number) => String(n).padStart(2, '0');
+  return `${v.getFullYear()}-${pad(v.getMonth() + 1)}-${pad(v.getDate())}`;
+};
 
 export async function getProfile(): Promise<Profile> {
   const row = await q1<Profile>(
