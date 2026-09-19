@@ -84,6 +84,12 @@ export default async function Ajustes() {
         >
           Abrir modo revisión
         </Link>
+        <Link
+          href="/revision/estilos/single-leg-rdl"
+          className="mt-2 block rounded-xl border border-ink-600 py-3 text-center text-sm font-bold text-ink-200"
+        >
+          Comparar estilos de dibujo
+        </Link>
       </Card>
 
       <Card tone="warn">

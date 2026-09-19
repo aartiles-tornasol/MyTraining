@@ -2,6 +2,7 @@
 
 import { useEffect, useId, useRef, useState } from 'react';
 import { Figure } from './Figure';
+import { FigureSilhouette } from './FigureSilhouette';
 import { animDuration, baseFor, sampleAnim, viewBoxFor, viewBoxString } from './anim';
 import type { ExerciseAnim } from './anim';
 import { lerpPose } from './skeleton';
@@ -15,6 +16,10 @@ export interface ExerciseAnimationProps {
   rate?: number;
   showLabel?: boolean;
   className?: string;
+  /** Drawing style. 'actual' is the shipped one; the others are on trial. */
+  variant?: 'actual' | 'silueta' | 'tres-cuartos';
+  /** Widen the viewBox, which a turned figure needs. */
+  padX?: number;
 }
 
 const FALLBACK: ExerciseAnim = {
@@ -50,6 +55,8 @@ export function ExerciseAnimation({
   rate = 1,
   showLabel = true,
   className,
+  variant = 'actual',
+  padX = 0,
 }: ExerciseAnimationProps) {
   const resolved = resolveAnim(anim);
   const uid = useId().replace(/[^a-zA-Z0-9]/g, '');
@@ -82,21 +89,38 @@ export function ExerciseAnimation({
   const pose = lerpPose(state.from, state.to, state.t, base);
   const label = steadyLabel(resolved) ?? state.label;
   const hasLabels = resolved.frames.some((f) => f.label);
+  const raw = viewBoxFor(resolved);
+  const box = viewBoxString(
+    padX ? { ...raw, x: raw.x - padX, w: raw.w + padX * 2 } : raw,
+  );
 
   // The caption is a row of its own. Left as a sibling of a full-height figure
   // it spilled out of the box and sat on top of whatever came next — the rep
   // count in a session, the timer ring on a held exercise.
   return (
     <div className={`flex flex-col ${className ?? ''}`}>
-      <Figure
-        pose={pose}
-        base={base}
-        props={state.props}
-        highlight={resolved.highlight}
-        uid={uid}
-        viewBox={viewBoxString(viewBoxFor(resolved))}
-        className="min-h-0 w-full flex-1"
-      />
+      {variant === 'actual' ? (
+        <Figure
+          pose={pose}
+          base={base}
+          props={state.props}
+          highlight={resolved.highlight}
+          uid={uid}
+          viewBox={box}
+          className="min-h-0 w-full flex-1"
+        />
+      ) : (
+        <FigureSilhouette
+          pose={pose}
+          base={base}
+          props={state.props}
+          highlight={resolved.highlight}
+          uid={uid}
+          viewBox={box}
+          yaw={variant === 'tres-cuartos' ? 32 : 0}
+          className="min-h-0 w-full flex-1"
+        />
+      )}
       {showLabel && hasLabels ? (
         // Two lines are always reserved. Captions vary in length and letting
         // the row grow resized the figure every time the caption changed.
