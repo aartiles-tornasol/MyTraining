@@ -667,27 +667,49 @@ export const ANIMATIONS: Record<string, ExerciseAnim> = {
     ],
   },
 
+  /* The readable shape here is one straight line from head to back heel, which
+     is also the coaching cue. Keeping hipF = -torso makes the trunk and the
+     trailing leg exactly collinear; the previous pose left 24° of kink at the
+     hip and the back leg read as a kick rather than a counterweight. The arm
+     hangs vertically (shoN 0) because that is where gravity puts the weight. */
   'single-leg-rdl': {
     view: 'side',
     highlight: ['hamstring', 'glute'],
     props: [{ k: 'dumbbell', at: 'handN' }],
     frames: [
       {
-        p: { ...ARMS_DOWN, hipN: 0, kneeN: 6, footN: 0, ...FAR_LEG_UP },
-        ms: 1500,
-        label: 'De pie sobre una pierna',
+        p: {
+          ...ARMS_DOWN, torso: 0, head: 0,
+          hipN: 0, kneeN: 6, footN: 0,
+          hipF: -10, kneeF: 20, footF: -12,
+        },
+        ms: 1200,
+        hold: 400,
+        // Captions name the movement *into* the frame, not the pose: this one
+        // plays while you come back up, so it has to read as the way up.
+        label: 'Sube apretando el glúteo',
       },
       {
         p: {
-          torso: 72, head: -52,
-          shoN: -66, elbN: 4, shoF: -62, elbF: 6,
-          hipN: -18, kneeN: 18, footN: flat(-18, 18),
-          hipF: -96, kneeF: 12, footF: flat(-96, 12),
+          torso: 38, head: -8,
+          shoN: 0, elbN: 3, shoF: 0, elbF: 5,
+          hipN: -10, kneeN: 14, footN: flat(-10, 14),
+          hipF: -38, kneeF: 10, footF: flat(-38, 10),
         },
-        ms: 2000,
-        hold: 500,
-        label: 'Bisagra · espalda recta, pierna atrás',
-        props: [{ k: 'arrow', at: 'handN', dx: 2, dy: 10 }],
+        ms: 1400,
+        label: 'La cadera va hacia atrás',
+        props: [{ k: 'arrow', at: 'pelvis', dx: -13, dy: -2 }],
+      },
+      {
+        p: {
+          torso: 68, head: -12,
+          shoN: 0, elbN: 3, shoF: 0, elbF: 5,
+          hipN: -14, kneeN: 15, footN: flat(-14, 15),
+          hipF: -68, kneeF: 4, footF: flat(-68, 4),
+        },
+        ms: 1400,
+        hold: 900,
+        label: 'Espalda y pierna en línea',
       },
     ],
   },
