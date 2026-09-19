@@ -20,7 +20,10 @@ const list: SessionDef[] = [
     items: {
       1: [
         it('calf-raise-floor', 3, { reps: 12, tempo: '2-1-3' }, 75, {
-          cue: 'En el suelo, sin bajar del escalón. Rango cómodo.',
+          // The point was that this is the floor version, as opposed to the
+          // heel drop from a step. Said like that mid-set it names scenery
+          // that is not on screen, so it now says what to do instead.
+          cue: 'Baja solo hasta que el talón toque el suelo, sin pasarte.',
         }),
         it('soleus-seated', 3, { reps: 15, tempo: '2-1-3' }, 60, { load: '2 x 5 kg en los muslos' }),
         it('single-leg-rdl', 2, { reps: 8, perSide: true }, 60, { load: 'Sin peso o 5 kg' }),

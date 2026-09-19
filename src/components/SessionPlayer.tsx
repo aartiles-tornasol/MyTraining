@@ -194,6 +194,37 @@ export function SessionPlayer({
     advance();
   };
 
+  /**
+   * Jump past the whole exercise, not just this set. The sets left behind are
+   * logged as skipped so the summary and the history say what actually
+   * happened rather than quietly forgetting them.
+   */
+  const skipExercise = () => {
+    if (step.kind !== 'work' || !item) return;
+    unlockAudio();
+    setRunning(false);
+    const here = step.item;
+    const ex = items[here];
+    const pending = steps
+      .slice(index)
+      .filter((s) => s.kind === 'work' && s.item === here);
+    setLogged((l) => [
+      ...l,
+      ...pending.map((s) => ({
+        exerciseKey: ex.exercise,
+        setIndex: s.kind === 'work' ? s.set : 0,
+        reps: ex.work.reps ?? null,
+        holdS: (s.kind === 'work' ? s.seconds : 0) || null,
+        loadKg: loads[ex.exercise] ?? savedLoads[ex.exercise] ?? null,
+        skipped: true,
+      })),
+    ]);
+    const next = steps.findIndex(
+      (s, n) => n > index && ((s.kind === 'work' && s.item !== here) || s.kind === 'summary'),
+    );
+    setIndex(next === -1 ? steps.length - 1 : next);
+  };
+
   const startTimer = () => {
     unlockAudio();
     beep(780, 120);
@@ -363,9 +394,9 @@ export function SessionPlayer({
         <button
           type="button"
           onClick={() => finishWork(true)}
-          className="rounded-xl border border-ink-600 px-5 py-4 text-sm font-semibold text-ink-400"
+          className="rounded-xl border border-ink-600 px-4 py-4 text-[0.92rem] font-semibold text-ink-300"
         >
-          Saltar
+          Saltar serie
         </button>
         {timed && !running ? (
           <button
@@ -393,6 +424,14 @@ export function SessionPlayer({
           </button>
         )}
       </div>
+
+      <button
+        type="button"
+        onClick={skipExercise}
+        className="mt-2 w-full py-2 text-[0.88rem] font-semibold text-ink-400"
+      >
+        Saltar el ejercicio entero →
+      </button>
 
       {showInfo ? <HowTo exerciseKey={item.exercise} onClose={() => setShowInfo(false)} /> : null}
     </PlayerFrame>
