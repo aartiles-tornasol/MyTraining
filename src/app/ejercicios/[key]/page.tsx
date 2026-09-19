@@ -3,7 +3,8 @@ import { notFound } from 'next/navigation';
 import { Shell, Card, Chip } from '@/components/ui/Shell';
 import { ExerciseAnimation } from '@/components/figure/ExerciseAnimation';
 import { LevelPicker } from '@/components/LevelPicker';
-import { EXERCISES } from '@/lib/program/exercises';
+import { ExerciseHeaderNav, ExerciseNav } from '@/components/ExerciseNav';
+import { EXERCISES, exerciseNeighbours } from '@/lib/program/exercises';
 import { getToday } from '@/lib/data';
 import { animFor, levelFor } from '@/lib/program/plan';
 
@@ -23,6 +24,7 @@ export default async function ExerciseDetail({
   const { key } = await params;
   const ex = EXERCISES[key];
   if (!ex) notFound();
+  const nav = exerciseNeighbours(key);
 
   const { plan, progress } = await getToday();
   const offset = progress[key]?.levelOffset ?? 0;
@@ -33,13 +35,20 @@ export default async function ExerciseDetail({
       title={ex.name}
       subtitle={ex.tagline}
       action={
-        <Link href="/ejercicios" className="shrink-0 text-sm font-semibold text-ink-400">
-          ← Volver
-        </Link>
+        nav ? (
+          <ExerciseHeaderNav nav={nav} />
+        ) : (
+          <Link href="/ejercicios" className="shrink-0 text-sm font-semibold text-ink-400">
+            ← Volver
+          </Link>
+        )
       }
     >
       <Card className="mb-4">
-        <ExerciseAnimation anim={animFor(key, plan.phase, offset)} className="mx-auto aspect-square w-full max-w-[17rem]" />
+        <ExerciseAnimation
+          anim={animFor(key, plan.phase, offset)}
+          className="mx-auto aspect-square w-full max-w-[17rem]"
+        />
       </Card>
 
       <div className="mb-4 flex flex-wrap gap-1.5">
@@ -62,7 +71,7 @@ export default async function ExerciseDetail({
         <ul className="mb-4 space-y-1.5">
           {ex.setup.map((t) => (
             <li key={t} className="flex gap-2 text-[0.88rem] leading-snug text-ink-200">
-              <span className="text-ink-500">·</span><span>{t}</span>
+              <span className="text-ink-400">·</span><span>{t}</span>
             </li>
           ))}
         </ul>
@@ -72,7 +81,7 @@ export default async function ExerciseDetail({
         <ol className="space-y-1.5">
           {ex.execution.map((t, i) => (
             <li key={t} className="flex gap-2 text-[0.88rem] leading-snug text-ink-200">
-              <span className="font-bold text-ink-500">{i + 1}.</span><span>{t}</span>
+              <span className="font-bold text-ink-400">{i + 1}.</span><span>{t}</span>
             </li>
           ))}
         </ol>
@@ -126,6 +135,8 @@ export default async function ExerciseDetail({
         </ol>
         <LevelPicker exerciseKey={key} offset={offset} />
       </Card>
+
+      {nav ? <ExerciseNav nav={nav} /> : null}
     </Shell>
   );
 }

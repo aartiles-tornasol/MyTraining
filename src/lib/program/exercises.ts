@@ -941,3 +941,37 @@ export const EXERCISE_GROUPS: { name: string; blurb: string; keys: string[] }[] 
     ],
   },
 ];
+
+/**
+ * The catalogue flattened in the order the index page shows it, so stepping
+ * through exercises one at a time follows the same path the eye just took.
+ */
+export const EXERCISE_ORDER: string[] = EXERCISE_GROUPS.flatMap((g) =>
+  g.keys.filter((k) => EXERCISES[k]),
+);
+
+export interface ExerciseNeighbours {
+  /** 1-based position in the whole catalogue. */
+  index: number;
+  total: number;
+  groupName: string;
+  prev: { key: string; name: string } | null;
+  next: { key: string; name: string } | null;
+}
+
+/** Where an exercise sits in the catalogue, and what comes either side of it. */
+export function exerciseNeighbours(key: string): ExerciseNeighbours | null {
+  const i = EXERCISE_ORDER.indexOf(key);
+  if (i === -1) return null;
+  const at = (n: number) => {
+    const k = EXERCISE_ORDER[n];
+    return k ? { key: k, name: EXERCISES[k].name } : null;
+  };
+  return {
+    index: i + 1,
+    total: EXERCISE_ORDER.length,
+    groupName: EXERCISE_GROUPS.find((g) => g.keys.includes(key))?.name ?? '',
+    prev: at(i - 1),
+    next: at(i + 1),
+  };
+}
