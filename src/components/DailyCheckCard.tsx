@@ -40,21 +40,21 @@ export function DailyCheckCard({ check, day }: { check: DailyCheck | null; day: 
       <Card className="mb-4">
         <div className="flex items-center justify-between gap-3">
           <div className="min-w-0">
-            <p className="text-sm font-semibold">Chequeo de hoy hecho</p>
-            <p className="mt-0.5 truncate text-xs text-ink-400">
+            <p className="text-base font-semibold">Chequeo de hoy hecho</p>
+            <p className="mt-0.5 truncate text-[0.88rem] text-ink-300">
               Aquiles {achilles}/10 · aductores {adductor ?? '—'}/10 · piramidal {piriformis ?? '—'}/10
             </p>
           </div>
           <button
             type="button"
             onClick={() => setOpen(true)}
-            className="shrink-0 rounded-full border border-ink-600 px-3 py-1.5 text-xs font-semibold text-ink-300"
+            className="shrink-0 rounded-full border border-ink-600 px-3 py-1.5 text-[0.85rem] font-semibold text-ink-300"
           >
             Editar
           </button>
         </div>
         <label className="mt-3 flex items-center justify-between gap-3 rounded-lg bg-ink-800 px-3 py-2.5">
-          <span className="text-sm font-semibold">¿Juegas hoy al pickleball?</span>
+          <span className="text-[1.0rem] font-semibold">¿Juegas hoy al pickleball?</span>
           <Switch checked={playing} onChange={togglePlaying} />
         </label>
       </Card>
@@ -64,7 +64,7 @@ export function DailyCheckCard({ check, day }: { check: DailyCheck | null; day: 
   return (
     <Card tone="accent" className="mb-4">
       <p className="text-base font-bold">Chequeo de la mañana</p>
-      <p className="mt-0.5 mb-4 text-xs leading-snug text-ink-400">
+      <p className="mt-0.5 mb-4 text-[0.92rem] leading-relaxed text-ink-300">
         Puntúa nada más levantarte. La rigidez matutina del Aquiles es la señal que decide
         la carga de hoy: es el dato más importante de toda la app.
       </p>
@@ -81,7 +81,7 @@ export function DailyCheckCard({ check, day }: { check: DailyCheck | null; day: 
       </div>
 
       <label className="mt-5 flex items-center justify-between gap-3 rounded-lg bg-ink-800 px-3 py-3">
-        <span className="text-sm font-semibold">¿Juegas hoy al pickleball?</span>
+        <span className="text-[1.0rem] font-semibold">¿Juegas hoy al pickleball?</span>
         <Switch checked={playing} onChange={setPlaying} />
       </label>
 

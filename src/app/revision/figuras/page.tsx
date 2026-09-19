@@ -21,11 +21,11 @@ export default function Figuras() {
           Ajustes
         </Link>
       </div>
-      <p className="mb-3 text-xs leading-snug text-ink-400">
+      <p className="mb-3 text-[0.92rem] leading-relaxed text-ink-300">
         Renderizados una sola vez en Blender y servidos como imágenes planas. La etiqueta
         de arriba a la izquierda dice dónde está el cuerpo, que es lo que no se entendía.
       </p>
-      <p className="mb-5 flex flex-wrap gap-1.5 text-[0.68rem]">
+      <p className="mb-5 flex flex-wrap gap-1.5 text-[0.8rem]">
         {[...orients.entries()].map(([o, n]) => (
           <span key={o} className="rounded-full border border-ink-700 bg-ink-800 px-2 py-0.5 font-semibold text-ink-300">
             {o.replace(/-/g, ' ')} · {n}
@@ -37,12 +37,12 @@ export default function Figuras() {
         {keys.map((k) => (
           <li key={k} className="rounded-xl2 border border-ink-700/70 bg-ink-850 p-2">
             <Figure3D exercise={k} showLabel={false} className="aspect-square w-full" />
-            <p className="mt-1 line-clamp-2 text-[0.78rem] font-semibold leading-tight">
+            <p className="mt-1 line-clamp-2 text-[0.9rem] font-semibold leading-tight">
               {EXERCISES[k]?.name ?? k}
             </p>
             <Link
               href={`/ejercicios/${k}`}
-              className="mt-0.5 block text-[0.68rem] font-semibold text-lime-glow"
+              className="mt-1 block text-[0.82rem] font-semibold text-lime-glow"
             >
               Ver ficha →
             </Link>

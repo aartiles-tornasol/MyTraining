@@ -119,25 +119,25 @@ export function ExerciseNav({ nav }: { nav: ExerciseNeighbours }) {
 
   return (
     <nav className="mt-4" aria-label="Ejercicio anterior y siguiente">
-      <p className="mb-2 text-center text-[0.72rem] font-semibold text-ink-400">
+      <p className="mb-2 text-center text-[0.85rem] font-semibold text-ink-400">
         <span className="text-ink-300">{nav.index}</span> de {nav.total} · {nav.groupName}
       </p>
       <div className="grid grid-cols-2 gap-2.5">
         {nav.prev ? (
           <Link href={href(nav.prev.key)} className={box}>
-            <span className="text-[0.68rem] font-bold uppercase tracking-wider text-ink-400">
+            <span className="text-[0.76rem] font-bold uppercase tracking-wider text-ink-400">
               ← Anterior
             </span>
-            <span className="mt-0.5 line-clamp-2 text-[0.82rem] font-semibold leading-tight">
+            <span className="mt-0.5 line-clamp-2 text-[0.95rem] font-semibold leading-tight">
               {nav.prev.name}
             </span>
           </Link>
         ) : (
           <span className={`${box} opacity-40`}>
-            <span className="text-[0.68rem] font-bold uppercase tracking-wider text-ink-400">
+            <span className="text-[0.76rem] font-bold uppercase tracking-wider text-ink-400">
               Primero
             </span>
-            <span className="mt-0.5 text-[0.82rem] font-semibold leading-tight text-ink-400">
+            <span className="mt-0.5 text-[0.95rem] font-semibold leading-tight text-ink-400">
               No hay anterior
             </span>
           </span>
@@ -145,19 +145,19 @@ export function ExerciseNav({ nav }: { nav: ExerciseNeighbours }) {
 
         {nav.next ? (
           <Link href={href(nav.next.key)} className={`${box} text-right`}>
-            <span className="text-[0.68rem] font-bold uppercase tracking-wider text-ink-400">
+            <span className="text-[0.76rem] font-bold uppercase tracking-wider text-ink-400">
               Siguiente →
             </span>
-            <span className="mt-0.5 line-clamp-2 text-[0.82rem] font-semibold leading-tight">
+            <span className="mt-0.5 line-clamp-2 text-[0.95rem] font-semibold leading-tight">
               {nav.next.name}
             </span>
           </Link>
         ) : (
           <span className={`${box} text-right opacity-40`}>
-            <span className="text-[0.68rem] font-bold uppercase tracking-wider text-ink-400">
+            <span className="text-[0.76rem] font-bold uppercase tracking-wider text-ink-400">
               Último
             </span>
-            <span className="mt-0.5 text-[0.82rem] font-semibold leading-tight text-ink-400">
+            <span className="mt-0.5 text-[0.95rem] font-semibold leading-tight text-ink-400">
               Fin del catálogo
             </span>
           </span>

@@ -30,7 +30,7 @@ export function SessionCard({
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <p className="text-[1.4rem] font-bold leading-tight">{session.name}</p>
-          <p className="text-sm text-ink-300">{session.tagline}</p>
+          <p className="text-[1.0rem] text-ink-300">{session.tagline}</p>
         </div>
         <div className="shrink-0 text-right">
           <p className="text-2xl font-bold leading-none text-lime-glow tabular-nums">{minutes}</p>
@@ -47,7 +47,7 @@ export function SessionCard({
       </div>
 
       {reason ? (
-        <p className="mt-3 rounded-lg bg-ink-800/70 px-3 py-2.5 text-[0.82rem] leading-snug text-ink-300">
+        <p className="mt-3 rounded-lg bg-ink-800/70 px-3 py-2.5 text-[1.0rem] leading-relaxed text-ink-200">
           {reason}
         </p>
       ) : null}
@@ -75,7 +75,7 @@ export function SessionCard({
                   className="aspect-square w-full"
                 />
               )}
-              <p className="mt-0.5 line-clamp-2 text-center text-[0.62rem] leading-tight text-ink-300">
+              <p className="mt-0.5 line-clamp-2 text-center text-[0.7rem] leading-tight text-ink-300">
                 {ex.name}
               </p>
             </li>

@@ -17,7 +17,7 @@ export default async function Ejercicios() {
         {EXERCISE_GROUPS.map((group) => (
           <section key={group.name}>
             <h2 className="text-[1.05rem] font-bold">{group.name}</h2>
-            <p className="mb-3 mt-0.5 text-xs leading-snug text-ink-400">{group.blurb}</p>
+            <p className="mb-3 mt-0.5 text-[0.92rem] leading-relaxed text-ink-300">{group.blurb}</p>
             <ul className="grid grid-cols-2 gap-2.5">
               {group.keys.map((key) => {
                 const ex = EXERCISES[key];
@@ -41,10 +41,10 @@ export default async function Ejercicios() {
                           className="aspect-square w-full"
                         />
                       )}
-                      <p className="mt-1 line-clamp-2 text-[0.8rem] font-semibold leading-tight">
+                      <p className="mt-1 line-clamp-2 text-[0.92rem] font-semibold leading-tight">
                         {ex.name}
                       </p>
-                      <p className="mt-0.5 line-clamp-2 text-[0.68rem] leading-tight text-ink-400">
+                      <p className="mt-0.5 line-clamp-2 text-[0.8rem] leading-snug text-ink-300">
                         {ex.tagline}
                       </p>
                     </Link>

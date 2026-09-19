@@ -77,14 +77,14 @@ export default async function Progreso() {
           tone={trend.tone === 'back-off' ? 'alert' : trend.tone === 'watch' ? 'warn' : 'accent'}
           className="mb-4"
         >
-          <p className="text-sm font-bold">{trend.title}</p>
-          <p className="mt-1 text-[0.82rem] leading-snug text-ink-300">{trend.body}</p>
+          <p className="text-base font-bold">{trend.title}</p>
+          <p className="mt-1 text-[1.0rem] leading-relaxed text-ink-200">{trend.body}</p>
         </Card>
       ) : null}
 
       <Card className="mb-4">
         <p className="text-base font-bold">Rigidez del Aquiles al levantarte</p>
-        <p className="mb-3 mt-0.5 text-xs leading-snug text-ink-400">
+        <p className="mb-3 mt-0.5 text-[0.92rem] leading-relaxed text-ink-300">
           Es la señal que mejor dice si el tendón va mejorando. Lo que buscas es que la
           línea baje hacia la zona verde y se quede ahí.
         </p>
@@ -93,7 +93,7 @@ export default async function Progreso() {
 
       <Card className="mb-4">
         <p className="text-base font-bold">Constancia</p>
-        <p className="mb-3 mt-0.5 text-xs leading-snug text-ink-400">
+        <p className="mb-3 mt-0.5 text-[0.92rem] leading-relaxed text-ink-300">
           Cuatro semanas. Con los tendones importa más la regularidad que la intensidad.
         </p>
         <AdherenceStrip today={day} byDay={byDay} />
@@ -101,7 +101,7 @@ export default async function Progreso() {
 
       <Card className="mb-4">
         <p className="text-base font-bold">Carga en el ejercicio principal</p>
-        <p className="mb-3 mt-0.5 text-xs leading-snug text-ink-400">
+        <p className="mb-3 mt-0.5 text-[0.92rem] leading-relaxed text-ink-300">
           Peso máximo por semana en la elevación de talón a una pierna.
         </p>
         <LoadChart points={loads} />
@@ -110,16 +110,16 @@ export default async function Progreso() {
       <Card>
         <p className="mb-3 text-base font-bold">Sesiones por tipo</p>
         {Object.keys(counts).length === 0 ? (
-          <p className="text-sm text-ink-400">Todavía no has completado ninguna sesión.</p>
+          <p className="text-[1.0rem] text-ink-300">Todavía no has completado ninguna sesión.</p>
         ) : (
           <ul className="space-y-2">
             {Object.entries(counts)
               .sort((a, b) => b[1] - a[1])
               .map(([key, n]) => (
                 <li key={key} className="flex items-center justify-between gap-3">
-                  <span className="truncate text-sm">
+                  <span className="truncate text-[0.98rem]">
                     {SESSIONS[key]?.name ?? key}
-                    <span className="ml-1.5 text-xs text-ink-400">{SESSIONS[key]?.tagline}</span>
+                    <span className="ml-1.5 text-[0.85rem] text-ink-300">{SESSIONS[key]?.tagline}</span>
                   </span>
                   <Chip tone="lime">{n}</Chip>
                 </li>
@@ -128,7 +128,7 @@ export default async function Progreso() {
         )}
       </Card>
 
-      <p className="mt-4 px-1 text-[0.7rem] leading-snug text-ink-400">
+      <p className="mt-4 px-1 text-[0.85rem] leading-relaxed text-ink-300">
         Fase {plan.phase}: {PHASES[plan.phase].goal.toLowerCase()}.
       </p>
     </Shell>
@@ -164,10 +164,10 @@ function Stat({
         {value}
         {unit ? <span className="text-[0.7rem] font-semibold text-ink-400">{unit}</span> : null}
       </p>
-      <p className="mt-1.5 text-[0.68rem] font-semibold uppercase tracking-wide text-ink-400">
+      <p className="mt-1.5 text-[0.78rem] font-semibold uppercase tracking-wide text-ink-300">
         {label}
       </p>
-      {foot ? <p className="mt-0.5 text-[0.62rem] leading-tight text-ink-400">{foot}</p> : null}
+      {foot ? <p className="mt-1 text-[0.76rem] leading-snug text-ink-300">{foot}</p> : null}
     </div>
   );
 }

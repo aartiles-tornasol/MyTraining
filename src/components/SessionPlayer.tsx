@@ -293,7 +293,7 @@ export function SessionPlayer({
           <TimerRing remaining={remaining} total={step.seconds} color="#5eb0ff" label="restante" />
           {nextEx ? (
             <div className="text-center">
-              <p className="text-xs uppercase tracking-wider text-ink-400">A continuación</p>
+              <p className="text-[0.85rem] uppercase tracking-wider text-ink-300">A continuación</p>
               <p className="mt-1 text-lg font-bold">{nextEx.name}</p>
             </div>
           ) : null}

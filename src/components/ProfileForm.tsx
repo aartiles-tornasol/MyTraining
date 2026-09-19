@@ -35,7 +35,7 @@ export function ProfileForm({
           type="date"
           value={start}
           onChange={(e) => setStart(e.target.value)}
-          className="w-full rounded-lg bg-ink-800 px-3 py-2.5 text-sm text-ink-100"
+          className="w-full rounded-lg bg-ink-800 px-3 py-2.5 text-[1.0rem] text-ink-100"
         />
       </Field>
       <div className="grid grid-cols-2 gap-3">
@@ -45,7 +45,7 @@ export function ProfileForm({
             inputMode="numeric"
             value={height}
             onChange={(e) => setHeight(Number(e.target.value))}
-            className="w-full rounded-lg bg-ink-800 px-3 py-2.5 text-sm tabular-nums text-ink-100"
+            className="w-full rounded-lg bg-ink-800 px-3 py-2.5 text-[1.0rem] tabular-nums text-ink-100"
           />
         </Field>
         <Field label="Peso (kg)">
@@ -55,7 +55,7 @@ export function ProfileForm({
             step="0.5"
             value={weight}
             onChange={(e) => setWeight(Number(e.target.value))}
-            className="w-full rounded-lg bg-ink-800 px-3 py-2.5 text-sm tabular-nums text-ink-100"
+            className="w-full rounded-lg bg-ink-800 px-3 py-2.5 text-[1.0rem] tabular-nums text-ink-100"
           />
         </Field>
       </div>
@@ -63,7 +63,7 @@ export function ProfileForm({
         type="button"
         onClick={submit}
         disabled={pending || disabled}
-        className="w-full rounded-xl bg-ink-700 py-3 text-sm font-bold disabled:opacity-40"
+        className="w-full rounded-xl bg-ink-700 py-3 text-[1.0rem] font-bold disabled:opacity-40"
       >
         {pending ? 'Guardando…' : saved ? 'Guardado ✓' : 'Guardar'}
       </button>
@@ -74,7 +74,7 @@ export function ProfileForm({
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label className="block">
-      <span className="mb-1 block text-[0.7rem] font-semibold uppercase tracking-wide text-ink-400">
+      <span className="mb-1 block text-[0.8rem] font-semibold uppercase tracking-wide text-ink-400">
         {label}
       </span>
       {children}

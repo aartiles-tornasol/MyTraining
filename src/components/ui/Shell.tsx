@@ -24,7 +24,7 @@ export function Shell({
         <header className="mb-5 flex items-start justify-between gap-3">
           <div>
             <h1 className="text-[1.75rem] font-bold leading-tight tracking-tight">{title}</h1>
-            {subtitle ? <p className="mt-0.5 text-sm text-ink-400">{subtitle}</p> : null}
+            {subtitle ? <p className="mt-0.5 text-[1.0rem] text-ink-300">{subtitle}</p> : null}
           </div>
           {action}
         </header>
@@ -64,7 +64,7 @@ export function Chip({ children, tone = 'muted' }: { children: React.ReactNode; 
     info: 'bg-signal-info/15 text-signal-info border-signal-info/35',
   } as const;
   return (
-    <span className={`inline-flex items-center rounded-full border px-2.5 py-1 text-[0.7rem] font-semibold ${tones[tone]}`}>
+    <span className={`inline-flex items-center rounded-full border px-2.5 py-1 text-[0.78rem] font-semibold ${tones[tone]}`}>
       {children}
     </span>
   );

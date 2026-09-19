@@ -25,7 +25,7 @@ export default async function Home() {
         streak > 0 ? (
           <div className="shrink-0 rounded-xl border border-lime-core/35 bg-lime-core/10 px-3 py-1.5 text-center">
             <p className="text-lg font-bold leading-none text-lime-glow tabular-nums">{streak}</p>
-            <p className="text-[0.6rem] font-semibold uppercase tracking-wider text-lime-glow/70">
+            <p className="text-[0.72rem] font-semibold uppercase tracking-wider text-lime-glow/80">
               {streak === 1 ? 'día' : 'días'}
             </p>
           </div>
@@ -34,8 +34,8 @@ export default async function Home() {
     >
       {!dbConfigured ? (
         <Card tone="warn" className="mb-4">
-          <p className="text-sm font-semibold">Sin base de datos</p>
-          <p className="mt-1 text-xs leading-snug text-ink-300">
+          <p className="text-base font-semibold">Sin base de datos</p>
+          <p className="mt-1 text-[0.92rem] leading-relaxed text-ink-300">
             No hay <code className="text-signal-warn">DATABASE_URL</code> configurada, así que la app
             funciona pero no guarda nada. Los entrenamientos se ven igual.
           </p>
@@ -52,7 +52,7 @@ export default async function Home() {
 
       {needsCheck ? (
         <Card className="mb-4">
-          <p className="text-sm leading-snug text-ink-300">
+          <p className="text-[1.0rem] leading-relaxed text-ink-200">
             Puntúa el chequeo de arriba y la sesión de hoy se ajusta sola a cómo has amanecido.
           </p>
         </Card>
@@ -72,7 +72,7 @@ export default async function Home() {
         <Card tone="warn" className="mb-4">
           <ul className="space-y-1.5">
             {plan.warnings.map((w) => (
-              <li key={w} className="text-[0.82rem] leading-snug text-ink-200">
+              <li key={w} className="text-[1.0rem] leading-relaxed text-ink-100">
                 {w}
               </li>
             ))}
@@ -91,8 +91,8 @@ export default async function Home() {
                 className="rounded-xl2 border border-ink-700/70 bg-ink-850 p-3.5 transition active:scale-[0.98]"
               >
                 <p className="text-[0.95rem] font-bold leading-tight">{s.name}</p>
-                <p className="mt-0.5 text-[0.7rem] leading-snug text-ink-400">{s.tagline}</p>
-                <p className="mt-2 text-xs font-semibold text-lime-glow">
+                <p className="mt-0.5 text-[0.82rem] leading-snug text-ink-300">{s.tagline}</p>
+                <p className="mt-2 text-[0.88rem] font-semibold text-lime-glow">
                   {sessionMinutes(s.items[1])} min →
                 </p>
               </Link>
@@ -106,15 +106,15 @@ export default async function Home() {
           tone={trend.tone === 'back-off' ? 'alert' : trend.tone === 'watch' ? 'warn' : 'default'}
           className="mb-4"
         >
-          <p className="text-sm font-bold">{trend.title}</p>
-          <p className="mt-1 text-[0.82rem] leading-snug text-ink-300">{trend.body}</p>
+          <p className="text-base font-bold">{trend.title}</p>
+          <p className="mt-1 text-[1.0rem] leading-relaxed text-ink-200">{trend.body}</p>
         </Card>
       ) : null}
 
       <Card>
-        <p className="text-sm font-bold">Fase {plan.phase} · {phase.name}</p>
-        <p className="mt-0.5 text-xs font-semibold text-ink-400">{phase.weeks} · {phase.goal}</p>
-        <p className="mt-2 text-[0.82rem] leading-snug text-ink-300">{phase.detail}</p>
+        <p className="text-base font-bold">Fase {plan.phase} · {phase.name}</p>
+        <p className="mt-0.5 text-[0.88rem] font-semibold text-ink-300">{phase.weeks} · {phase.goal}</p>
+        <p className="mt-2 text-[1.0rem] leading-relaxed text-ink-200">{phase.detail}</p>
       </Card>
     </Shell>
   );

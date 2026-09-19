@@ -30,10 +30,10 @@ export function PainScale({
       <div className="mb-2 flex items-baseline justify-between gap-2">
         <div>
           <p className="text-[0.95rem] font-semibold">{label}</p>
-          {hint ? <p className="text-xs text-ink-400">{hint}</p> : null}
+          {hint ? <p className="text-[0.88rem] text-ink-300">{hint}</p> : null}
         </div>
         <p
-          className="text-sm font-bold tabular-nums"
+          className="text-base font-bold tabular-nums"
           style={{ color: value === null ? '#7488a0' : colorFor(value) }}
         >
           {value === null ? '—' : `${value}/10 · ${PAIN_WORDS[value]}`}

@@ -29,7 +29,7 @@ export function LevelPicker({ exerciseKey, offset }: { exerciseKey: string; offs
             type="button"
             onClick={() => pick(o.value)}
             aria-pressed={value === o.value}
-            className={`flex-1 rounded-lg py-2.5 text-[0.78rem] font-bold transition ${
+            className={`flex-1 rounded-lg py-3 text-[0.92rem] font-bold transition ${
               value === o.value ? 'bg-lime-core text-ink-950' : 'text-ink-300'
             }`}
           >

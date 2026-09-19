@@ -97,11 +97,11 @@ export function WorkCard({
 
         {loadLabel ? (
           <div className="mt-3 flex flex-col items-center gap-1.5">
-            <p className="text-xs text-ink-300">
+            <p className="text-[0.92rem] text-ink-200">
               Recomendado: <span className="font-semibold text-ink-100">{loadLabel}</span>
             </p>
             <div className="flex items-center gap-2">
-              <span className="text-xs font-semibold text-ink-300">Hoy he usado</span>
+              <span className="text-[0.92rem] font-semibold text-ink-200">Hoy he usado</span>
               {loadSlot}
             </div>
           </div>
