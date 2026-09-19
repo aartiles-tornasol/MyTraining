@@ -29,10 +29,16 @@ def argv():
 
 
 def lerp(a, b, t):
+    """Blend two poses. Anything that is not a number — `anchor` — is carried
+    across rather than averaged; you cannot interpolate halfway between two
+    contact points."""
     out = {}
     for k in set(a) | set(b):
-        va, vb = a.get(k, 0.0), b.get(k, 0.0)
-        out[k] = va + (vb - va) * t
+        va, vb = a.get(k), b.get(k)
+        if isinstance(va, (int, float)) or isinstance(vb, (int, float)):
+            out[k] = (va or 0.0) + ((vb or 0.0) - (va or 0.0)) * t
+        else:
+            out[k] = vb if (t > 0.5 and vb is not None) else (va if va is not None else vb)
     return out
 
 
@@ -71,7 +77,11 @@ def render_exercise(key, spec, size, steps):
         'frames': made,
         'orient': spec.get('orient', 'de-pie'),
         'camera': spec.get('camera', 'tres-cuartos'),
-        'labels': [f.get('label', '') for f in frames],
+        # Segment i interpolates frames[i] -> frames[i+1], and the player shows
+        # labels[i] while it plays. The captions name where the movement is
+        # going ("Baja despacio"), so each segment gets the NEXT frame's
+        # caption. Without the shift every loop narrates the move it just left.
+        'labels': [frames[(i + 1) % len(frames)].get('label', '') for i in range(len(frames))],
         'msPerFrame': spec.get('ms', 1400) // steps,
         'steps': steps,
     }

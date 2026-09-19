@@ -25,6 +25,7 @@ POSES = {
     # ── Tobillo y Aquiles ────────────────────────────────────────────────
     'iso-calf-double': {
         'orient': 'de-pie', 'camera': 'tres-cuartos', 'props': ['pared'],
+        'prop_place': {'pared': (0.0, -0.22, 0.0)},
         'highlight': ['gemelo_d', 'gemelo_i', 'aquiles_d'], 'ms': 1400,
         'frames': [
             f('Sube a puntillas', **ARMS_WALL, r_ankle=-38, l_ankle=-38, r_knee=3, l_knee=3),
@@ -34,6 +35,7 @@ POSES = {
     },
     'iso-calf-single': {
         'orient': 'de-pie', 'camera': 'tres-cuartos', 'props': ['pared'],
+        'prop_place': {'pared': (0.0, -0.22, 0.0)},
         'highlight': ['gemelo_d', 'aquiles_d'], 'ms': 1400,
         'frames': [
             f('Sobre una pierna, sube', **ARMS_WALL, r_ankle=-40, r_knee=4,
@@ -63,24 +65,26 @@ POSES = {
     },
     'heel-drop-step': {
         'orient': 'de-pie', 'camera': 'lateral', 'props': ['escalon', 'pared'],
-        'prop_place': {'escalon': (0.0, -0.02, 0.0), 'pared': (0.0, 0.34, 0.0)},
+        'prop_place': {'escalon': (0.0, 0.10, 0.0), 'pared': (0.0, -0.22, 0.0)},
         'highlight': ['gemelo_d', 'aquiles_d'], 'ms': 1800,
         'frames': [
             f('En el escalón, arriba', **ARMS_WALL, lift=0.17, r_ankle=-30,
               l_hip=-16, l_knee=92, l_ankle=-14),
-            f('Baja el talón por debajo', **ARMS_WALL, lift=0.17, r_ankle=26,
+            f('Baja el talón por debajo', **ARMS_WALL, lift=0.04, r_ankle=26,
               l_hip=-16, l_knee=92, l_ankle=-14),
         ],
     },
     'soleus-seated': {
         'orient': 'sentado', 'camera': 'lateral', 'props': ['silla'],
-        'prop_place': {'silla': (0.0, -0.46, 0.0)},
-        'highlight': ['gemelo_d', 'gemelo_i', 'aquiles_d'], 'ms': 1400,
+        'prop_place': {'silla': (0.0, 0.46, 0.0, 180)},
+        # The whole point is the knee being bent, which switches the calf off
+        # and leaves the soleus working. Highlighting the calf said the opposite.
+        'highlight': ['soleo_d', 'aquiles_d'], 'ms': 1400,
         'frames': [
-            f('Talones arriba', r_hip=88, r_knee=86, l_hip=88, l_knee=86,
-              r_ankle=-32, l_ankle=-32, **ARMS_CHEST),
-            f('Baja despacio', r_hip=88, r_knee=86, l_hip=88, l_knee=86,
-              r_ankle=2, l_ankle=2, **ARMS_CHEST),
+            f('Talones arriba', r_hip=104, r_knee=100, l_hip=104, l_knee=100,
+              r_ankle=-32, l_ankle=-32, anchor=('pelvis', 0.47), **ARMS_CHEST),
+            f('Baja despacio', r_hip=104, r_knee=100, l_hip=104, l_knee=100,
+              r_ankle=4, l_ankle=4, anchor=('pelvis', 0.47), **ARMS_CHEST),
         ],
     },
     'soleus-wall-iso': {
@@ -119,9 +123,9 @@ POSES = {
         'orient': 'boca-arriba', 'camera': 'tres-cuartos-alto', 'props': ['esterilla'],
         'highlight': ['cuadriceps_d', 'aductor_d', 'aductor_i'], 'ms': 1600,
         'frames': [
-            f('Boca arriba, rodillas dobladas', r_hip=62, r_knee=86, l_hip=62, l_knee=86,
+            f('Boca arriba, rodillas dobladas', r_hip=48, r_knee=112, l_hip=48, l_knee=112, r_ankle=-26, l_ankle=-26,
               r_abd=9, l_abd=9, r_sabd=34, l_sabd=34),
-            f('Aprieta el cojín al 80 %', r_hip=62, r_knee=86, l_hip=62, l_knee=86,
+            f('Aprieta el cojín al 80 %', r_hip=48, r_knee=112, l_hip=48, l_knee=112, r_ankle=-26, l_ankle=-26,
               r_abd=1, l_abd=1, r_sabd=34, l_sabd=34),
         ],
     },
@@ -183,9 +187,9 @@ POSES = {
         'orient': 'boca-arriba', 'camera': 'tres-cuartos', 'props': ['esterilla'],
         'highlight': ['gluteo_d', 'gluteo_i'], 'ms': 1500,
         'frames': [
-            f('Boca arriba, cadera abajo', r_hip=58, r_knee=88, l_hip=58, l_knee=88,
+            f('Boca arriba, cadera abajo', r_hip=48, r_knee=112, l_hip=48, l_knee=112, r_ankle=-26, l_ankle=-26, anchor=('r_heel', 0.05),
               r_sabd=26, l_sabd=26),
-            f('Sube la cadera', spine=-16, r_hip=30, r_knee=78, l_hip=30, l_knee=78,
+            f('Sube la cadera', spine=-16, r_hip=26, r_knee=100, l_hip=26, l_knee=100, r_ankle=-26, l_ankle=-26, anchor=('r_heel', 0.05),
               r_sabd=26, l_sabd=26),
         ],
     },
@@ -193,9 +197,9 @@ POSES = {
         'orient': 'boca-arriba', 'camera': 'tres-cuartos', 'props': ['esterilla'],
         'highlight': ['gluteo_d', 'isquios_d'], 'ms': 1500,
         'frames': [
-            f('Una pierna en el suelo', r_hip=58, r_knee=88, l_hip=96, l_knee=14,
+            f('Una pierna en el suelo', r_hip=48, r_knee=112, r_ankle=-26, anchor=('r_heel', 0.05), l_hip=96, l_knee=14,
               r_sabd=26, l_sabd=26),
-            f('Sube la cadera', spine=-18, r_hip=28, r_knee=76, l_hip=76, l_knee=10,
+            f('Sube la cadera', spine=-18, r_hip=24, r_knee=98, r_ankle=-26, anchor=('r_heel', 0.05), l_hip=76, l_knee=10,
               r_sabd=26, l_sabd=26),
         ],
     },
@@ -204,9 +208,10 @@ POSES = {
         'highlight': ['gluteo_i', 'aductor_i'], 'ms': 1400,
         'frames': [
             f('De lado, rodillas dobladas', r_sho=80, r_elb=88, l_sabd=10, l_elb=14,
-              r_hip=44, r_knee=86, l_hip=44, l_knee=86),
+              r_hip=44, r_knee=86, l_hip=44, l_knee=86, anchor=('pelvis', 0.23)),
             f('Abre la rodilla de arriba', r_sho=80, r_elb=88, l_sabd=10, l_elb=14,
-              r_hip=44, r_knee=86, l_hip=44, l_knee=86, l_abd=-40),
+              r_hip=44, r_knee=86, l_hip=44, l_knee=86, l_rot=40,
+              anchor=('pelvis', 0.23)),
         ],
     },
     'side-plank-abduction': {
@@ -218,7 +223,8 @@ POSES = {
               r_hip=0, r_knee=6, l_hip=0, l_knee=4),
             f('Sube la pierna de arriba', spine=-6,
               r_sho=88, r_elb=82, l_sabd=14, l_elb=10,
-              r_hip=0, r_knee=6, l_hip=0, l_knee=2, l_abd=-32),
+              r_hip=0, r_knee=6, l_hip=0, l_knee=2, l_abd=32,
+              anchor=('pelvis', 0.34)),
         ],
     },
     'banded-lateral-walk': {
@@ -270,11 +276,15 @@ POSES = {
     'single-leg-rdl': {
         'orient': 'de-pie', 'camera': 'tres-cuartos', 'highlight': ['gluteo_d', 'isquios_d'], 'ms': 1700,
         'frames': [
-            f('De pie sobre una pierna', **ARMS_SIDE, r_knee=8, l_hip=-14, l_knee=22),
-            f('La cadera va hacia atrás', spine=40, r_knee=14, l_hip=-40, l_knee=10,
-              r_sho=-4, l_sho=-4, r_elb=6, l_elb=6),
-            f('Espalda y pierna en línea', spine=70, r_knee=16, l_hip=-68, l_knee=4,
-              r_sho=-8, l_sho=-8, r_elb=6, l_elb=6),
+            f('De pie sobre una pierna', **ARMS_SIDE, r_knee=8, r_ankle=8,
+              l_hip=-18, l_knee=48, anchor=('r_heel', 0.05)),
+            f('La cadera va hacia atrás', spine=45, r_knee=14, r_ankle=14, l_hip=-45, l_knee=8,
+              r_sho=45, l_sho=45, r_elb=6, l_elb=6),
+            # Trunk to horizontal, roughly square to the support leg, and the
+            # trailing leg in line with it. sho tracks spine so the weight
+            # hangs plumb instead of drifting behind the body.
+            f('Espalda y pierna en línea', spine=85, r_knee=16, r_ankle=16, l_hip=-85, l_knee=2,
+              r_sho=85, l_sho=85, r_elb=6, l_elb=6),
         ],
     },
 
@@ -329,7 +339,7 @@ POSES = {
             f('Boca arriba, brazos al techo', r_hip=88, r_knee=86, l_hip=88, l_knee=86,
               r_sho=92, l_sho=92, r_elb=6, l_elb=6),
             f('Estira brazo y pierna contrarios', r_hip=16, r_knee=10, l_hip=88, l_knee=86,
-              r_sho=92, l_sho=8, r_elb=6, l_elb=6),
+              r_sho=92, l_sho=175, r_elb=6, l_elb=6, r_ankle=-40),
         ],
     },
     'pallof-press': {
@@ -419,12 +429,13 @@ POSES = {
         'orient': 'de-pie', 'camera': 'frontal', 'highlight': ['hombro_d', 'hombro_i'], 'ms': 1500,
         'frames': [
             f('Brazos al frente', r_sho=86, l_sho=86, r_elb=8, l_elb=8, r_knee=6, l_knee=6),
-            f('Abre hasta el pecho', r_sho=84, l_sho=84, r_sabd=62, l_sabd=62,
+            f('Abre hasta el pecho', r_sho=84, l_sho=84, r_srot=60, l_srot=60,
               r_elb=10, l_elb=10, r_knee=6, l_knee=6),
         ],
     },
     'wall-slide': {
         'orient': 'de-pie', 'camera': 'frontal', 'props': ['pared'],
+        'prop_place': {'pared': (0.0, -0.22, 0.0)},
         'highlight': ['hombro_d', 'hombro_i'], 'ms': 1600,
         'frames': [
             f('Brazos en la pared, codos abajo', r_sabd=60, l_sabd=60,
@@ -446,6 +457,7 @@ POSES = {
     },
     'leg-swings': {
         'orient': 'de-pie', 'camera': 'lateral', 'props': ['pared'],
+        'prop_place': {'pared': (0.0, -0.22, 0.0)},
         'highlight': ['gluteo_d', 'isquios_d'], 'ms': 1000,
         'frames': [
             f('Pierna adelante', r_sho=76, l_sho=76, r_elb=12, l_elb=12,
@@ -456,6 +468,7 @@ POSES = {
     },
     'ankle-circles': {
         'orient': 'de-pie', 'camera': 'tres-cuartos', 'props': ['pared'],
+        'prop_place': {'pared': (0.0, -0.22, 0.0)},
         'highlight': ['gemelo_d', 'aquiles_d'], 'ms': 1000,
         'frames': [
             f('Dibuja círculos con el tobillo', **ARMS_WALL,
@@ -497,9 +510,9 @@ POSES = {
         'orient': 'boca-arriba', 'camera': 'tres-cuartos-alto', 'props': ['esterilla'],
         'highlight': ['core'], 'ms': 2600,
         'frames': [
-            f('Boca arriba, manos en las costillas', r_hip=58, r_knee=86, l_hip=58, l_knee=86,
+            f('Boca arriba, manos en las costillas', r_hip=48, r_knee=112, l_hip=48, l_knee=112, r_ankle=-26, l_ankle=-26,
               r_sho=30, l_sho=30, r_elb=104, l_elb=104, r_sabd=26, l_sabd=26),
-            f('Inspira abriendo las costillas', r_hip=58, r_knee=86, l_hip=58, l_knee=86,
+            f('Inspira abriendo las costillas', r_hip=48, r_knee=112, l_hip=48, l_knee=112, r_ankle=-26, l_ankle=-26,
               r_sho=26, l_sho=26, r_elb=98, l_elb=98, r_sabd=32, l_sabd=32),
         ],
     },

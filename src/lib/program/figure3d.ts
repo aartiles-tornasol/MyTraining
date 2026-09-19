@@ -32,9 +32,9 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
     "orient": "de-pie",
     "camera": "tres-cuartos",
     "labels": [
-      "Sube a puntillas",
       "Aguanta arriba",
-      "Baja despacio"
+      "Baja despacio",
+      "Sube a puntillas"
     ],
     "msPerFrame": 280,
     "steps": 5
@@ -61,9 +61,9 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
     "orient": "de-pie",
     "camera": "tres-cuartos",
     "labels": [
-      "Sobre una pierna, sube",
       "Aguanta arriba",
-      "Baja despacio"
+      "Baja despacio",
+      "Sobre una pierna, sube"
     ],
     "msPerFrame": 280,
     "steps": 5
@@ -90,9 +90,9 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
     "orient": "de-pie",
     "camera": "tres-cuartos",
     "labels": [
-      "Sube en 2 s",
       "Aprieta arriba",
-      "Baja en 3 s"
+      "Baja en 3 s",
+      "Sube en 2 s"
     ],
     "msPerFrame": 300,
     "steps": 5
@@ -119,9 +119,9 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
     "orient": "de-pie",
     "camera": "tres-cuartos",
     "labels": [
-      "Sube sobre una pierna",
       "Aprieta arriba",
-      "Baja en 3 s"
+      "Baja en 3 s",
+      "Sube sobre una pierna"
     ],
     "msPerFrame": 300,
     "steps": 5
@@ -143,8 +143,8 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
     "orient": "de-pie",
     "camera": "lateral",
     "labels": [
-      "En el escalón, arriba",
-      "Baja el talón por debajo"
+      "Baja el talón por debajo",
+      "En el escalón, arriba"
     ],
     "msPerFrame": 360,
     "steps": 5
@@ -166,8 +166,8 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
     "orient": "sentado",
     "camera": "lateral",
     "labels": [
-      "Talones arriba",
-      "Baja despacio"
+      "Baja despacio",
+      "Talones arriba"
     ],
     "msPerFrame": 280,
     "steps": 5
@@ -189,8 +189,8 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
     "orient": "de-pie",
     "camera": "lateral",
     "labels": [
-      "Rodilla doblada contra la pared",
-      "Aguanta el sóleo"
+      "Aguanta el sóleo",
+      "Rodilla doblada contra la pared"
     ],
     "msPerFrame": 320,
     "steps": 5
@@ -212,8 +212,8 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
     "orient": "de-pie",
     "camera": "lateral",
     "labels": [
-      "Rodilla lejos de la pared",
-      "Lleva la rodilla a tocar"
+      "Lleva la rodilla a tocar",
+      "Rodilla lejos de la pared"
     ],
     "msPerFrame": 300,
     "steps": 5
@@ -235,8 +235,8 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
     "orient": "de-pie",
     "camera": "tres-cuartos",
     "labels": [
-      "De puntillas, paso corto",
-      "Sin bajar los talones"
+      "Sin bajar los talones",
+      "De puntillas, paso corto"
     ],
     "msPerFrame": 180,
     "steps": 5
@@ -258,8 +258,8 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
     "orient": "boca-arriba",
     "camera": "tres-cuartos-alto",
     "labels": [
-      "Boca arriba, rodillas dobladas",
-      "Aprieta el cojín al 80 %"
+      "Aprieta el cojín al 80 %",
+      "Boca arriba, rodillas dobladas"
     ],
     "msPerFrame": 320,
     "steps": 5
@@ -281,8 +281,8 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
     "orient": "de-lado",
     "camera": "tres-cuartos-alto",
     "labels": [
-      "De lado, rodilla en la silla",
-      "Sube la cadera a la línea"
+      "Sube la cadera a la línea",
+      "De lado, rodilla en la silla"
     ],
     "msPerFrame": 360,
     "steps": 5
@@ -304,8 +304,8 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
     "orient": "de-lado",
     "camera": "tres-cuartos-alto",
     "labels": [
-      "De lado, pie en la silla",
-      "Sube la cadera, cuerpo recto"
+      "Sube la cadera, cuerpo recto",
+      "De lado, pie en la silla"
     ],
     "msPerFrame": 360,
     "steps": 5
@@ -327,8 +327,8 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
     "orient": "de-lado",
     "camera": "tres-cuartos-alto",
     "labels": [
-      "Tumbado de lado",
-      "Sube la pierna de abajo"
+      "Sube la pierna de abajo",
+      "Tumbado de lado"
     ],
     "msPerFrame": 320,
     "steps": 5
@@ -350,8 +350,8 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
     "orient": "de-pie",
     "camera": "frontal",
     "labels": [
-      "De pie, pies juntos",
-      "Paso largo al lado"
+      "Paso largo al lado",
+      "De pie, pies juntos"
     ],
     "msPerFrame": 320,
     "steps": 5
@@ -373,8 +373,8 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
     "orient": "de-pie",
     "camera": "frontal",
     "labels": [
-      "Pies muy abiertos",
-      "Baja sobre una pierna"
+      "Baja sobre una pierna",
+      "Pies muy abiertos"
     ],
     "msPerFrame": 360,
     "steps": 5
@@ -396,8 +396,8 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
     "orient": "boca-arriba",
     "camera": "tres-cuartos",
     "labels": [
-      "Boca arriba, cadera abajo",
-      "Sube la cadera"
+      "Sube la cadera",
+      "Boca arriba, cadera abajo"
     ],
     "msPerFrame": 300,
     "steps": 5
@@ -419,8 +419,8 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
     "orient": "boca-arriba",
     "camera": "tres-cuartos",
     "labels": [
-      "Una pierna en el suelo",
-      "Sube la cadera"
+      "Sube la cadera",
+      "Una pierna en el suelo"
     ],
     "msPerFrame": 300,
     "steps": 5
@@ -442,8 +442,8 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
     "orient": "de-lado",
     "camera": "tres-cuartos-alto",
     "labels": [
-      "De lado, rodillas dobladas",
-      "Abre la rodilla de arriba"
+      "Abre la rodilla de arriba",
+      "De lado, rodillas dobladas"
     ],
     "msPerFrame": 280,
     "steps": 5
@@ -465,8 +465,8 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
     "orient": "de-lado",
     "camera": "tres-cuartos-alto",
     "labels": [
-      "Plancha lateral sobre el codo",
-      "Sube la pierna de arriba"
+      "Sube la pierna de arriba",
+      "Plancha lateral sobre el codo"
     ],
     "msPerFrame": 320,
     "steps": 5
@@ -488,8 +488,8 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
     "orient": "de-pie",
     "camera": "frontal",
     "labels": [
-      "Semiflexión, banda tensa",
-      "Paso lateral sin juntar"
+      "Paso lateral sin juntar",
+      "Semiflexión, banda tensa"
     ],
     "msPerFrame": 240,
     "steps": 5
@@ -516,9 +516,9 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
     "orient": "de-pie",
     "camera": "tres-cuartos",
     "labels": [
-      "De pie sobre una pierna, bisagra",
       "Abre la cadera despacio",
-      "Cierra con control"
+      "Cierra con control",
+      "De pie sobre una pierna, bisagra"
     ],
     "msPerFrame": 380,
     "steps": 5
@@ -540,8 +540,8 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
     "orient": "sentado",
     "camera": "tres-cuartos-alto",
     "labels": [
-      "Sentado, 90 y 90",
-      "Gira las dos rodillas al otro lado"
+      "Gira las dos rodillas al otro lado",
+      "Sentado, 90 y 90"
     ],
     "msPerFrame": 360,
     "steps": 5
@@ -563,8 +563,8 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
     "orient": "boca-arriba",
     "camera": "tres-cuartos-alto",
     "labels": [
-      "Boca arriba, tobillo sobre la rodilla",
-      "Acerca la rodilla al pecho"
+      "Acerca la rodilla al pecho",
+      "Boca arriba, tobillo sobre la rodilla"
     ],
     "msPerFrame": 360,
     "steps": 5
@@ -591,9 +591,9 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
     "orient": "de-pie",
     "camera": "tres-cuartos",
     "labels": [
-      "De pie sobre una pierna",
       "La cadera va hacia atrás",
-      "Espalda y pierna en línea"
+      "Espalda y pierna en línea",
+      "De pie sobre una pierna"
     ],
     "msPerFrame": 340,
     "steps": 5
@@ -615,8 +615,8 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
     "orient": "de-pie",
     "camera": "tres-cuartos",
     "labels": [
-      "De pie con el peso al pecho",
-      "Baja en 3 s"
+      "Baja en 3 s",
+      "De pie con el peso al pecho"
     ],
     "msPerFrame": 340,
     "steps": 5
@@ -638,8 +638,8 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
     "orient": "de-pie",
     "camera": "tres-cuartos",
     "labels": [
-      "Zancada, un pie delante",
-      "Baja la rodilla de atrás"
+      "Baja la rodilla de atrás",
+      "Zancada, un pie delante"
     ],
     "msPerFrame": 340,
     "steps": 5
@@ -661,8 +661,8 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
     "orient": "de-pie",
     "camera": "lateral",
     "labels": [
-      "Un pie en el escalón",
-      "Sube sin impulso"
+      "Sube sin impulso",
+      "Un pie en el escalón"
     ],
     "msPerFrame": 340,
     "steps": 5
@@ -684,8 +684,8 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
     "orient": "de-pie",
     "camera": "lateral",
     "labels": [
-      "Espalda en la pared",
-      "Aguanta 90 grados"
+      "Aguanta 90 grados",
+      "Espalda en la pared"
     ],
     "msPerFrame": 320,
     "steps": 5
@@ -707,8 +707,8 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
     "orient": "boca-arriba",
     "camera": "tres-cuartos-alto",
     "labels": [
-      "Boca arriba, brazos al techo",
-      "Estira brazo y pierna contrarios"
+      "Estira brazo y pierna contrarios",
+      "Boca arriba, brazos al techo"
     ],
     "msPerFrame": 320,
     "steps": 5
@@ -730,8 +730,8 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
     "orient": "de-pie",
     "camera": "frontal",
     "labels": [
-      "Banda al pecho, no te gires",
-      "Estira los brazos al frente"
+      "Estira los brazos al frente",
+      "Banda al pecho, no te gires"
     ],
     "msPerFrame": 300,
     "steps": 5
@@ -753,8 +753,8 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
     "orient": "de-lado",
     "camera": "tres-cuartos-alto",
     "labels": [
-      "Plancha lateral sobre el codo",
-      "Cadera arriba, cuerpo recto"
+      "Cadera arriba, cuerpo recto",
+      "Plancha lateral sobre el codo"
     ],
     "msPerFrame": 320,
     "steps": 5
@@ -776,8 +776,8 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
     "orient": "cuadrupedia",
     "camera": "tres-cuartos",
     "labels": [
-      "A cuatro patas",
-      "Estira brazo y pierna contrarios"
+      "Estira brazo y pierna contrarios",
+      "A cuatro patas"
     ],
     "msPerFrame": 340,
     "steps": 5
@@ -799,8 +799,8 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
     "orient": "de-pie",
     "camera": "tres-cuartos",
     "labels": [
-      "Contacto corto y rígido",
-      "Rebota desde el tobillo"
+      "Rebota desde el tobillo",
+      "Contacto corto y rígido"
     ],
     "msPerFrame": 84,
     "steps": 5
@@ -822,8 +822,8 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
     "orient": "de-pie",
     "camera": "frontal",
     "labels": [
-      "Salta al lado",
-      "Congela 1 s el aterrizaje"
+      "Congela 1 s el aterrizaje",
+      "Salta al lado"
     ],
     "msPerFrame": 220,
     "steps": 5
@@ -845,8 +845,8 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
     "orient": "de-pie",
     "camera": "tres-cuartos",
     "labels": [
-      "Pequeño salto",
-      "Cae listo para salir"
+      "Cae listo para salir",
+      "Pequeño salto"
     ],
     "msPerFrame": 124,
     "steps": 5
@@ -868,8 +868,8 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
     "orient": "de-pie",
     "camera": "frontal",
     "labels": [
-      "Cae sobre una pierna",
-      "Aguanta sin que la rodilla caiga"
+      "Aguanta sin que la rodilla caiga",
+      "Cae sobre una pierna"
     ],
     "msPerFrame": 300,
     "steps": 5
@@ -891,8 +891,8 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
     "orient": "de-pie",
     "camera": "frontal",
     "labels": [
-      "Codo pegado al cuerpo",
-      "Abre el antebrazo"
+      "Abre el antebrazo",
+      "Codo pegado al cuerpo"
     ],
     "msPerFrame": 300,
     "steps": 5
@@ -914,8 +914,8 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
     "orient": "de-pie",
     "camera": "frontal",
     "labels": [
-      "Brazos al frente",
-      "Abre hasta el pecho"
+      "Abre hasta el pecho",
+      "Brazos al frente"
     ],
     "msPerFrame": 300,
     "steps": 5
@@ -937,8 +937,8 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
     "orient": "de-pie",
     "camera": "frontal",
     "labels": [
-      "Brazos en la pared, codos abajo",
-      "Desliza hacia arriba"
+      "Desliza hacia arriba",
+      "Brazos en la pared, codos abajo"
     ],
     "msPerFrame": 320,
     "steps": 5
@@ -960,8 +960,8 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
     "orient": "de-pie",
     "camera": "tres-cuartos",
     "labels": [
-      "Trote muy suave",
-      "Casi andando"
+      "Casi andando",
+      "Trote muy suave"
     ],
     "msPerFrame": 140,
     "steps": 5
@@ -983,8 +983,8 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
     "orient": "de-pie",
     "camera": "lateral",
     "labels": [
-      "Pierna adelante",
-      "Pierna atrás, relajada"
+      "Pierna atrás, relajada",
+      "Pierna adelante"
     ],
     "msPerFrame": 200,
     "steps": 5
@@ -1006,8 +1006,8 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
     "orient": "de-pie",
     "camera": "tres-cuartos",
     "labels": [
-      "Dibuja círculos con el tobillo",
-      "En los dos sentidos"
+      "En los dos sentidos",
+      "Dibuja círculos con el tobillo"
     ],
     "msPerFrame": 200,
     "steps": 5
@@ -1029,8 +1029,8 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
     "orient": "de-pie",
     "camera": "tres-cuartos",
     "labels": [
-      "Prepara el golpe",
-      "Acompaña con el cuerpo"
+      "Acompaña con el cuerpo",
+      "Prepara el golpe"
     ],
     "msPerFrame": 200,
     "steps": 5
@@ -1052,8 +1052,8 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
     "orient": "de-pie",
     "camera": "lateral",
     "labels": [
-      "Pierna atrás estirada",
-      "Ahora dobla la de atrás, sóleo"
+      "Ahora dobla la de atrás, sóleo",
+      "Pierna atrás estirada"
     ],
     "msPerFrame": 360,
     "steps": 5
@@ -1075,8 +1075,8 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
     "orient": "de-pie",
     "camera": "tres-cuartos",
     "labels": [
-      "Rodilla en el suelo",
-      "Mete la cadera hacia delante"
+      "Mete la cadera hacia delante",
+      "Rodilla en el suelo"
     ],
     "msPerFrame": 360,
     "steps": 5
@@ -1098,8 +1098,8 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
     "orient": "boca-arriba",
     "camera": "tres-cuartos-alto",
     "labels": [
-      "Boca arriba, manos en las costillas",
-      "Inspira abriendo las costillas"
+      "Inspira abriendo las costillas",
+      "Boca arriba, manos en las costillas"
     ],
     "msPerFrame": 520,
     "steps": 5

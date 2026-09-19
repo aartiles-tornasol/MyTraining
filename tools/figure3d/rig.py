@@ -95,6 +95,8 @@ DEFAULT_POSE = {
     'r_sho': 0.0, 'r_sabd': 0.0, 'r_srot': 0.0, 'r_elb': 0.0,
     'l_sho': 0.0, 'l_sabd': 0.0, 'l_srot': 0.0, 'l_elb': 0.0,
     'lift': 0.0,
+    # ('joint', z) pins that joint instead of dropping the body. See solve().
+    'anchor': None,
 }
 
 
@@ -142,10 +144,21 @@ def solve(pose, orient='de-pie'):
         out[side + '_hip'], out[side + '_knee'] = hip, knee
         out[side + '_ankle'], out[side + '_toe'], out[side + '_heel'] = ankle, toe, heel
 
-    # Drop onto the floor: the lowest piece of body rests at z = 0.
-    pad = {'head': SEG['head_r']}
-    low = min(v[2] - pad.get(k, 0.05) for k, v in out.items())
-    dz = -low + p['lift']
+    # Placement. By default the lowest piece of body rests at z = 0, which is
+    # right for anything standing on the floor. It is wrong the moment one part
+    # is meant to stay put while another lifts: raise the heels while seated and
+    # the toes become the lowest point, so the whole body rises and the backside
+    # leaves the chair. `anchor` pins a named joint at a height instead, and the
+    # rest of the body moves around it.
+    anchor = p.get('anchor')
+    if anchor:
+        joint, height = anchor
+        dz = height - out[joint][2]
+    else:
+        pad = {'head': SEG['head_r']}
+        low = min(v[2] - pad.get(k, 0.05) for k, v in out.items())
+        dz = -low
+    dz += p['lift']
     return {k: (v[0], v[1], v[2] + dz) for k, v in out.items()}
 
 
