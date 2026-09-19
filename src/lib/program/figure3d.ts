@@ -514,7 +514,7 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
       "f14.webp"
     ],
     "orient": "de-pie",
-    "camera": "tres-cuartos-alto",
+    "camera": "tres-cuartos",
     "labels": [
       "De pie sobre una pierna, bisagra",
       "Abre la cadera despacio",

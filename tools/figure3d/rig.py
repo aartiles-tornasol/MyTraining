@@ -107,7 +107,11 @@ def solve(pose, orient='de-pie'):
     root = matmul(matmul(rz(oz + p['yaw']), ry(oy + p['roll'])), rx(ox + p['pitch']))
 
     pelvis = (0.0, 0.0, 0.0)
-    trunk = matmul(root, matmul(rz(p['spine_twist']), matmul(ry(p['spine_side']), rx(p['spine']))))
+    # Trunk flexion: the limb solvers point a bone down and rotate it, so
+    # positive is forward there. The trunk points up, which reverses the sense,
+    # so it is negated here and `spine` means forward flexion everywhere.
+    trunk = matmul(root, matmul(rz(p['spine_twist']),
+                                matmul(ry(p['spine_side']), rx(-p['spine']))))
 
     neck = add(pelvis, apply(trunk, UP), SEG['torso'])
     head_frame = matmul(trunk, rx(p['head']))
