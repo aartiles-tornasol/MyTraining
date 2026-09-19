@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { Shell, Card } from '@/components/ui/Shell';
 import { ProfileForm } from '@/components/ProfileForm';
 import { getToday } from '@/lib/data';
@@ -20,7 +21,7 @@ export default async function Ajustes() {
           weightKg={profile.weight_kg === null ? null : Number(profile.weight_kg)}
           disabled={!dbConfigured}
         />
-        <p className="mt-3 text-[0.7rem] leading-snug text-ink-500">
+        <p className="mt-3 text-[0.7rem] leading-snug text-ink-400">
           La fecha de inicio decide en qué semana y fase estás. Ahora mismo: semana{' '}
           {plan.week}, fase {plan.phase}.
         </p>
@@ -69,6 +70,20 @@ export default async function Ajustes() {
             </li>
           ))}
         </ul>
+      </Card>
+
+      <Card className="mb-4">
+        <p className="mb-1 text-base font-bold">Repasar las pantallas de sesión</p>
+        <p className="mb-3 text-xs leading-snug text-ink-400">
+          Recorre una a una todas las pantallas que verás mientras entrenas, tal cual
+          salen, sin cronómetro y sin guardar nada. Para revisar los dibujos y los textos.
+        </p>
+        <Link
+          href="/revision"
+          className="block rounded-xl border border-signal-violet/40 bg-signal-violet/10 py-3 text-center text-sm font-bold text-signal-violet"
+        >
+          Abrir modo revisión
+        </Link>
       </Card>
 
       <Card tone="warn">
