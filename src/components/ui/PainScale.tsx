@@ -64,7 +64,7 @@ export function PainScale({
           );
         })}
       </div>
-      <div className="mt-1 flex justify-between text-[0.65rem] text-ink-500">
+      <div className="mt-1 flex justify-between text-[0.65rem] text-ink-400">
         <span>0 · nada</span>
         <span>10 · mucho</span>
       </div>

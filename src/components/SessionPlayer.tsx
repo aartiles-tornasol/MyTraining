@@ -2,8 +2,8 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ExerciseAnimation } from './figure/ExerciseAnimation';
 import { TimerRing } from './ui/TimerRing';
+import { WorkCard } from './WorkCard';
 import { PainScale } from './ui/PainScale';
 import { EXERCISES } from '@/lib/program/exercises';
 import { animFor, levelFor } from '@/lib/program/plan';
@@ -293,7 +293,7 @@ export function SessionPlayer({
           <TimerRing remaining={remaining} total={step.seconds} color="#5eb0ff" label="restante" />
           {nextEx ? (
             <div className="text-center">
-              <p className="text-xs uppercase tracking-wider text-ink-500">A continuación</p>
+              <p className="text-xs uppercase tracking-wider text-ink-400">A continuación</p>
               <p className="mt-1 text-lg font-bold">{nextEx.name}</p>
             </div>
           ) : null}
@@ -337,67 +337,26 @@ export function SessionPlayer({
 
   return (
     <PlayerFrame progress={progress} elapsed={elapsed} onQuit={() => router.push('/')}>
-      <div className="flex flex-1 flex-col">
-        <div className="flex items-start justify-between gap-3">
-          <div className="min-w-0">
-            <p className="text-[1.35rem] font-bold leading-tight">{exercise.name}</p>
-            <p className="text-[0.8rem] text-ink-400">
-              Serie {step.set + 1} de {item.sets}
-              {step.side !== 'both' ? ` · pierna ${step.side}` : ''}
-              {level ? ` · ${level.name}` : ''}
-            </p>
-          </div>
-          <button
-            type="button"
-            onClick={() => setShowInfo(true)}
-            aria-label="Cómo se hace"
-            className="shrink-0 rounded-full border border-ink-600 px-3 py-1.5 text-xs font-bold text-ink-300"
-          >
-            Cómo
-          </button>
-        </div>
-
-        <div className="relative mx-auto my-2 w-full max-w-[19rem] flex-1">
-          <ExerciseAnimation anim={animFor(item.exercise, phase, levelOffsets[item.exercise] ?? 0)} className="h-full w-full" />
-        </div>
-
-        {item.cue ? (
-          <p className="mb-3 rounded-lg bg-ink-800/80 px-3 py-2 text-center text-[0.8rem] leading-snug text-ink-300">
-            {item.cue}
-          </p>
-        ) : null}
-
-        <div className="flex items-center justify-center">
-          {timed ? (
-            <TimerRing
-              remaining={remaining}
-              total={step.seconds}
-              label={running ? 'aguanta' : 'listo'}
-              size={168}
-            />
-          ) : (
-            <div className="text-center">
-              <p className="text-[3.4rem] font-bold leading-none text-lime-glow tabular-nums">
-                {item.work.reps}
-              </p>
-              <p className="text-sm font-semibold text-ink-300">
-                repeticiones{item.work.perSide ? ' por lado' : ''}
-                {item.work.tempo ? ` · tempo ${item.work.tempo}` : ''}
-              </p>
-            </div>
-          )}
-        </div>
-
-        {item.load ? (
-          <div className="mt-3 flex items-center justify-center gap-2">
-            <span className="text-xs text-ink-400">{item.load}</span>
-            <LoadInput
-              value={load}
-              onChange={(kg) => setLoads((l) => ({ ...l, [item.exercise]: kg }))}
-            />
-          </div>
-        ) : null}
-      </div>
+      <WorkCard
+        name={exercise.name}
+        subtitle={
+          `Serie ${step.set + 1} de ${item.sets}` +
+          (step.side !== 'both' ? ` · pierna ${step.side}` : '') +
+          (level ? ` · ${level.name}` : '')
+        }
+        anim={animFor(item.exercise, phase, levelOffsets[item.exercise] ?? 0)}
+        cue={item.cue}
+        timer={timed ? { remaining, total: step.seconds, label: running ? 'aguanta' : 'listo' } : undefined}
+        reps={timed ? undefined : item.work}
+        loadLabel={item.load}
+        loadSlot={
+          <LoadInput
+            value={load}
+            onChange={(kg) => setLoads((l) => ({ ...l, [item.exercise]: kg }))}
+          />
+        }
+        onInfo={() => setShowInfo(true)}
+      />
 
       <div className="flex gap-3">
         <button
@@ -489,7 +448,7 @@ function LoadInput({ value, onChange }: { value: number | null; onChange: (kg: n
   );
 }
 
-function HowTo({ exerciseKey, onClose }: { exerciseKey: string; onClose: () => void }) {
+export function HowTo({ exerciseKey, onClose }: { exerciseKey: string; onClose: () => void }) {
   const ex = EXERCISES[exerciseKey];
   if (!ex) return null;
   return (
@@ -555,7 +514,7 @@ function Bullets({
     <ol className="space-y-1.5">
       {items.map((t, i) => (
         <li key={t} className="flex gap-2 text-[0.86rem] leading-snug text-ink-200">
-          <span className={tone === 'alert' ? 'text-signal-alert' : 'text-ink-500'}>
+          <span className={tone === 'alert' ? 'text-signal-alert' : 'text-ink-400'}>
             {tone === 'alert' ? '×' : numbered ? `${i + 1}.` : '·'}
           </span>
           <span>{t}</span>

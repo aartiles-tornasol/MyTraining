@@ -29,7 +29,6 @@ const list: SessionDef[] = [
       2: [
         it('calf-raise-single', 4, { reps: 8, perSide: true, tempo: '2-0-3' }, 90, {
           load: 'Mochila 8-12 kg',
-          cue: 'Este es el ejercicio importante del día. No tengas prisa.',
         }),
         it('soleus-seated', 3, { reps: 15, tempo: '2-1-3' }, 60, { load: '2 x 5 kg' }),
         it('single-leg-rdl', 3, { reps: 8, perSide: true }, 60, { load: '2 x 5 kg' }),
@@ -39,9 +38,7 @@ const list: SessionDef[] = [
         it('calf-raise-single', 4, { reps: 6, perSide: true, tempo: '3-0-3' }, 90, {
           load: 'Mochila 15-20 kg',
         }),
-        it('heel-drop-step', 3, { reps: 8, perSide: true, tempo: '3-0-2' }, 75, {
-          cue: 'Solo si la rigidez matutina está en 2/10 o menos.',
-        }),
+        it('heel-drop-step', 3, { reps: 8, perSide: true, tempo: '3-0-2' }, 75),
         it('pogo-hops', 3, { reps: 15 }, 60, { cue: 'Contactos cortos, como un muelle.' }),
         it('single-leg-rdl', 2, { reps: 8, perSide: true }, 60, { load: '2 x 5 kg' }),
       ],
@@ -91,9 +88,7 @@ const list: SessionDef[] = [
     heavy: false,
     items: {
       1: [
-        it('iso-calf-double', 4, { holdSec: 45 }, 60, {
-          cue: 'Lo que más baja el dolor del tendón. No lo saltes.',
-        }),
+        it('iso-calf-double', 4, { holdSec: 45 }, 60),
         it('soleus-wall-iso', 3, { holdSec: 30 }, 45),
         it('knee-to-wall', 2, { reps: 10, perSide: true }, 30),
         it('toe-walk', 2, { timeSec: 30 }, 45),
@@ -188,9 +183,7 @@ const list: SessionDef[] = [
         it('ankle-circles', 1, { reps: 6, perSide: true }, 5),
         it('leg-swings', 1, { reps: 8, perSide: true }, 5),
         it('banded-lateral-walk', 1, { reps: 10, perSide: true }, 10),
-        it('iso-calf-double', 2, { holdSec: 30 }, 20, {
-          cue: 'Clave: deja el tendón preparado y con menos dolor durante el partido.',
-        }),
+        it('iso-calf-double', 2, { holdSec: 30 }, 20),
         it('split-step', 1, { reps: 8 }, 10),
         it('shadow-strokes', 1, { reps: 10 }, 0),
       ],

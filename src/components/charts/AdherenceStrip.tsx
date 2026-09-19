@@ -30,7 +30,7 @@ export function AdherenceStrip({
 
   return (
     <div>
-      <div className="mb-2 grid grid-cols-7 gap-1.5 text-center text-[0.6rem] text-ink-500">
+      <div className="mb-2 grid grid-cols-7 gap-1.5 text-center text-[0.6rem] text-ink-400">
         {['L', 'M', 'X', 'J', 'V', 'S', 'D'].map((d, i) => <span key={`${d}${i}`}>{d}</span>)}
       </div>
       <div className="grid grid-cols-7 gap-1.5">

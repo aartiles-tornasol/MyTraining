@@ -128,7 +128,7 @@ export default async function Progreso() {
         )}
       </Card>
 
-      <p className="mt-4 px-1 text-[0.7rem] leading-snug text-ink-500">
+      <p className="mt-4 px-1 text-[0.7rem] leading-snug text-ink-400">
         Fase {plan.phase}: {PHASES[plan.phase].goal.toLowerCase()}.
       </p>
     </Shell>
@@ -167,7 +167,7 @@ function Stat({
       <p className="mt-1.5 text-[0.68rem] font-semibold uppercase tracking-wide text-ink-400">
         {label}
       </p>
-      {foot ? <p className="mt-0.5 text-[0.62rem] leading-tight text-ink-500">{foot}</p> : null}
+      {foot ? <p className="mt-0.5 text-[0.62rem] leading-tight text-ink-400">{foot}</p> : null}
     </div>
   );
 }
