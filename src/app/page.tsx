@@ -2,7 +2,6 @@ import Link from 'next/link';
 import { Shell, Card, Chip } from '@/components/ui/Shell';
 import { DailyCheckCard } from '@/components/DailyCheckCard';
 import { SessionCard } from '@/components/SessionCard';
-import { TomorrowCard } from '@/components/TomorrowCard';
 import { getToday, streakFrom } from '@/lib/data';
 import { longDate } from '@/lib/dates';
 import { PHASES, readTrend, readZoneAlerts, sessionMinutes } from '@/lib/program/plan';
@@ -12,7 +11,7 @@ import { SESSIONS } from '@/lib/program/sessions';
 export const dynamic = 'force-dynamic';
 
 export default async function Home() {
-  const { day, plan, tomorrow, check, history, checks, dbConfigured } = await getToday();
+  const { day, plan, check, history, checks, dbConfigured } = await getToday();
   const streak = streakFrom(history, day);
   const trend = readTrend(checks.map((c) => ({ date: c.day, achillesAM: c.achilles_am })));
   const zoneAlerts = readZoneAlerts(
@@ -134,8 +133,6 @@ export default async function Home() {
         <p className="mt-0.5 text-[0.88rem] font-semibold text-ink-300">{phase.weeks} · {phase.goal}</p>
         <p className="mt-2 text-[1.0rem] leading-relaxed text-ink-200">{phase.detail}</p>
       </Card>
-
-      <TomorrowCard day={tomorrow.day} plan={tomorrow.plan} />
     </Shell>
   );
 }

@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 
 const TABS = [
   { href: '/', label: 'Hoy', icon: 'today' },
+  { href: '/manana', label: 'Mañana', icon: 'sunrise' },
   { href: '/progreso', label: 'Progreso', icon: 'chart' },
   { href: '/ejercicios', label: 'Ejercicios', icon: 'grid' },
   { href: '/ajustes', label: 'Ajustes', icon: 'gear' },
@@ -26,6 +27,14 @@ function Icon({ name, active }: { name: string; active: boolean }) {
           <rect x="3.5" y="5" width="17" height="15" rx="3" />
           <path d="M3.5 9.5h17M8 3.5v3M16 3.5v3" />
           <circle cx="12" cy="14.5" r="2.2" fill={stroke} stroke="none" />
+        </g>
+      )}
+      {/* Amanecer: la sesión de mañana se prepara la noche antes para hacerla
+          temprano, y un sol saliendo lo dice mejor que otro calendario. */}
+      {name === 'sunrise' && (
+        <g {...common}>
+          <path d="M3.5 19.5h17M6.5 16a5.5 5.5 0 0 1 11 0" />
+          <path d="M12 3.5v2.5M4.6 7.1l1.8 1.8M19.4 7.1l-1.8 1.8" />
         </g>
       )}
       {name === 'chart' && (

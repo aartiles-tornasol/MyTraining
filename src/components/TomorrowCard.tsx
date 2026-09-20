@@ -1,64 +1,94 @@
-import { Card, Chip } from './ui/Shell';
+'use client';
+
+import { useState } from 'react';
+import { Card } from './ui/Shell';
+import { HowTo } from './SessionPlayer';
 import { EXERCISES, EQUIPMENT_LABEL } from '@/lib/program/exercises';
-import { longDate } from '@/lib/dates';
 import type { DayPlan } from '@/lib/program/plan';
 
 /**
- * Lo que toca mañana, para poder dejarlo preparado la noche antes: qué sesión,
- * cuánto dura, qué ejercicios y qué material hay que tener a mano.
+ * El detalle escrito de la sesión de mañana: qué series toca, cómo se hace cada
+ * ejercicio y qué material dejar preparado. Las figuras las pone la tarjeta de
+ * sesión, arriba; aquí van los números y el acceso al vídeo.
  *
- * Es una previsión, no la sesión definitiva: mañana no hay chequeo todavía, así
- * que se calcula como si se amaneciera sin dolor. La tarjeta lo dice, porque
- * entrenar de madrugada con el material equivocado a mano es justo lo que esto
- * intenta evitar, pero prometer una sesión exacta sería mentir.
+ * El "?" abre la misma hoja que durante la sesión, con el vídeo arriba: quien
+ * prepara la sesión la noche antes quiere repasar el movimiento entonces, no
+ * descubrirlo a las siete de la mañana con la primera serie empezada.
  */
-export function TomorrowCard({ day, plan }: { day: string; plan: DayPlan }) {
+export function TomorrowDetail({ plan }: { plan: DayPlan }) {
+  const [open, setOpen] = useState<string | null>(null);
+
   /* El material de todos los ejercicios, sin repetir. "Sin material" solo se
      menciona cuando de verdad no hace falta nada. */
   const gear = [...new Set(plan.items.flatMap((i) => EXERCISES[i.exercise]?.equipment ?? []))]
     .filter((e) => e !== 'ninguno');
 
   return (
-    <Card className="mt-4">
-      <div className="flex items-baseline justify-between gap-3">
-        <p className="text-base font-bold">Mañana</p>
-        <p className="text-[0.85rem] text-ink-300">{longDate(day)}</p>
-      </div>
-
-      <div className="mt-2 flex flex-wrap items-center gap-2">
-        <Chip tone="lime">{plan.session.name}</Chip>
-        <Chip>{plan.minutes} min</Chip>
-        {plan.session.heavy ? <Chip tone="info">Sesión pesada</Chip> : null}
-      </div>
-
-      <ol className="mt-3 space-y-1">
-        {plan.items.map((i, n) => (
-          <li key={`${i.exercise}-${n}`} className="flex gap-2 text-[0.95rem] leading-snug">
-            <span className="w-4 shrink-0 text-right tabular-nums text-ink-400">{n + 1}</span>
-            <span className="text-ink-100">
-              {EXERCISES[i.exercise]?.name ?? i.exercise}
-              <span className="text-ink-400"> · {setsLabel(i)}</span>
-            </span>
-          </li>
-        ))}
-      </ol>
-
-      <div className="mt-3 border-t border-ink-700/70 pt-3">
-        <p className="text-[0.8rem] font-bold uppercase tracking-wider text-lime-glow">
-          Material
+    <>
+      <Card className="mb-4">
+        <p className="mb-2 text-[0.8rem] font-bold uppercase tracking-wider text-lime-glow">
+          Lo que toca
         </p>
-        <p className="mt-1 text-[0.95rem] leading-relaxed text-ink-100">
-          {gear.length === 0
-            ? 'Nada: todo es con tu peso.'
-            : gear.map((e) => EQUIPMENT_LABEL[e] ?? e).join(' · ')}
+        <ol className="space-y-2.5">
+          {plan.items.map((i, n) => {
+            const ex = EXERCISES[i.exercise];
+            return (
+              <li key={`${i.exercise}-${n}`} className="flex items-start gap-2.5">
+                <span className="w-4 shrink-0 pt-0.5 text-right text-[0.95rem] tabular-nums text-ink-400">
+                  {n + 1}
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="block text-[1.0rem] font-semibold leading-snug">
+                    {ex?.name ?? i.exercise}
+                  </span>
+                  <span className="text-[0.88rem] text-ink-300">{setsLabel(i)}</span>
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setOpen(i.exercise)}
+                  aria-label={`Cómo se hace: ${ex?.name ?? i.exercise}`}
+                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-ink-600 text-[0.9rem] font-bold text-ink-300"
+                >
+                  ?
+                </button>
+              </li>
+            );
+          })}
+        </ol>
+        <p className="mt-3 text-[0.82rem] text-ink-400">
+          Toca el <span className="font-bold">?</span> de cada ejercicio para ver el vídeo y
+          repasar la técnica.
         </p>
-      </div>
+      </Card>
 
-      <p className="mt-3 text-[0.82rem] leading-relaxed text-ink-400">
-        Previsión con la rotación de la semana. Si mañana amaneces con el Aquiles alto, la
-        sesión se ajustará sola al puntuar el chequeo.
+      <Card className="mb-4">
+        <p className="mb-1.5 text-[0.8rem] font-bold uppercase tracking-wider text-lime-glow">
+          Material que dejar preparado
+        </p>
+        {gear.length === 0 ? (
+          <p className="text-[1.05rem] leading-relaxed text-ink-100">
+            Nada: mañana es todo con tu peso.
+          </p>
+        ) : (
+          <ul className="space-y-1">
+            {gear.map((e) => (
+              <li key={e} className="flex items-center gap-2 text-[1.05rem] text-ink-100">
+                <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-lime-core" />
+                {EQUIPMENT_LABEL[e] ?? e}
+              </li>
+            ))}
+          </ul>
+        )}
+      </Card>
+
+      <p className="px-1 text-[0.85rem] leading-relaxed text-ink-400">
+        Es una previsión con la rotación de la semana. Mañana todavía no has puntuado nada, así
+        que está calculada como si amanecieras sin dolor: si te levantas con el Aquiles alto, la
+        sesión se ajustará sola al hacer el chequeo.
       </p>
-    </Card>
+
+      {open ? <HowTo exerciseKey={open} onClose={() => setOpen(null)} /> : null}
+    </>
   );
 }
 
@@ -70,5 +100,5 @@ function setsLabel(item: DayPlan['items'][number]): string {
     : w.holdSec
       ? `${w.holdSec} s`
       : `${w.reps ?? 10}${w.perSide ? ' por lado' : ''}`;
-  return `${item.sets} × ${each}`;
+  return `${item.sets} × ${each}${w.tempo ? ` · tempo ${w.tempo}` : ''}`;
 }

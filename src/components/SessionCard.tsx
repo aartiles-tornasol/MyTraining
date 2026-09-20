@@ -22,7 +22,8 @@ export function SessionCard({
   href: string;
   reason?: string;
   mode?: string;
-  cta?: string;
+  /** null deja la tarjeta sin botón: la previsión de mañana no se empieza hoy. */
+  cta?: string | null;
 }) {
   const minutes = sessionMinutes(items);
   return (
@@ -83,12 +84,14 @@ export function SessionCard({
         })}
       </ul>
 
-      <Link
-        href={href}
-        className="mt-4 flex w-full items-center justify-center rounded-xl bg-lime-core py-4 text-base font-bold text-ink-950 transition active:scale-[0.98]"
-      >
-        {cta}
-      </Link>
+      {cta ? (
+        <Link
+          href={href}
+          className="mt-4 flex w-full items-center justify-center rounded-xl bg-lime-core py-4 text-base font-bold text-ink-950 transition active:scale-[0.98]"
+        >
+          {cta}
+        </Link>
+      ) : null}
     </Card>
   );
 }
