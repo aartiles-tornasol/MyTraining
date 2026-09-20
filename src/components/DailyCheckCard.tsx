@@ -4,29 +4,30 @@ import { useState, useTransition } from 'react';
 import { PainScale } from './ui/PainScale';
 import { Card } from './ui/Shell';
 import { saveCheck } from '@/lib/actions';
+import { ZONES } from '@/lib/program/zones';
+import type { ZoneKey } from '@/lib/program/zones';
 import type { DailyCheck } from '@/lib/data';
+
+type Scores = Record<ZoneKey, number | null>;
+
+const scoresFrom = (check: DailyCheck | null): Scores =>
+  Object.fromEntries(ZONES.map((z) => [z.column, check?.[z.column] ?? null])) as Scores;
 
 export function DailyCheckCard({ check, day }: { check: DailyCheck | null; day: string }) {
   const done = check?.achilles_am != null;
   const [open, setOpen] = useState(!done);
-  const [achilles, setAchilles] = useState<number | null>(check?.achilles_am ?? null);
-  const [adductor, setAdductor] = useState<number | null>(check?.adductor ?? null);
-  const [hamstring, setHamstring] = useState<number | null>(check?.hamstring ?? null);
-  const [piriformis, setPiriformis] = useState<number | null>(check?.piriformis ?? null);
-  const [pubic, setPubic] = useState<number | null>(check?.pubic ?? null);
+  const [scores, setScores] = useState<Scores>(() => scoresFrom(check));
   const [playing, setPlaying] = useState(check?.playing_today ?? false);
   const [help, setHelp] = useState(false);
   const [pending, start] = useTransition();
+
+  const set = (column: ZoneKey, n: number) => setScores((s) => ({ ...s, [column]: n }));
 
   const submit = () => {
     start(async () => {
       await saveCheck({
         day,
-        achillesAM: achilles,
-        adductor,
-        hamstring,
-        piriformis,
-        pubic,
+        ...Object.fromEntries(ZONES.map((z) => [z.input, scores[z.column]])),
         playingToday: playing,
       });
       setOpen(false);
@@ -47,8 +48,7 @@ export function DailyCheckCard({ check, day }: { check: DailyCheck | null; day: 
           <div className="min-w-0">
             <p className="text-base font-semibold">Chequeo de hoy hecho</p>
             <p className="mt-0.5 text-[0.88rem] leading-relaxed text-ink-300">
-              Aquiles {achilles}/10 · aductores {adductor ?? '—'} · isquios {hamstring ?? '—'} ·
-              piramidal {piriformis ?? '—'} · pubis {pubic ?? '—'}
+              Dolor hoy · {ZONES.map((z) => `${z.short} ${scores[z.column] ?? '—'}`).join(' · ')}
             </p>
           </div>
           <button
@@ -69,8 +69,14 @@ export function DailyCheckCard({ check, day }: { check: DailyCheck | null; day: 
 
   return (
     <Card tone="accent" className="mb-4">
-      <div className="flex items-center justify-between gap-3">
-        <p className="text-base font-bold">Chequeo de la mañana</p>
+      <div className="flex items-start justify-between gap-3">
+        <div>
+          <p className="text-base font-bold">Chequeo de la mañana</p>
+          <p className="mt-0.5 text-[0.92rem] leading-relaxed text-ink-300">
+            Puntúa el <span className="font-semibold text-ink-100">dolor o molestia</span> de cada
+            zona: 0 es nada y 10 es mucho.
+          </p>
+        </div>
         <button
           type="button"
           onClick={() => setHelp((v) => !v)}
@@ -91,21 +97,14 @@ export function DailyCheckCard({ check, day }: { check: DailyCheck | null; day: 
       ) : null}
 
       <div className="mt-4 space-y-5">
-        <PainScale
-          label="Tendones de Aquiles"
-          hint="Los primeros pasos al salir de la cama"
-          value={achilles}
-          onChange={setAchilles}
-        />
-        <PainScale label="Aductores / ingle" value={adductor} onChange={setAdductor} />
-        <PainScale label="Isquiotibiales" value={hamstring} onChange={setHamstring} />
-        <PainScale label="Piramidal / glúteo" value={piriformis} onChange={setPiriformis} />
-        <PainScale
-          label="Pubis / pubalgia"
-          hint="Encima de los genitales, debajo del estómago"
-          value={pubic}
-          onChange={setPubic}
-        />
+        {ZONES.map((z) => (
+          <PainScale
+            key={z.column}
+            label={z.label}
+            value={scores[z.column]}
+            onChange={(n) => set(z.column, n)}
+          />
+        ))}
       </div>
 
       <label className="mt-5 flex items-center justify-between gap-3 rounded-lg bg-ink-800 px-3 py-3">
@@ -116,7 +115,7 @@ export function DailyCheckCard({ check, day }: { check: DailyCheck | null; day: 
       <button
         type="button"
         onClick={submit}
-        disabled={achilles === null || pending}
+        disabled={scores.achilles_am === null || pending}
         className="mt-4 w-full rounded-xl bg-lime-core py-3.5 text-base font-bold text-ink-950 transition active:scale-[0.98] disabled:opacity-40"
       >
         {pending ? 'Guardando…' : 'Guardar y ver la sesión de hoy'}

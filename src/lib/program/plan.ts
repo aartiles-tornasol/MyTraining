@@ -1,5 +1,7 @@
 import { EXERCISES } from './exercises';
 import { SESSIONS, WEEKLY_ROTATION } from './sessions';
+import { ZONES } from './zones';
+import type { ZoneKey } from './zones';
 import type { Phase, SessionDef, SessionItem, Work } from './types';
 
 export const PHASES: Record<Phase, {
@@ -109,7 +111,9 @@ export interface DayInput {
   /** This morning's Achilles stiffness, 0-10. Null when not logged yet. */
   achillesAM: number | null;
   adductor: number | null;
+  hamstring: number | null;
   piriformis: number | null;
+  pubic: number | null;
   /** Completed sessions, most recent first: { date, sessionKey }. */
   history: { date: string; sessionKey: string }[];
 }
@@ -147,6 +151,64 @@ function daysSinceSession(history: DayInput['history'], today: string, pred: (k:
   const hit = history.find((h) => pred(h.sessionKey));
   return hit ? daysBetween(hit.date, today) : NEVER;
 }
+
+/**
+ * What each zone takes out of the day's session once it hurts enough, and how
+ * that is explained. The thresholds are deliberately different: an irritated
+ * adductor tolerates less than a piriformis that only dislikes being stretched.
+ */
+interface ZoneRule {
+  field: 'adductor' | 'hamstring' | 'piriformis' | 'pubic';
+  name: string;
+  from: number;
+  drop: string[];
+  say: (score: number) => string;
+}
+
+/** Above this, no amount of swapping exercises is the right answer. */
+const SEE_A_PHYSIO = 7;
+
+const ZONE_RULES: ZoneRule[] = [
+  {
+    field: 'adductor',
+    name: 'Aductores',
+    from: 4,
+    drop: ['copenhagen-long', 'copenhagen-short', 'cossack-squat', 'lateral-bound'],
+    say: (n) => 'Aductores en ' + n + '/10: hoy se quitan los Copenhagen y el trabajo lateral fuerte.',
+  },
+  {
+    field: 'hamstring',
+    name: 'Isquiotibiales',
+    from: 4,
+    // Both load the hamstring at full length, which is what an irritated one
+    // hates. The bridges stay: they work it short and usually calm it down.
+    drop: ['single-leg-rdl', 'leg-swings'],
+    say: (n) =>
+      'Isquios en ' + n + '/10: fuera el peso muerto rumano y los balanceos de pierna, que es donde ' +
+      'más se estira. Los puentes se quedan, que trabajan en corto y suelen aliviar.',
+  },
+  {
+    field: 'piriformis',
+    name: 'Piramidal',
+    from: 5,
+    drop: ['figure-4-stretch'],
+    say: () => 'Con el piramidal irritado, estirarlo fuerte lo empeora. Hoy se queda fuera.',
+  },
+  {
+    field: 'pubic',
+    name: 'Pubis',
+    from: 4,
+    // Resisted adduction and hard changes of direction are what wind up the
+    // pubic symphysis; the cushion isometric is the one thing that settles it.
+    drop: [
+      'copenhagen-long', 'copenhagen-short', 'side-lying-adduction',
+      'cossack-squat', 'lateral-lunge', 'lateral-bound',
+    ],
+    say: (n) =>
+      'Pubis en ' + n + '/10: hoy sin aducción con carga ni zancadas laterales. El isométrico con ' +
+      'cojín se mantiene, que es el que calma la zona.',
+  },
+];
 
 export function planDay(input: DayInput): DayPlan {
   const week = weekNumber(input.startDate, input.today);
@@ -207,14 +269,17 @@ export function planDay(input: DayInput): DayPlan {
   if (mode === 'suave') items = softenForTendon(items);
   if (mode === 'descarga') items = items.filter((i) => !HEAVY_TENDON.has(i.exercise));
 
-  if (input.adductor !== null && input.adductor >= 4) {
-    items = items.filter((i) => !['copenhagen-long', 'copenhagen-short', 'cossack-squat', 'lateral-bound']
-      .includes(i.exercise));
-    warnings.push('Aductores en ' + input.adductor + '/10: hoy se quitan los Copenhagen y el trabajo lateral fuerte.');
-  }
-  if (input.piriformis !== null && input.piriformis >= 5) {
-    items = items.filter((i) => i.exercise !== 'figure-4-stretch');
-    warnings.push('Con el piramidal irritado, estirarlo fuerte lo empeora. Hoy se queda fuera.');
+  for (const rule of ZONE_RULES) {
+    const score = input[rule.field];
+    if (score === null || score < rule.from) continue;
+    items = items.filter((i) => !rule.drop.includes(i.exercise));
+    warnings.push(rule.say(score));
+    if (score >= SEE_A_PHYSIO) {
+      warnings.push(
+        rule.name + ' en ' + score + '/10 es mucho. Si sigue así varios días, que lo vea un fisio ' +
+        'antes de seguir cargando.',
+      );
+    }
   }
 
   const suggestExtras: string[] = [];
@@ -301,4 +366,52 @@ export function readTrend(recent: { date: string; achillesAM: number | null }[])
     };
   }
   return null;
+}
+
+/* ── Trend per zone ─────────────────────────────────────────────────────── */
+
+export interface ZoneAlert {
+  zone: string;
+  tone: 'watch' | 'back-off';
+  text: string;
+}
+
+/**
+ * The Achilles has readTrend() to itself because it steers the whole programme.
+ * The other zones only need answering one question: is this one getting worse?
+ * Three bad days in a row, or a clear jump on last week, and it says so.
+ */
+export function readZoneAlerts(
+  checks: { day: string; scores: Partial<Record<ZoneKey, number | null>> }[],
+): ZoneAlert[] {
+  const out: ZoneAlert[] = [];
+  for (const zone of ZONES) {
+    if (zone.column === 'achilles_am') continue;
+    const scores = checks
+      .map((c) => c.scores[zone.column])
+      .filter((n): n is number => n !== null && n !== undefined);
+    if (scores.length < 4) continue;
+
+    const last3 = scores.slice(0, 3);
+    const last7 = scores.slice(0, 7);
+    const prev7 = scores.slice(7, 14);
+    const mean = (a: number[]) => a.reduce((x, y) => x + y, 0) / a.length;
+
+    if (last3.length === 3 && last3.every((n) => n >= 5)) {
+      out.push({
+        zone: zone.short,
+        tone: 'back-off',
+        text: zone.label + ': tres días seguidos en 5/10 o más. Baja la carga de esa zona esta semana ' +
+          'y, si no cede, que lo vea un fisio.',
+      });
+    } else if (prev7.length >= 4 && mean(last7) > mean(prev7) + 0.8) {
+      out.push({
+        zone: zone.short,
+        tone: 'watch',
+        text: zone.label + ': va a más que la semana pasada. Mira si coincide con más partidos o con ' +
+          'haber subido carga.',
+      });
+    }
+  }
+  return out;
 }

@@ -2,9 +2,11 @@ import { Shell, Card, Chip } from '@/components/ui/Shell';
 import { StiffnessChart } from '@/components/charts/StiffnessChart';
 import { AdherenceStrip } from '@/components/charts/AdherenceStrip';
 import { LoadChart } from '@/components/charts/LoadChart';
+import { ZoneSparklines } from '@/components/charts/ZoneSparklines';
 import { getToday, getLoadByWeek, streakFrom } from '@/lib/data';
 import { addDays } from '@/lib/dates';
-import { readTrend, PHASES } from '@/lib/program/plan';
+import { readTrend, readZoneAlerts, PHASES } from '@/lib/program/plan';
+import { ZONES } from '@/lib/program/zones';
 import { SESSIONS } from '@/lib/program/sessions';
 
 export const dynamic = 'force-dynamic';
@@ -41,6 +43,16 @@ export default async function Progreso() {
   const sessions30 = history.filter((h) => h.day > addDays(day, -30)).length;
   const streak = streakFrom(history, day);
   const trend = readTrend(checks.map((c) => ({ date: c.day, achillesAM: c.achilles_am })));
+  const zoneAlerts = readZoneAlerts(
+    checks.map((c) => ({ day: c.day, scores: Object.fromEntries(ZONES.map((z) => [z.column, c[z.column]])) })),
+  );
+
+  // The same 42-day window as the Achilles chart, so every zone lines up.
+  const days = Array.from({ length: 42 }, (_, i) => addDays(day, -(41 - i)));
+  const zoneSeries = ZONES.filter((z) => z.column !== 'achilles_am').map((z) => {
+    const byDay = new Map(checks.map((c) => [c.day, c[z.column]]));
+    return { label: z.label, short: z.short, values: days.map((d) => byDay.get(d) ?? null) };
+  });
 
   const counts = history.reduce<Record<string, number>>((acc, h) => {
     acc[h.session_key] = (acc[h.session_key] ?? 0) + 1;
@@ -90,6 +102,25 @@ export default async function Progreso() {
         </p>
         <StiffnessChart points={points} />
       </Card>
+
+      <Card className="mb-4">
+        <p className="text-base font-bold">Dolor en el resto de zonas</p>
+        <p className="mb-3 mt-0.5 text-[0.92rem] leading-relaxed text-ink-300">
+          Media de 7 días de lo que puntúas cada mañana. Si una sube, la sesión del día se
+          ajusta sola y aquí se ve venir.
+        </p>
+        <ZoneSparklines series={zoneSeries} />
+      </Card>
+
+      {zoneAlerts.length > 0 ? (
+        <Card tone={zoneAlerts.some((a) => a.tone === 'back-off') ? 'alert' : 'warn'} className="mb-4">
+          <ul className="space-y-1.5">
+            {zoneAlerts.map((a) => (
+              <li key={a.zone} className="text-[1.0rem] leading-relaxed text-ink-100">{a.text}</li>
+            ))}
+          </ul>
+        </Card>
+      ) : null}
 
       <Card className="mb-4">
         <p className="text-base font-bold">Constancia</p>

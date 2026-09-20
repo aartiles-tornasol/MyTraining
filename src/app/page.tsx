@@ -4,7 +4,8 @@ import { DailyCheckCard } from '@/components/DailyCheckCard';
 import { SessionCard } from '@/components/SessionCard';
 import { getToday, streakFrom } from '@/lib/data';
 import { longDate } from '@/lib/dates';
-import { PHASES, readTrend, sessionMinutes } from '@/lib/program/plan';
+import { PHASES, readTrend, readZoneAlerts, sessionMinutes } from '@/lib/program/plan';
+import { ZONES } from '@/lib/program/zones';
 import { SESSIONS } from '@/lib/program/sessions';
 
 export const dynamic = 'force-dynamic';
@@ -13,6 +14,9 @@ export default async function Home() {
   const { day, plan, check, history, checks, dbConfigured } = await getToday();
   const streak = streakFrom(history, day);
   const trend = readTrend(checks.map((c) => ({ date: c.day, achillesAM: c.achilles_am })));
+  const zoneAlerts = readZoneAlerts(
+    checks.map((c) => ({ day: c.day, scores: Object.fromEntries(ZONES.map((z) => [z.column, c[z.column]])) })),
+  );
   const phase = PHASES[plan.phase];
   const doneToday = history.some((h) => h.day === day);
   const needsCheck = check?.achilles_am == null;
@@ -108,6 +112,19 @@ export default async function Home() {
         >
           <p className="text-base font-bold">{trend.title}</p>
           <p className="mt-1 text-[1.0rem] leading-relaxed text-ink-200">{trend.body}</p>
+        </Card>
+      ) : null}
+
+      {zoneAlerts.length > 0 ? (
+        <Card
+          tone={zoneAlerts.some((a) => a.tone === 'back-off') ? 'alert' : 'warn'}
+          className="mb-4"
+        >
+          <ul className="space-y-1.5">
+            {zoneAlerts.map((a) => (
+              <li key={a.zone} className="text-[1.0rem] leading-relaxed text-ink-100">{a.text}</li>
+            ))}
+          </ul>
         </Card>
       ) : null}
 

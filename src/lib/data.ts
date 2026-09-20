@@ -122,7 +122,9 @@ export async function getToday(): Promise<TodayData> {
     playingToday: check?.playing_today ?? false,
     achillesAM: check?.achilles_am ?? null,
     adductor: check?.adductor ?? null,
+    hamstring: check?.hamstring ?? null,
     piriformis: check?.piriformis ?? null,
+    pubic: check?.pubic ?? null,
     history: history.map((h) => ({ date: h.day, sessionKey: h.session_key })),
   });
 
