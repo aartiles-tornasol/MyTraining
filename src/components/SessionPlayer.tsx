@@ -6,6 +6,8 @@ import { TimerRing } from './ui/TimerRing';
 import { WorkCard } from './WorkCard';
 import { PainScale } from './ui/PainScale';
 import { ExerciseVideo } from './ExerciseVideo';
+import { ExerciseAnimation } from './figure/ExerciseAnimation';
+import { Figure3D, has3D } from './figure/Figure3D';
 import { EXERCISES } from '@/lib/program/exercises';
 import { videoFor } from '@/lib/program/videos';
 import { animFor, levelFor } from '@/lib/program/plan';
@@ -504,6 +506,17 @@ export function HowTo({ exerciseKey, onClose }: { exerciseKey: string; onClose: 
         <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-ink-600" />
         <p className="text-xl font-bold">{ex.name}</p>
         <p className="mt-0.5 text-[0.95rem] text-ink-300">{ex.tagline}</p>
+
+        {/* La figura, antes que el vídeo. Durante la sesión está detrás de esta
+            hoja, pero desde Mañana no hay nada que la enseñe, y es lo primero
+            que se reconoce de un ejercicio. */}
+        <div className="mx-auto mt-3 aspect-square w-full max-w-[13rem]">
+          {has3D(exerciseKey) ? (
+            <Figure3D exercise={exerciseKey} showLabel={false} className="h-full w-full" />
+          ) : (
+            <ExerciseAnimation anim={animFor(exerciseKey, 1)} className="h-full w-full" />
+          )}
+        </div>
 
         {video ? (
           <Block title="Cómo se hace">

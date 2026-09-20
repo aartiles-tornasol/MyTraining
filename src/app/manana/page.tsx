@@ -1,6 +1,7 @@
 import { Shell, Card, Chip } from '@/components/ui/Shell';
 import { SessionCard } from '@/components/SessionCard';
 import { TomorrowDetail } from '@/components/TomorrowCard';
+import type { ExtraSession } from '@/components/TomorrowCard';
 import { PlayTomorrow } from '@/components/PlayTomorrow';
 import { getToday } from '@/lib/data';
 import { longDate } from '@/lib/dates';
@@ -20,6 +21,17 @@ export default async function Manana() {
   const { day, plan } = tomorrow;
   const check = checks.find((c) => c.day === day) ?? null;
   const phase = PHASES[plan.phase];
+
+  /* Calentamiento y vuelta a la calma, cuando hay partido: se preparan igual
+     que la sesión, así que se listan enteros y su material cuenta. */
+  const extras: ExtraSession[] = plan.suggestExtras
+    .filter((k) => SESSIONS[k])
+    .map((k) => ({
+      key: k,
+      session: SESSIONS[k],
+      items: SESSIONS[k].items[plan.phase],
+      minutes: sessionMinutes(SESSIONS[k].items[plan.phase]),
+    }));
 
   return (
     <Shell title="Mañana" subtitle={longDate(day)}>
@@ -49,32 +61,8 @@ export default async function Manana() {
         </Card>
       ) : null}
 
-      {plan.suggestExtras.length > 0 ? (
-        <Card className="mb-4">
-          <p className="mb-1.5 text-[0.8rem] font-bold uppercase tracking-wider text-lime-glow">
-            Además, porque juegas
-          </p>
-          <ul className="space-y-1.5">
-            {plan.suggestExtras.map((key) => {
-              const s = SESSIONS[key];
-              if (!s) return null;
-              return (
-                <li key={key} className="flex items-baseline justify-between gap-3">
-                  <span className="min-w-0">
-                    <span className="text-[1.0rem] font-semibold">{s.name}</span>
-                    <span className="block text-[0.85rem] leading-snug text-ink-300">{s.tagline}</span>
-                  </span>
-                  <span className="shrink-0 text-[0.9rem] font-semibold text-lime-glow tabular-nums">
-                    {sessionMinutes(s.items[plan.phase])} min
-                  </span>
-                </li>
-              );
-            })}
-          </ul>
-        </Card>
-      ) : null}
 
-      <TomorrowDetail plan={plan} />
+      <TomorrowDetail plan={plan} extras={extras} />
     </Shell>
   );
 }

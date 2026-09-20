@@ -5,23 +5,35 @@ import { Card } from './ui/Shell';
 import { HowTo } from './SessionPlayer';
 import { EXERCISES, EQUIPMENT_LABEL } from '@/lib/program/exercises';
 import type { DayPlan } from '@/lib/program/plan';
+import type { SessionDef, SessionItem } from '@/lib/program/types';
+
+export interface ExtraSession {
+  key: string;
+  session: SessionDef;
+  items: SessionItem[];
+  minutes: number;
+}
 
 /**
- * El detalle escrito de la sesión de mañana: qué series toca, cómo se hace cada
- * ejercicio y qué material dejar preparado. Las figuras las pone la tarjeta de
- * sesión, arriba; aquí van los números y el acceso al vídeo.
+ * El detalle escrito de mañana: las series de cada ejercicio, cómo se hace cada
+ * uno y qué material dejar preparado. Las figuras las pone la tarjeta de sesión,
+ * arriba; aquí van los números y el acceso al vídeo.
  *
- * El "?" abre la misma hoja que durante la sesión, con el vídeo arriba: quien
- * prepara la sesión la noche antes quiere repasar el movimiento entonces, no
- * descubrirlo a las siete de la mañana con la primera serie empezada.
+ * Si hay partido, el calentamiento y la vuelta a la calma se despliegan igual
+ * que la sesión: también se preparan, y la pala del calentamiento cuenta como
+ * material tanto como la banda de la sesión.
  */
-export function TomorrowDetail({ plan }: { plan: DayPlan }) {
+export function TomorrowDetail({ plan, extras }: { plan: DayPlan; extras: ExtraSession[] }) {
   const [open, setOpen] = useState<string | null>(null);
 
-  /* El material de todos los ejercicios, sin repetir. "Sin material" solo se
-     menciona cuando de verdad no hace falta nada. */
-  const gear = [...new Set(plan.items.flatMap((i) => EXERCISES[i.exercise]?.equipment ?? []))]
-    .filter((e) => e !== 'ninguno');
+  /* El material de todo lo que se hará mañana, sesión y extras, sin repetir.
+     "Sin material" solo se menciona cuando de verdad no hace falta nada. */
+  const gear = [
+    ...new Set(
+      [...plan.items, ...extras.flatMap((e) => e.items)]
+        .flatMap((i) => EXERCISES[i.exercise]?.equipment ?? []),
+    ),
+  ].filter((e) => e !== 'ninguno');
 
   return (
     <>
@@ -29,37 +41,29 @@ export function TomorrowDetail({ plan }: { plan: DayPlan }) {
         <p className="mb-2 text-[0.8rem] font-bold uppercase tracking-wider text-lime-glow">
           Lo que toca
         </p>
-        <ol className="space-y-2.5">
-          {plan.items.map((i, n) => {
-            const ex = EXERCISES[i.exercise];
-            return (
-              <li key={`${i.exercise}-${n}`} className="flex items-start gap-2.5">
-                <span className="w-4 shrink-0 pt-0.5 text-right text-[0.95rem] tabular-nums text-ink-400">
-                  {n + 1}
-                </span>
-                <span className="min-w-0 flex-1">
-                  <span className="block text-[1.0rem] font-semibold leading-snug">
-                    {ex?.name ?? i.exercise}
-                  </span>
-                  <span className="text-[0.88rem] text-ink-300">{setsLabel(i)}</span>
-                </span>
-                <button
-                  type="button"
-                  onClick={() => setOpen(i.exercise)}
-                  aria-label={`Cómo se hace: ${ex?.name ?? i.exercise}`}
-                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-ink-600 text-[0.9rem] font-bold text-ink-300"
-                >
-                  ?
-                </button>
-              </li>
-            );
-          })}
-        </ol>
+        <ExerciseList items={plan.items} onOpen={setOpen} />
         <p className="mt-3 text-[0.82rem] text-ink-400">
-          Toca el <span className="font-bold">?</span> de cada ejercicio para ver el vídeo y
-          repasar la técnica.
+          Toca el <span className="font-bold">?</span> de cada ejercicio para ver la figura, el
+          vídeo y repasar la técnica.
         </p>
       </Card>
+
+      {extras.map((e) => (
+        <Card key={e.key} className="mb-4">
+          <div className="mb-2 flex items-baseline justify-between gap-3">
+            <div className="min-w-0">
+              <p className="text-[0.8rem] font-bold uppercase tracking-wider text-lime-glow">
+                {e.session.name}
+              </p>
+              <p className="text-[0.88rem] leading-snug text-ink-300">{e.session.tagline}</p>
+            </div>
+            <p className="shrink-0 text-[0.9rem] font-semibold tabular-nums text-lime-glow">
+              {e.minutes} min
+            </p>
+          </div>
+          <ExerciseList items={e.items} onOpen={setOpen} />
+        </Card>
+      ))}
 
       <Card className="mb-4">
         <p className="mb-1.5 text-[0.8rem] font-bold uppercase tracking-wider text-lime-glow">
@@ -92,8 +96,45 @@ export function TomorrowDetail({ plan }: { plan: DayPlan }) {
   );
 }
 
+function ExerciseList({
+  items,
+  onOpen,
+}: {
+  items: SessionItem[];
+  onOpen: (key: string) => void;
+}) {
+  return (
+    <ol className="space-y-2.5">
+      {items.map((i, n) => {
+        const ex = EXERCISES[i.exercise];
+        return (
+          <li key={`${i.exercise}-${n}`} className="flex items-start gap-2.5">
+            <span className="w-4 shrink-0 pt-0.5 text-right text-[0.95rem] tabular-nums text-ink-400">
+              {n + 1}
+            </span>
+            <span className="min-w-0 flex-1">
+              <span className="block text-[1.0rem] font-semibold leading-snug">
+                {ex?.name ?? i.exercise}
+              </span>
+              <span className="text-[0.88rem] text-ink-300">{setsLabel(i)}</span>
+            </span>
+            <button
+              type="button"
+              onClick={() => onOpen(i.exercise)}
+              aria-label={`Cómo se hace: ${ex?.name ?? i.exercise}`}
+              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-ink-600 text-[0.9rem] font-bold text-ink-300"
+            >
+              ?
+            </button>
+          </li>
+        );
+      })}
+    </ol>
+  );
+}
+
 /** "3 × 12" o "4 × 45 s", que es como se leen en la sesión. */
-function setsLabel(item: DayPlan['items'][number]): string {
+function setsLabel(item: SessionItem): string {
   const w = item.work;
   const each = w.timeSec
     ? `${w.timeSec} s`
