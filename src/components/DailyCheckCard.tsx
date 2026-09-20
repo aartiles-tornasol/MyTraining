@@ -11,8 +11,11 @@ export function DailyCheckCard({ check, day }: { check: DailyCheck | null; day: 
   const [open, setOpen] = useState(!done);
   const [achilles, setAchilles] = useState<number | null>(check?.achilles_am ?? null);
   const [adductor, setAdductor] = useState<number | null>(check?.adductor ?? null);
+  const [hamstring, setHamstring] = useState<number | null>(check?.hamstring ?? null);
   const [piriformis, setPiriformis] = useState<number | null>(check?.piriformis ?? null);
+  const [pubic, setPubic] = useState<number | null>(check?.pubic ?? null);
   const [playing, setPlaying] = useState(check?.playing_today ?? false);
+  const [help, setHelp] = useState(false);
   const [pending, start] = useTransition();
 
   const submit = () => {
@@ -21,7 +24,9 @@ export function DailyCheckCard({ check, day }: { check: DailyCheck | null; day: 
         day,
         achillesAM: achilles,
         adductor,
+        hamstring,
         piriformis,
+        pubic,
         playingToday: playing,
       });
       setOpen(false);
@@ -41,8 +46,9 @@ export function DailyCheckCard({ check, day }: { check: DailyCheck | null; day: 
         <div className="flex items-center justify-between gap-3">
           <div className="min-w-0">
             <p className="text-base font-semibold">Chequeo de hoy hecho</p>
-            <p className="mt-0.5 truncate text-[0.88rem] text-ink-300">
-              Aquiles {achilles}/10 · aductores {adductor ?? '—'}/10 · piramidal {piriformis ?? '—'}/10
+            <p className="mt-0.5 text-[0.88rem] leading-relaxed text-ink-300">
+              Aquiles {achilles}/10 · aductores {adductor ?? '—'} · isquios {hamstring ?? '—'} ·
+              piramidal {piriformis ?? '—'} · pubis {pubic ?? '—'}
             </p>
           </div>
           <button
@@ -63,21 +69,43 @@ export function DailyCheckCard({ check, day }: { check: DailyCheck | null; day: 
 
   return (
     <Card tone="accent" className="mb-4">
-      <p className="text-base font-bold">Chequeo de la mañana</p>
-      <p className="mt-0.5 mb-4 text-[0.92rem] leading-relaxed text-ink-300">
-        Puntúa nada más levantarte. La rigidez matutina del Aquiles es la señal que decide
-        la carga de hoy: es el dato más importante de toda la app.
-      </p>
+      <div className="flex items-center justify-between gap-3">
+        <p className="text-base font-bold">Chequeo de la mañana</p>
+        <button
+          type="button"
+          onClick={() => setHelp((v) => !v)}
+          aria-expanded={help}
+          aria-label="Por qué importa este chequeo"
+          className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full border text-[0.9rem] font-bold transition-colors ${
+            help ? 'border-lime-core text-lime-core' : 'border-ink-600 text-ink-300'
+          }`}
+        >
+          ?
+        </button>
+      </div>
+      {help ? (
+        <p className="mt-2 text-[0.92rem] leading-relaxed text-ink-300">
+          Puntúa nada más levantarte. La rigidez matutina del Aquiles es la señal que decide
+          la carga de hoy: es el dato más importante de toda la app.
+        </p>
+      ) : null}
 
-      <div className="space-y-5">
+      <div className="mt-4 space-y-5">
         <PainScale
-          label="Aquiles al levantarte"
+          label="Tendones de Aquiles"
           hint="Los primeros pasos al salir de la cama"
           value={achilles}
           onChange={setAchilles}
         />
         <PainScale label="Aductores / ingle" value={adductor} onChange={setAdductor} />
+        <PainScale label="Isquiotibiales" value={hamstring} onChange={setHamstring} />
         <PainScale label="Piramidal / glúteo" value={piriformis} onChange={setPiriformis} />
+        <PainScale
+          label="Pubis / pubalgia"
+          hint="Encima de los genitales, debajo del estómago"
+          value={pubic}
+          onChange={setPubic}
+        />
       </div>
 
       <label className="mt-5 flex items-center justify-between gap-3 rounded-lg bg-ink-800 px-3 py-3">

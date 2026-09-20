@@ -8,7 +8,9 @@ export interface CheckInput {
   day?: string;
   achillesAM?: number | null;
   adductor?: number | null;
+  hamstring?: number | null;
   piriformis?: number | null;
+  pubic?: number | null;
   shoulder?: number | null;
   playingToday?: boolean;
   played?: boolean;
@@ -20,22 +22,26 @@ export async function saveCheck(input: CheckInput): Promise<{ ok: boolean }> {
   const day = input.day ?? todayISO();
   const ok = await exec(
     `INSERT INTO daily_check
-        (day, achilles_am, adductor, piriformis, shoulder, playing_today, played, note)
-     VALUES ($1, $2, $3, $4, $5, COALESCE($6, false), COALESCE($7, false), $8)
+        (day, achilles_am, adductor, hamstring, piriformis, pubic, shoulder, playing_today, played, note)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, COALESCE($8, false), COALESCE($9, false), $10)
      ON CONFLICT (day) DO UPDATE SET
         achilles_am   = COALESCE(EXCLUDED.achilles_am,   daily_check.achilles_am),
         adductor      = COALESCE(EXCLUDED.adductor,      daily_check.adductor),
+        hamstring     = COALESCE(EXCLUDED.hamstring,     daily_check.hamstring),
         piriformis    = COALESCE(EXCLUDED.piriformis,    daily_check.piriformis),
+        pubic         = COALESCE(EXCLUDED.pubic,         daily_check.pubic),
         shoulder      = COALESCE(EXCLUDED.shoulder,      daily_check.shoulder),
-        playing_today = COALESCE($6, daily_check.playing_today),
-        played        = COALESCE($7, daily_check.played),
+        playing_today = COALESCE($8, daily_check.playing_today),
+        played        = COALESCE($9, daily_check.played),
         note          = COALESCE(EXCLUDED.note,          daily_check.note),
         updated_at    = now()`,
     [
       day,
       input.achillesAM ?? null,
       input.adductor ?? null,
+      input.hamstring ?? null,
       input.piriformis ?? null,
+      input.pubic ?? null,
       input.shoulder ?? null,
       input.playingToday ?? null,
       input.played ?? null,

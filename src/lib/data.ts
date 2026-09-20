@@ -14,7 +14,9 @@ export interface DailyCheck {
   day: string;
   achilles_am: number | null;
   adductor: number | null;
+  hamstring: number | null;
   piriformis: number | null;
+  pubic: number | null;
   shoulder: number | null;
   playing_today: boolean;
   played: boolean;
