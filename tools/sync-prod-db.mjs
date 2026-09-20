@@ -16,7 +16,7 @@
  *   PROD_DB_CONTAINER  mytraining-app-6vnkta-db-1
  *   LOCAL_DB_CONTAINER mytraining-db-1
  */
-import { execFile } from 'node:child_process';
+import { execFile, spawn } from 'node:child_process';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { readFileSync, existsSync } from 'node:fs';
 import { gunzipSync } from 'node:zlib';
@@ -47,8 +47,16 @@ if (!KEY) {
   process.exit(1);
 }
 
+/**
+ * El pty devuelve el eco de lo que se teclea antes que la salida, así que los
+ * marcadores se arman en el shell a partir de una variable: el eco enseña
+ * `${M}UMP_START__` y solo la salida real lleva el marcador entero. Buscarlo
+ * tal cual, sin este rodeo, encuentra primero el eco y corta el volcado ahí.
+ */
 const START = '__DUMP_START__';
 const END = '__DUMP_END__';
+const MARKERS = 'M=__D; echo ${M}UMP_START__;';
+const END_MARKER = 'echo ${M}UMP_END__';
 
 /** Ejecuta un comando en el contenedor de producción y devuelve lo que imprime. */
 function runInProd(command, timeoutMs = 120_000) {
@@ -72,18 +80,15 @@ function runInProd(command, timeoutMs = 120_000) {
 
     ws.addEventListener('open', () => {
       // Un respiro para que el shell termine de arrancar antes de escribir.
-      setTimeout(() => ws.send(`echo ${START}; ${command}; echo ${END}\n`), 700);
+      setTimeout(() => ws.send(`${MARKERS} ${command}; ${END_MARKER}\n`), 700);
     });
 
     ws.addEventListener('message', (e) => {
       buf += typeof e.data === 'string' ? e.data : Buffer.from(e.data).toString('utf8');
-      // El eco del propio comando también contiene los marcadores, así que se
-      // busca la última apertura: la de verdad.
-      const endAt = buf.indexOf(END, buf.lastIndexOf(START) + START.length);
-      if (endAt !== -1) {
-        const startAt = buf.lastIndexOf(START) + START.length;
-        finish(buf.slice(startAt, endAt));
-      }
+      const startAt = buf.indexOf(START);
+      if (startAt === -1) return;
+      const endAt = buf.indexOf(END, startAt + START.length);
+      if (endAt !== -1) finish(buf.slice(startAt + START.length, endAt));
     });
 
     ws.addEventListener('error', () => {
@@ -128,10 +133,16 @@ if (process.argv.includes('--dump-only')) process.exit(0);
 /* El dump trae DROP ... IF EXISTS de cada objeto, así que carga encima de la
    base local sin necesidad de recrearla. */
 console.log(`Cargando en ${LOCAL}…`);
-const { stderr } = await run('docker', ['exec', '-i', LOCAL, 'psql', '-U', USER, '-d', DB], {
-  input: sql,
-  maxBuffer: 64 * 1024 * 1024,
-}).catch((e) => ({ stderr: e.stderr ?? String(e) }));
+
+/* spawn y no execFile: el volcado entra por stdin, y execFile no lo admite. */
+const stderr = await new Promise((resolve, reject) => {
+  const psql = spawn('docker', ['exec', '-i', LOCAL, 'psql', '-U', USER, '-d', DB]);
+  let err = '';
+  psql.stderr.on('data', (d) => { err += d; });
+  psql.on('error', reject);
+  psql.on('close', () => resolve(err));
+  psql.stdin.end(sql);
+});
 
 const real = (stderr ?? '').split('\n').filter((l) => l.includes('ERROR')).join('\n');
 if (real) {
