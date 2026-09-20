@@ -112,8 +112,13 @@ def solve(pose, orient='de-pie'):
     # Trunk flexion: the limb solvers point a bone down and rotate it, so
     # positive is forward there. The trunk points up, which reverses the sense,
     # so it is negated here and `spine` means forward flexion everywhere.
-    trunk = matmul(root, matmul(rz(p['spine_twist']),
-                                matmul(ry(p['spine_side']), rx(-p['spine']))))
+    # Order matters and it is flex, then side-bend, then twist. A twist is a
+    # rotation about the segment's own long axis, so it only means anything
+    # once that axis has been placed. Applied first, as it was, `spine_twist`
+    # turned the body about the world vertical instead — which is why a hip
+    # airplane could not rotate its pelvis over a trunk already leaning 68.
+    trunk = matmul(root, matmul(rx(-p['spine']),
+                                matmul(ry(p['spine_side']), rz(p['spine_twist']))))
 
     neck = add(pelvis, apply(trunk, UP), SEG['torso'])
     head_frame = matmul(trunk, rx(p['head']))
@@ -123,8 +128,9 @@ def solve(pose, orient='de-pie'):
 
     for side, sgn in (('r', 1.0), ('l', -1.0)):
         sho = add(neck, apply(trunk, (sgn, 0.0, 0.0)), SEG['sho_half'])
-        f = matmul(trunk, matmul(rz(-sgn * p[side + '_srot']),
-                                 matmul(ry(-sgn * p[side + '_sabd']), rx(p[side + '_sho']))))
+        f = matmul(trunk, matmul(rx(p[side + '_sho']),
+                                 matmul(ry(-sgn * p[side + '_sabd']),
+                                        rz(-sgn * p[side + '_srot']))))
         elbow = add(sho, apply(f, DOWN), SEG['upper_arm'])
         fe = matmul(f, rx(p[side + '_elb']))
         hand = add(elbow, apply(fe, DOWN), SEG['forearm'])
@@ -133,8 +139,9 @@ def solve(pose, orient='de-pie'):
         out[side + '_hand'], out[side + '_tip'] = hand, tip
 
         hip = add(pelvis, apply(root, (sgn, 0.0, 0.0)), SEG['hip_half'])
-        g = matmul(root, matmul(rz(-sgn * p[side + '_rot']),
-                                matmul(ry(-sgn * p[side + '_abd']), rx(p[side + '_hip']))))
+        g = matmul(root, matmul(rx(p[side + '_hip']),
+                                matmul(ry(-sgn * p[side + '_abd']),
+                                       rz(-sgn * p[side + '_rot']))))
         knee = add(hip, apply(g, DOWN), SEG['thigh'])
         gk = matmul(g, rx(-p[side + '_knee']))
         ankle = add(knee, apply(gk, DOWN), SEG['shank'])

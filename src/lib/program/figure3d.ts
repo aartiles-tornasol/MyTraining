@@ -540,7 +540,7 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
     "orient": "sentado",
     "camera": "tres-cuartos-alto",
     "labels": [
-      "Gira las dos rodillas al otro lado",
+      "Inclínate sobre la pierna de delante",
       "Sentado, 90 y 90"
     ],
     "msPerFrame": 360,
@@ -564,7 +564,7 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
     "camera": "tres-cuartos-alto",
     "labels": [
       "Acerca la rodilla al pecho",
-      "Boca arriba, tobillo sobre la rodilla"
+      "Cruza el tobillo sobre la rodilla"
     ],
     "msPerFrame": 360,
     "steps": 5
