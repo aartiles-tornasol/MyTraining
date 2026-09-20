@@ -5,7 +5,9 @@ import { useRouter } from 'next/navigation';
 import { TimerRing } from './ui/TimerRing';
 import { WorkCard } from './WorkCard';
 import { PainScale } from './ui/PainScale';
+import { ExerciseVideo } from './ExerciseVideo';
 import { EXERCISES } from '@/lib/program/exercises';
+import { videoFor } from '@/lib/program/videos';
 import { animFor, levelFor } from '@/lib/program/plan';
 import { saveSession } from '@/lib/actions';
 import { beep, buzz, countdownTick, goBeep, unlockAudio } from '@/lib/feedback';
@@ -490,6 +492,7 @@ function LoadInput({ value, onChange }: { value: number | null; onChange: (kg: n
 
 export function HowTo({ exerciseKey, onClose }: { exerciseKey: string; onClose: () => void }) {
   const ex = EXERCISES[exerciseKey];
+  const video = videoFor(exerciseKey);
   if (!ex) return null;
   return (
     <div className="fixed inset-0 z-50 flex items-end bg-black/70 backdrop-blur-sm" onClick={onClose}>
@@ -501,6 +504,12 @@ export function HowTo({ exerciseKey, onClose }: { exerciseKey: string; onClose: 
         <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-ink-600" />
         <p className="text-xl font-bold">{ex.name}</p>
         <p className="mt-0.5 text-[0.95rem] text-ink-300">{ex.tagline}</p>
+
+        {video ? (
+          <Block title="Cómo se hace">
+            <ExerciseVideo video={video} />
+          </Block>
+        ) : null}
 
         <Block title="Por qué lo haces">
           <p className="text-[1.05rem] leading-relaxed text-ink-100">{ex.why}</p>
