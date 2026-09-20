@@ -3,6 +3,8 @@ import { notFound } from 'next/navigation';
 import { Shell, Card, Chip } from '@/components/ui/Shell';
 import { ExerciseAnimation } from '@/components/figure/ExerciseAnimation';
 import { Figure3D } from '@/components/figure/Figure3D';
+import { ExerciseVideo } from '@/components/ExerciseVideo';
+import { videoFor } from '@/lib/program/videos';
 import { FIGURE3D } from '@/lib/program/figure3d';
 import { LevelPicker } from '@/components/LevelPicker';
 import { ExerciseHeaderNav, ExerciseNav } from '@/components/ExerciseNav';
@@ -30,6 +32,7 @@ export default async function ExerciseDetail({
 
   const { plan, progress } = await getToday();
   const offset = progress[key]?.levelOffset ?? 0;
+  const video = videoFor(key);
   const current = levelFor(key, plan.phase, offset);
 
   return (
@@ -56,6 +59,15 @@ export default async function ExerciseDetail({
           />
         )}
       </Card>
+
+      {video ? (
+        <Card className="mb-4">
+          <p className="mb-2 text-[0.8rem] font-bold uppercase tracking-wider text-lime-glow">
+            Cómo se hace
+          </p>
+          <ExerciseVideo video={video} />
+        </Card>
+      ) : null}
 
       <div className="mb-4 flex flex-wrap gap-1.5">
         {ex.targets.map((t) => <Chip key={t} tone="lime">{t}</Chip>)}
