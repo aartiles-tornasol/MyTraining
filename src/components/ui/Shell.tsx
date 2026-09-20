@@ -22,9 +22,12 @@ export function Shell({
         }}
       >
         <header className="mb-5 flex items-start justify-between gap-3">
-          <div>
+          {/* Título y subtítulo en la misma línea: la cabecera se comía una
+              línea entera de pantalla para dos palabras. Con wrap, un subtítulo
+              largo baja solo cuando de verdad no cabe. */}
+          <div className="flex flex-wrap items-baseline gap-x-2.5">
             <h1 className="text-[1.75rem] font-bold leading-tight tracking-tight">{title}</h1>
-            {subtitle ? <p className="mt-0.5 text-[1.0rem] text-ink-300">{subtitle}</p> : null}
+            {subtitle ? <p className="text-[1.0rem] text-ink-300">{subtitle}</p> : null}
           </div>
           {action}
         </header>

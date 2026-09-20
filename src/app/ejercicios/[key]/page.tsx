@@ -8,17 +8,11 @@ import { videoFor } from '@/lib/program/videos';
 import { FIGURE3D } from '@/lib/program/figure3d';
 import { LevelPicker } from '@/components/LevelPicker';
 import { ExerciseHeaderNav, ExerciseNav } from '@/components/ExerciseNav';
-import { EXERCISES, exerciseNeighbours } from '@/lib/program/exercises';
+import { EXERCISES, EQUIPMENT_LABEL, exerciseNeighbours } from '@/lib/program/exercises';
 import { getToday } from '@/lib/data';
 import { animFor, levelFor } from '@/lib/program/plan';
 
 export const dynamic = 'force-dynamic';
-
-const EQUIPMENT_LABEL: Record<string, string> = {
-  ninguno: 'Sin material', mancuernas: 'Mancuernas', banda: 'Banda elástica',
-  escalon: 'Escalón', silla: 'Silla', mochila: 'Mochila cargada',
-  pared: 'Pared', esterilla: 'Esterilla', cojin: 'Cojín o pelota', pala: 'Pala',
-};
 
 export default async function ExerciseDetail({
   params,

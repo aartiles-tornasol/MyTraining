@@ -946,6 +946,13 @@ export const EXERCISE_GROUPS: { name: string; blurb: string; keys: string[] }[] 
  * The catalogue flattened in the order the index page shows it, so stepping
  * through exercises one at a time follows the same path the eye just took.
  */
+/** Nombre legible de cada pieza de material, para listas y chips. */
+export const EQUIPMENT_LABEL: Record<string, string> = {
+  ninguno: 'Sin material', mancuernas: 'Mancuernas', banda: 'Banda elástica',
+  escalon: 'Escalón', silla: 'Silla', mochila: 'Mochila cargada',
+  pared: 'Pared', esterilla: 'Esterilla', cojin: 'Cojín o pelota', pala: 'Pala',
+};
+
 export const EXERCISE_ORDER: string[] = EXERCISE_GROUPS.flatMap((g) =>
   g.keys.filter((k) => EXERCISES[k]),
 );

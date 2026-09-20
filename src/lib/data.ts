@@ -97,6 +97,8 @@ export async function getExerciseProgress(): Promise<Record<string, ProgressEntr
 export interface TodayData {
   day: string;
   plan: DayPlan;
+  /** Previsión para mañana, para poder dejar el material preparado. */
+  tomorrow: { day: string; plan: DayPlan };
   check: DailyCheck | null;
   profile: Profile;
   history: SessionRow[];
@@ -128,7 +130,37 @@ export async function getToday(): Promise<TodayData> {
     history: history.map((h) => ({ date: h.day, sessionKey: h.session_key })),
   });
 
-  return { day, plan, check, profile, history, checks, progress, dbConfigured: hasDatabase() };
+  /**
+   * La misma rotación, corrida un día. Mañana todavía no hay chequeo, así que
+   * se planifica como si amaneciera sin dolor: es una previsión para preparar
+   * el material, no la sesión definitiva. Si el chequeo de mañana ya existe
+   * (porque se marcó que se juega), se usa.
+   */
+  const tomorrowDay = addDays(day, 1);
+  const tomorrowCheck = checks.find((c) => c.day === tomorrowDay) ?? null;
+  const tomorrowPlan = planDay({
+    today: tomorrowDay,
+    startDate: profile.start_date,
+    playingToday: tomorrowCheck?.playing_today ?? false,
+    achillesAM: tomorrowCheck?.achilles_am ?? null,
+    adductor: tomorrowCheck?.adductor ?? null,
+    hamstring: tomorrowCheck?.hamstring ?? null,
+    piriformis: tomorrowCheck?.piriformis ?? null,
+    pubic: tomorrowCheck?.pubic ?? null,
+    history: history.map((h) => ({ date: h.day, sessionKey: h.session_key })),
+  });
+
+  return {
+    day,
+    plan,
+    tomorrow: { day: tomorrowDay, plan: tomorrowPlan },
+    check,
+    profile,
+    history,
+    checks,
+    progress,
+    dbConfigured: hasDatabase(),
+  };
 }
 
 /** Consecutive days, counting back from today, with a completed session. */
