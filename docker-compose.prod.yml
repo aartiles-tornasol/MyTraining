@@ -1,0 +1,47 @@
+# Producción en Dokploy. El dominio y las labels de Traefik los pone Dokploy
+# desde la pestaña Domains del servicio `app`, así que aquí el puerto sólo se
+# expone a la red interna y la app cuelga además de dokploy-network, que es por
+# donde Traefik la alcanza. La base de datos se queda sólo en `default`.
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    expose:
+      - "3000"
+    environment:
+      DATABASE_URL: postgres://mytraining:${POSTGRES_PASSWORD}@db:5432/mytraining
+      TZ: ${TZ:-Atlantic/Canary}
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - dokploy-network
+      - default
+
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: mytraining
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: mytraining
+      TZ: ${TZ:-Atlantic/Canary}
+    volumes:
+      - mytraining-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mytraining -d mytraining"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+    networks:
+      - default
+
+volumes:
+  mytraining-db:
+
+networks:
+  dokploy-network:
+    external: true
+  default:
