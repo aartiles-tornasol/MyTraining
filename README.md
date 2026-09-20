@@ -71,19 +71,44 @@ La app arranca sin base de datos: el programa se ve entero, simplemente no guard
 nada y lo dice en pantalla. Las migraciones de `db/migrations/` se aplican solas en
 el primer arranque contra una base de datos vacía.
 
+## Ramas
+
+`develop` es donde se trabaja, contra el Postgres de `docker compose` en local.
+`main` es lo que corre en producción: los cambios llegan ahí por merge desde
+`develop`, cuando ya se han probado.
+
+```bash
+git checkout develop
+docker compose up -d           # Postgres local, publicado en 127.0.0.1:5432
+npm run dev
+```
+
+## Traer los datos de producción a local
+
+Para probar con datos de verdad en lugar de una base vacía:
+
+```bash
+node tools/sync-prod-db.mjs                # vuelca prod y la carga en local
+node tools/sync-prod-db.mjs --dump-only    # solo deja el .sql en .backup/
+```
+
+Va por la terminal de contenedor que Dokploy expone por WebSocket, así que no
+hace falta SSH a la VM; solo las credenciales de `.env.dokploy` (que no está en
+git). **Sobrescribe la base local** y no toca producción: lo único que hace allí
+es un `pg_dump`.
+
 ## Despliegue en Dokploy
 
-**Opción A — Docker Compose.** Crea una aplicación de tipo Compose apuntando a este
-repositorio y al `docker-compose.yml` de la raíz. Levanta la app y su Postgres con
-volumen persistente.
+La app corre como servicio Compose desde `docker-compose.prod.yml`, rama `main`.
+El dominio y sus certificados los gestiona Dokploy, por eso ese fichero no lleva
+labels de Traefik.
 
-**Opción B — Dockerfile + base de datos de Dokploy.** Crea una base de datos
-PostgreSQL en Dokploy, luego una aplicación que construya el `Dockerfile` de la raíz,
-y en sus variables de entorno pon:
+El webhook de GitHub no llega al servidor, así que **el despliegue se lanza a
+mano**, desde la UI o por la API:
 
-```
-DATABASE_URL=postgres://usuario:contraseña@host-de-la-bd:5432/mytraining
-TZ=Atlantic/Canary
+```bash
+curl -X POST -H "x-api-key: $DOKPLOY_API_KEY" -H 'Content-Type: application/json' \
+  -d '{"composeId":"<composeId>"}' "$DOKPLOY_URL/api/compose.deploy"
 ```
 
 La imagen usa la salida `standalone` de Next, corre como usuario sin privilegios,
