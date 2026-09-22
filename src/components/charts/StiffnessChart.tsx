@@ -8,10 +8,18 @@ import { shortDate } from '@/lib/dates';
 const LINE = '#b9dd1f';       // the 7-day average: the only real series
 const RAW = '#4c5f72';        // individual days, deliberately recessive
 const GOOD = '#3ddc97';
+const SESSION = '#a78bfa';   // el dolor sentido al entrenar, no al levantarse
 
 export interface Point { day: string; value: number | null }
 
-export function StiffnessChart({ points }: { points: Point[] }) {
+export function StiffnessChart({
+  points,
+  sessionPoints = [],
+}: {
+  points: Point[];
+  /** Dolor al entrenar, un valor por día, alineado con `points`. */
+  sessionPoints?: (number | null)[];
+}) {
   const [sel, setSel] = useState<number | null>(null);
 
   const { w, h, pad, xs, rolling, hasData } = useMemo(() => {
@@ -58,6 +66,14 @@ export function StiffnessChart({ points }: { points: Point[] }) {
             <span className="font-bold text-ink-100">{shortDate(shownPoint.day)}</span>
             {' · día '}
             <span className="font-bold text-ink-300">{shownPoint.value}/10</span>
+            {sessionPoints[shown] !== null && sessionPoints[shown] !== undefined ? (
+              <>
+                {' · al entrenar '}
+                <span className="font-bold" style={{ color: SESSION }}>
+                  {sessionPoints[shown]}/10
+                </span>
+              </>
+            ) : null}
             {rolling[shown] !== null ? (
               <>
                 {' · media 7 d '}
@@ -99,6 +115,18 @@ export function StiffnessChart({ points }: { points: Point[] }) {
           ),
         )}
 
+        {/* Rombos, no círculos: se distinguen de la mañana incluso si caen
+            encima, y dicen otra cosa — cómo respondió el tendón a la carga. */}
+        {sessionPoints.map((v, i) =>
+          v === null || v === undefined ? null : (
+            <path
+              key={`s-${i}`}
+              d={`M ${xs[i]} ${y(v) - 3} L ${xs[i] + 3} ${y(v)} L ${xs[i]} ${y(v) + 3} L ${xs[i] - 3} ${y(v)} Z`}
+              fill={SESSION}
+            />
+          ),
+        )}
+
         {/* Touch targets far bigger than the marks, as the interaction rules ask. */}
         {points.map((p, i) => (
           <rect
@@ -126,8 +154,17 @@ export function StiffnessChart({ points }: { points: Point[] }) {
         </span>
         <span className="flex items-center gap-1.5">
           <span className="inline-block h-2 w-2 rounded-full" style={{ background: RAW }} />
-          cada día
+          cada mañana
         </span>
+        {sessionPoints.some((v) => v !== null && v !== undefined) ? (
+          <span className="flex items-center gap-1.5">
+            <span
+              className="inline-block h-2 w-2"
+              style={{ background: SESSION, transform: 'rotate(45deg)' }}
+            />
+            al entrenar
+          </span>
+        ) : null}
       </div>
     </div>
   );

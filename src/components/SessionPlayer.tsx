@@ -9,6 +9,8 @@ import { ExerciseVideo } from './ExerciseVideo';
 import { ExerciseAnimation } from './figure/ExerciseAnimation';
 import { Figure3D, has3D } from './figure/Figure3D';
 import { EXERCISES } from '@/lib/program/exercises';
+import { ZONES } from '@/lib/program/zones';
+import type { ZoneKey } from '@/lib/program/zones';
 import { videoFor } from '@/lib/program/videos';
 import { animFor, levelFor } from '@/lib/program/plan';
 import { saveSession } from '@/lib/actions';
@@ -90,9 +92,9 @@ export function SessionPlayer({
   const [loads, setLoads] = useState<Record<string, number>>({});
   const [showInfo, setShowInfo] = useState(false);
   const [rpe, setRpe] = useState<number | null>(null);
-  const [painDuring, setPainDuring] = useState<number | null>(null);
+  const [pain, setPain] = useState<Partial<Record<ZoneKey, number | null>>>({});
   const [saving, setSaving] = useState(false);
-  const [saveError, setSaveError] = useState(false);
+  const [saveError, setSaveError] = useState<'network' | 'server' | null>(null);
   const restored = useRef(false);
 
   useWakeLock(true);
@@ -237,24 +239,37 @@ export function SessionPlayer({
 
   const submit = async () => {
     setSaving(true);
-    setSaveError(false);
-    const res = await saveSession({
-      day,
-      sessionKey: session.key,
-      phase,
-      week,
-      mode,
-      durationS: elapsed,
-      rpe,
-      painDuring,
-      sets: logged,
-    });
-    if (res.ok) {
-      try { localStorage.removeItem(storageKey); } catch { /* ignore */ }
-      router.push('/');
-      router.refresh();
-    } else {
-      setSaveError(true);
+    setSaveError(null);
+    try {
+      /* Sin la carrera contra el reloj, un móvil fuera de cobertura al salir de
+         la pista deja el botón en "Guardando…" para siempre: la promesa de la
+         server action no resuelve nunca y no había forma de reintentar. */
+      const res = await Promise.race([
+        saveSession({
+          day,
+          sessionKey: session.key,
+          phase,
+          week,
+          mode,
+          durationS: elapsed,
+          rpe,
+          pain,
+          sets: logged,
+        }),
+        new Promise<never>((_, reject) =>
+          setTimeout(() => reject(new Error('timeout')), 20_000),
+        ),
+      ]);
+      if (res.ok) {
+        try { localStorage.removeItem(storageKey); } catch { /* ignore */ }
+        router.push('/');
+        router.refresh();
+        return;
+      }
+      setSaveError('server');
+    } catch {
+      setSaveError('network');
+    } finally {
       setSaving(false);
     }
   };
@@ -283,17 +298,28 @@ export function SessionPlayer({
               value={rpe}
               onChange={setRpe}
             />
-            <PainScale
-              label="Dolor durante la sesión"
-              hint="Hasta 5/10 en el tendón es aceptable. Lo que importa es cómo amanezcas mañana."
-              value={painDuring}
-              onChange={setPainDuring}
-            />
+            <div>
+              <p className="text-[0.95rem] font-semibold">Dolor durante la sesión</p>
+              <p className="mt-0.5 text-[0.88rem] leading-relaxed text-ink-300">
+                Hasta 5/10 es aceptable en un tendón. Lo que de verdad importa es cómo
+                amanezcas mañana.
+              </p>
+            </div>
+            {ZONES.map((z) => (
+              <PainScale
+                key={z.column}
+                label={z.label}
+                value={pain[z.column] ?? null}
+                onChange={(n) => setPain((p) => ({ ...p, [z.column]: n }))}
+              />
+            ))}
           </div>
 
           {saveError ? (
             <p className="mt-4 rounded-lg border border-signal-alert/40 bg-signal-alert/10 px-3 py-2.5 text-sm text-signal-alert">
-              No se ha podido guardar. La sesión sigue guardada en el móvil: prueba otra vez.
+              {saveError === 'network'
+                ? 'Sin respuesta del servidor. La sesión sigue guardada en el móvil: comprueba la conexión y vuelve a darle.'
+                : 'No se ha podido guardar. La sesión sigue guardada en el móvil: prueba otra vez.'}
             </p>
           ) : null}
 

@@ -6,12 +6,15 @@ const LINE = '#b9dd1f';
 const GOOD = '#3ddc97';
 const WARN = '#ffc043';
 const ALERT = '#ff6b6b';
+const SESSION = '#a78bfa';   // el dolor sentido al entrenar, no al levantarse
 
 export interface ZoneSeries {
   label: string;
   short: string;
   /** One entry per day, oldest first; null where nothing was logged. */
   values: (number | null)[];
+  /** Dolor al entrenar ese día, alineado con `values`. */
+  session?: (number | null)[];
 }
 
 const toneFor = (v: number | null) =>
@@ -19,12 +22,32 @@ const toneFor = (v: number | null) =>
 
 /** Compact 42-day read for the zones that are not the Achilles. */
 export function ZoneSparklines({ series }: { series: ZoneSeries[] }) {
+  /* La leyenda del dolor al entrenar solo cuando hay alguno: anunciar un
+     símbolo que no aparece en ninguna gráfica es ruido. */
+  const anySession = series.some((s) => (s.session ?? []).some((v) => v !== null && v !== undefined));
   return (
-    <ul className="space-y-3.5">
-      {series.map((s) => (
-        <ZoneRow key={s.short} series={s} />
-      ))}
-    </ul>
+    <>
+      <ul className="space-y-3.5">
+        {series.map((s) => (
+          <ZoneRow key={s.short} series={s} />
+        ))}
+      </ul>
+      <div className="mt-3 flex items-center gap-4 text-[0.68rem] text-ink-400">
+        <span className="flex items-center gap-1.5">
+          <span className="inline-block h-[3px] w-4 rounded-full" style={{ background: LINE }} />
+          media de 7 días por la mañana
+        </span>
+        {anySession ? (
+          <span className="flex items-center gap-1.5">
+            <span
+              className="inline-block h-2 w-2"
+              style={{ background: SESSION, transform: 'rotate(45deg)' }}
+            />
+            al entrenar
+          </span>
+        ) : null}
+      </div>
+    </>
   );
 }
 
@@ -71,6 +94,16 @@ function ZoneRow({ series }: { series: ZoneSeries }) {
           {series.values.map((v, i) =>
             v === null ? null : (
               <circle key={i} cx={x(i)} cy={y(v)} r="1.4" fill="#4c5f72" />
+            ),
+          )}
+          {/* Rombo para el dolor al entrenar, igual que en el gráfico grande. */}
+          {(series.session ?? []).map((v, i) =>
+            v === null || v === undefined ? null : (
+              <path
+                key={`s-${i}`}
+                d={`M ${x(i)} ${y(v) - 2.2} L ${x(i) + 2.2} ${y(v)} L ${x(i)} ${y(v) + 2.2} L ${x(i) - 2.2} ${y(v)} Z`}
+                fill={SESSION}
+              />
             ),
           )}
         </svg>

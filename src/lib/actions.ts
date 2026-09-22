@@ -3,6 +3,8 @@
 import { revalidatePath } from 'next/cache';
 import { ready, exec } from './db';
 import { todayISO } from './dates';
+import { ZONES } from './program/zones';
+import type { ZoneKey } from './program/zones';
 
 export interface CheckInput {
   day?: string;
@@ -70,9 +72,20 @@ export interface SessionInput {
   mode: string;
   durationS: number;
   rpe?: number | null;
-  painDuring?: number | null;
+  /** Dolor por zona durante la sesión, indexado por la columna de daily_check. */
+  pain?: Partial<Record<ZoneKey, number | null>>;
   note?: string | null;
   sets: SetInput[];
+}
+
+/**
+ * `pain_during` era una única casilla y hay histórico con ella, así que se
+ * sigue rellenando con el peor de los valores por zona: las consultas antiguas
+ * siguen leyendo algo con sentido sin tener que reescribirlas.
+ */
+function worstPain(pain: SessionInput['pain']): number | null {
+  const values = ZONES.map((z) => pain?.[z.column]).filter((n): n is number => n != null);
+  return values.length ? Math.max(...values) : null;
 }
 
 /**
@@ -88,12 +101,15 @@ export async function saveSession(input: SessionInput): Promise<{ ok: boolean; i
     await client.query('BEGIN');
     const { rows } = await client.query<{ id: string }>(
       `INSERT INTO session_log
-          (day, session_key, phase, week, mode, duration_s, completed, rpe, pain_during, note, finished_at)
-       VALUES ($1, $2, $3, $4, $5, $6, true, $7, $8, $9, now())
+          (day, session_key, phase, week, mode, duration_s, completed, rpe, pain_during, note,
+           ${ZONES.map((z) => z.sessionColumn).join(', ')}, finished_at)
+       VALUES ($1, $2, $3, $4, $5, $6, true, $7, $8, $9,
+           ${ZONES.map((_, i) => `$${10 + i}`).join(', ')}, now())
        RETURNING id`,
       [
         day, input.sessionKey, input.phase, input.week, input.mode,
-        input.durationS, input.rpe ?? null, input.painDuring ?? null, input.note ?? null,
+        input.durationS, input.rpe ?? null, worstPain(input.pain), input.note ?? null,
+        ...ZONES.map((z) => input.pain?.[z.column] ?? null),
       ],
     );
     const id = rows[0].id;

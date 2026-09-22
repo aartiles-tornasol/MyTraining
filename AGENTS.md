@@ -60,11 +60,24 @@ Las cinco zonas que se puntúan cada mañana viven en `src/lib/program/zones.ts`
 de ahí leen la tarjeta del chequeo, el planificador y Progreso. Añadir una zona
 son dos cosas: una entrada ahí y una columna en `daily_check`.
 
+Las mismas cinco se puntúan **al terminar cada sesión**, en las columnas
+`pain_*` de `session_log`; `pain_during` se sigue rellenando con el peor de los
+cinco valores para que el histórico anterior siga leyéndose. Cuando se pregunte
+por dolor en cualquier parte de la app, se pregunta por las cinco zonas, nunca
+solo por el Aquiles.
+
 Lo que se puntúa es **dolor o molestia**, 0-10, y la interfaz lo dice
 explícitamente. Cada zona retira ejercicios de la sesión del día a partir de su
 umbral; las reglas están juntas en `ZONE_RULES`, en `src/lib/program/plan.ts`.
 Los umbrales y qué ejercicio sale con cada zona son criterio conservador, no
 prescripción de un fisio: si el usuario dice otra cosa, manda él.
+
+## Guardar una sesión
+
+`saveSession` corre contra un reloj de 20 s y cualquier fallo se captura: sin
+eso, un móvil sin cobertura al salir de la pista dejaba el botón en «Guardando…»
+para siempre, sin forma de reintentar. La sesión vive en `localStorage` hasta
+que el guardado confirma, así que un fallo nunca la pierde.
 
 ## Idioma
 

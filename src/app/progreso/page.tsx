@@ -32,6 +32,22 @@ export default async function Progreso() {
     return { day: d, value: checkByDay.get(d) ?? null };
   });
 
+  /* El dolor al entrenar, por día y por zona. Cuando hay varias sesiones el
+     mismo día se queda la peor: lo que interesa es si algo se quejó, no la
+     media de un día con dos sesiones. */
+  const sessionPainByZone = new Map<string, Map<string, number>>(
+    ZONES.map((z) => [z.column, new Map<string, number>()]),
+  );
+  for (const h of history) {
+    for (const z of ZONES) {
+      const v = h[z.sessionColumn];
+      if (v === null || v === undefined) continue;
+      const m = sessionPainByZone.get(z.column)!;
+      m.set(h.day, Math.max(m.get(h.day) ?? 0, v));
+    }
+  }
+  const painOn = (zone: string, d: string) => sessionPainByZone.get(zone)?.get(d) ?? null;
+
   const last7 = checks.filter((c) => c.day > addDays(day, -7) && c.achilles_am !== null)
     .map((c) => c.achilles_am as number);
   const prev7 = checks.filter((c) => c.day <= addDays(day, -7) && c.day > addDays(day, -14) && c.achilles_am !== null)
@@ -51,7 +67,12 @@ export default async function Progreso() {
   const days = Array.from({ length: 42 }, (_, i) => addDays(day, -(41 - i)));
   const zoneSeries = ZONES.filter((z) => z.column !== 'achilles_am').map((z) => {
     const byDay = new Map(checks.map((c) => [c.day, c[z.column]]));
-    return { label: z.label, short: z.short, values: days.map((d) => byDay.get(d) ?? null) };
+    return {
+      label: z.label,
+      short: z.short,
+      values: days.map((d) => byDay.get(d) ?? null),
+      session: days.map((d) => painOn(z.column, d)),
+    };
   });
 
   const counts = history.reduce<Record<string, number>>((acc, h) => {
@@ -98,9 +119,13 @@ export default async function Progreso() {
         <p className="text-base font-bold">Rigidez del Aquiles al levantarte</p>
         <p className="mb-3 mt-0.5 text-[0.92rem] leading-relaxed text-ink-300">
           Es la señal que mejor dice si el tendón va mejorando. Lo que buscas es que la
-          línea baje hacia la zona verde y se quede ahí.
+          línea baje hacia la zona verde y se quede ahí. Los rombos son lo que te dolió
+          al entrenar ese día.
         </p>
-        <StiffnessChart points={points} />
+        <StiffnessChart
+          points={points}
+          sessionPoints={points.map((p) => painOn('achilles_am', p.day))}
+        />
       </Card>
 
       <Card className="mb-4">

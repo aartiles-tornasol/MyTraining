@@ -34,6 +34,11 @@ export interface SessionRow {
   completed: boolean;
   rpe: number | null;
   pain_during: number | null;
+  pain_achilles: number | null;
+  pain_adductor: number | null;
+  pain_hamstring: number | null;
+  pain_piriformis: number | null;
+  pain_pubic: number | null;
 }
 
 /**
@@ -70,7 +75,8 @@ export async function getRecentChecks(days = 42): Promise<DailyCheck[]> {
 
 export async function getHistory(limit = 60): Promise<SessionRow[]> {
   const rows = await q<SessionRow>(
-    `SELECT id, day, session_key, phase, week, mode, duration_s, completed, rpe, pain_during
+    `SELECT id, day, session_key, phase, week, mode, duration_s, completed, rpe, pain_during,
+            pain_achilles, pain_adductor, pain_hamstring, pain_piriformis, pain_pubic
        FROM session_log
       WHERE completed = true
       ORDER BY day DESC, id DESC

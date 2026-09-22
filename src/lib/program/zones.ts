@@ -10,6 +10,8 @@ export type ZoneKey = 'achilles_am' | 'adductor' | 'hamstring' | 'piriformis' | 
 
 export interface Zone {
   column: ZoneKey;
+  /** Columna equivalente en session_log: el dolor sentido al entrenar. */
+  sessionColumn: 'pain_achilles' | 'pain_adductor' | 'pain_hamstring' | 'pain_piriformis' | 'pain_pubic';
   input: 'achillesAM' | 'adductor' | 'hamstring' | 'piriformis' | 'pubic';
   /** Full name, as asked in the morning check. */
   label: string;
@@ -18,11 +20,11 @@ export interface Zone {
 }
 
 export const ZONES: Zone[] = [
-  { column: 'achilles_am', input: 'achillesAM', label: 'Tendones de Aquiles', short: 'Aquiles' },
-  { column: 'adductor',    input: 'adductor',   label: 'Aductores / ingle',   short: 'Aductores' },
-  { column: 'hamstring',   input: 'hamstring',  label: 'Isquiotibiales',      short: 'Isquios' },
-  { column: 'piriformis',  input: 'piriformis', label: 'Piramidal / glúteo',  short: 'Piramidal' },
-  { column: 'pubic',       input: 'pubic',      label: 'Pubis / pubalgia',    short: 'Pubis' },
+  { column: 'achilles_am', sessionColumn: 'pain_achilles',   input: 'achillesAM', label: 'Tendones de Aquiles', short: 'Aquiles' },
+  { column: 'adductor',    sessionColumn: 'pain_adductor',   input: 'adductor',   label: 'Aductores / ingle',   short: 'Aductores' },
+  { column: 'hamstring',   sessionColumn: 'pain_hamstring',  input: 'hamstring',  label: 'Isquiotibiales',      short: 'Isquios' },
+  { column: 'piriformis',  sessionColumn: 'pain_piriformis', input: 'piriformis', label: 'Piramidal / glúteo',  short: 'Piramidal' },
+  { column: 'pubic',       sessionColumn: 'pain_pubic',      input: 'pubic',      label: 'Pubis / pubalgia',    short: 'Pubis' },
 ];
 
 export const zoneByColumn = (c: ZoneKey) => ZONES.find((z) => z.column === c)!;
