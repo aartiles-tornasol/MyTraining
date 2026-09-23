@@ -1,40 +1,38 @@
 'use client';
 
-import { useState } from 'react';
+import { useId, useState } from 'react';
 import { addDays, shortDate, weekdayShort } from '@/lib/dates';
 import { SESSIONS } from '@/lib/program/sessions';
 
 const TRAINED = '#b9dd1f';
-const MATCH = '#5eb0ff';
 const RESTED = '#1a2430';
-const ON_LIME = '#16202b';
+const BALL_DARK = '#0d1218';
 
 export interface DayCell { day: string; sessionKey: string | null; played: boolean }
 
 /**
- * Una bola de pickleball: redonda y agujereada, que es lo único que la
- * distingue de cualquier otra pelota a este tamaño. Los agujeros se pintan del
- * color del fondo en lugar de recortarse, para que la misma bola sirva sobre la
- * celda verde de un día entrenado y sobre la oscura de un día en que solo se
- * jugó.
+ * La bola del icono de la app, que es la que ya reconoce el ojo: lima con
+ * agujeros oscuros. El aro oscuro del borde no es decoración — sin él la bola
+ * desaparece sobre la celda verde de un día entrenado, que es justo el día en
+ * que además se suele jugar.
  */
-function Pickleball({
-  color,
-  hole,
-  className = 'h-[70%] w-[70%]',
-}: {
-  color: string;
-  hole: string;
-  className?: string;
-}) {
+function Pickleball({ className = 'h-[90%] w-[90%]' }: { className?: string }) {
+  const id = useId();
   return (
     <svg viewBox="0 0 24 24" className={className} aria-hidden>
-      <circle cx="12" cy="12" r="11" fill={color} />
-      {/* Cinco agujeros grandes y no siete pequeños: a 25 px en pantalla, siete
-          se emborronan en una textura y la bola pasa a parecer una rueda. */}
-      {[[12, 6.6], [7.3, 11], [16.7, 11], [9.3, 16.6], [14.7, 16.6]].map(([cx, cy]) => (
-        <circle key={`${cx}-${cy}`} cx={cx} cy={cy} r="2.8" fill={hole} />
-      ))}
+      <defs>
+        <linearGradient id={id} x1="0.2" y1="0" x2="0.8" y2="1">
+          <stop offset="0%" stopColor="#e4ff6b" />
+          <stop offset="100%" stopColor="#a8cc12" />
+        </linearGradient>
+      </defs>
+      <circle cx="12" cy="12" r="12" fill={BALL_DARK} />
+      <circle cx="12" cy="12" r="11" fill={`url(#${id})`} />
+      {/* Los siete agujeros del icono, en su misma posición. */}
+      {[[12, 6.24], [6.24, 9.12], [17.76, 9.12], [12, 12], [6.24, 14.88], [17.76, 14.88], [12, 17.76]]
+        .map(([cx, cy]) => (
+          <circle key={`${cx}-${cy}`} cx={cx} cy={cy} r="2.1" fill={BALL_DARK} />
+        ))}
     </svg>
   );
 }
@@ -91,12 +89,7 @@ export function AdherenceStrip({
                 opacity: future ? 0.5 : 1,
               }}
             >
-              {played ? (
-                <Pickleball
-                  color={trained ? ON_LIME : MATCH}
-                  hole={trained ? TRAINED : RESTED}
-                />
-              ) : null}
+              {played ? <Pickleball /> : null}
               <span className="sr-only">{weekdayShort(d)}</span>
             </button>
           );
@@ -128,7 +121,7 @@ export function AdherenceStrip({
           entrenaste
         </span>
         <span className="flex items-center gap-1.5">
-          <Pickleball color={MATCH} hole={RESTED} className="h-4 w-4" />
+          <Pickleball className="h-4 w-4" />
           jugaste
         </span>
         <span className="flex items-center gap-1.5">
