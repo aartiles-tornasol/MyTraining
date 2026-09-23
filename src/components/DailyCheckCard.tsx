@@ -15,6 +15,7 @@ const scoresFrom = (check: DailyCheck | null): Scores =>
 
 export function DailyCheckCard({ check, day }: { check: DailyCheck | null; day: string }) {
   const done = check?.achilles_am != null;
+  const [played, setPlayed] = useState(check?.played ?? false);
   const [open, setOpen] = useState(!done);
   const [scores, setScores] = useState<Scores>(() => scoresFrom(check));
   const [playing, setPlaying] = useState(check?.playing_today ?? false);
@@ -41,6 +42,32 @@ export function DailyCheckCard({ check, day }: { check: DailyCheck | null; day: 
     });
   };
 
+  /* Marcar que se jugó de verdad. Lo de arriba es la intención, que sirve para
+     elegir la sesión del día; esto es el hecho, que es lo que va al calendario
+     y lo que antes no registraba nadie. */
+  const togglePlayed = () => {
+    const next = !played;
+    setPlayed(next);
+    start(async () => {
+      await saveCheck({ day, played: next });
+    });
+  };
+
+  const playedRow = playing ? (
+    <button
+      type="button"
+      onClick={togglePlayed}
+      className="mt-2 flex w-full items-center justify-between gap-3 rounded-lg bg-ink-800 px-3 py-2.5 text-left"
+    >
+      <span className="text-[0.95rem] font-semibold">
+        {played ? 'Has jugado hoy ✓' : '¿Ya has jugado?'}
+      </span>
+      <span className="shrink-0 text-[0.9rem] font-semibold text-lime-glow">
+        {played ? 'Quitar' : 'Marcar partido'}
+      </span>
+    </button>
+  ) : null;
+
   if (!open) {
     return (
       <Card className="mb-4">
@@ -63,6 +90,7 @@ export function DailyCheckCard({ check, day }: { check: DailyCheck | null; day: 
           <span className="text-[1.0rem] font-semibold">¿Juegas hoy al pickleball?</span>
           <Switch checked={playing} onChange={togglePlaying} />
         </label>
+        {playedRow}
       </Card>
     );
   }
@@ -111,6 +139,7 @@ export function DailyCheckCard({ check, day }: { check: DailyCheck | null; day: 
         <span className="text-[1.0rem] font-semibold">¿Juegas hoy al pickleball?</span>
         <Switch checked={playing} onChange={setPlaying} />
       </label>
+      {playedRow}
 
       <button
         type="button"

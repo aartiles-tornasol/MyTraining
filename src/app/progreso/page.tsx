@@ -20,7 +20,9 @@ export default async function Progreso() {
   const loads = await getLoadByWeek('calf-raise-single');
 
   const byDay: Record<string, { sessionKey: string | null; played: boolean }> = {};
-  for (const c of checks) byDay[c.day] = { sessionKey: null, played: c.played || c.playing_today };
+  /* Solo `played`, el hecho. `playing_today` es la intención que ajusta la
+     sesión del día, y darla por buena pintaba partidos que nunca se jugaron. */
+  for (const c of checks) byDay[c.day] = { sessionKey: null, played: c.played };
   for (const h of history) {
     byDay[h.day] = { sessionKey: h.session_key, played: byDay[h.day]?.played ?? false };
   }

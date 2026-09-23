@@ -1,8 +1,10 @@
 'use client';
 
-import { useId, useState } from 'react';
+import { useId, useState, useTransition } from 'react';
+import { useRouter } from 'next/navigation';
 import { addDays, shortDate, weekdayShort } from '@/lib/dates';
 import { SESSIONS } from '@/lib/program/sessions';
+import { saveCheck } from '@/lib/actions';
 
 const TRAINED = '#b9dd1f';
 const RESTED = '#1a2430';
@@ -48,6 +50,8 @@ export function AdherenceStrip({
   weeks?: number;
 }) {
   const [sel, setSel] = useState<string | null>(null);
+  const [pending, startSave] = useTransition();
+  const router = useRouter();
   const total = weeks * 7;
   // Start on the Monday of the oldest week so columns line up with weekdays.
   const todayDow = (new Date(`${today}T12:00:00Z`).getUTCDay() + 6) % 7;
@@ -95,6 +99,27 @@ export function AdherenceStrip({
           );
         })}
       </div>
+
+      {sel && sel <= today ? (
+        <button
+          type="button"
+          disabled={pending}
+          onClick={() =>
+            startSave(async () => {
+              await saveCheck({ day: sel, played: !byDay[sel]?.played });
+              router.refresh();
+            })
+          }
+          className="mt-2 flex w-full items-center justify-between gap-3 rounded-lg bg-ink-800 px-3 py-2.5 text-[0.9rem] disabled:opacity-50"
+        >
+          <span className="font-semibold">
+            {shortDate(sel)} · {byDay[sel]?.played ? 'jugaste' : 'no jugaste'}
+          </span>
+          <span className="shrink-0 font-semibold text-lime-glow">
+            {pending ? 'Guardando…' : byDay[sel]?.played ? 'Quitar partido' : 'Marcar partido'}
+          </span>
+        </button>
+      ) : null}
 
       <p className="mt-2 min-h-[1.1rem] text-xs text-ink-300">
         {sel ? (
