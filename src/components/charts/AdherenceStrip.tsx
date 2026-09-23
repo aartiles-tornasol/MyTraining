@@ -5,9 +5,39 @@ import { addDays, shortDate, weekdayShort } from '@/lib/dates';
 import { SESSIONS } from '@/lib/program/sessions';
 
 const TRAINED = '#b9dd1f';
-const MATCH = '#4a86d8';
+const MATCH = '#5eb0ff';
+const RESTED = '#1a2430';
+const ON_LIME = '#16202b';
 
 export interface DayCell { day: string; sessionKey: string | null; played: boolean }
+
+/**
+ * Una bola de pickleball: redonda y agujereada, que es lo único que la
+ * distingue de cualquier otra pelota a este tamaño. Los agujeros se pintan del
+ * color del fondo en lugar de recortarse, para que la misma bola sirva sobre la
+ * celda verde de un día entrenado y sobre la oscura de un día en que solo se
+ * jugó.
+ */
+function Pickleball({
+  color,
+  hole,
+  className = 'h-[70%] w-[70%]',
+}: {
+  color: string;
+  hole: string;
+  className?: string;
+}) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden>
+      <circle cx="12" cy="12" r="11" fill={color} />
+      {/* Cinco agujeros grandes y no siete pequeños: a 25 px en pantalla, siete
+          se emborronan en una textura y la bola pasa a parecer una rueda. */}
+      {[[12, 6.6], [7.3, 11], [16.7, 11], [9.3, 16.6], [14.7, 16.6]].map(([cx, cy]) => (
+        <circle key={`${cx}-${cy}`} cx={cx} cy={cy} r="2.8" fill={hole} />
+      ))}
+    </svg>
+  );
+}
 
 /** Four weeks of days, newest last, so the run of green reads as a habit. */
 export function AdherenceStrip({
@@ -38,27 +68,35 @@ export function AdherenceStrip({
           const cell = byDay[d];
           const future = d > today;
           const trained = Boolean(cell?.sessionKey);
+          const played = Boolean(cell?.played) && !future;
+          const isToday = d === today;
           return (
             <button
               key={d}
               type="button"
               onClick={() => setSel(d)}
-              aria-label={`${shortDate(d)}${trained ? ', entrenado' : ''}${cell?.played ? ', partido' : ''}`}
-              className="relative aspect-square rounded-md transition"
+              aria-label={`${shortDate(d)}${trained ? ', entrenado' : ''}${played ? ', partido' : ''}`}
+              className="relative flex aspect-square items-center justify-center rounded-md transition"
               style={{
-                background: trained ? TRAINED : future ? 'transparent' : '#1a2430',
-                border: cell?.played ? `2px solid ${MATCH}` : future ? '1px dashed #2a3542' : '1px solid transparent',
+                background: trained ? TRAINED : future ? 'transparent' : RESTED,
+                /* El borde ya no dice si hubo partido — eso lo dice la bola —,
+                   así que queda libre para marcar el día de hoy. */
+                border: isToday
+                  ? '2px solid #a3b4c6'
+                  : future
+                    ? '1px dashed #2a3542'
+                    : '1px solid transparent',
                 outline: sel === d ? '2px solid #e6edf5' : 'none',
                 outlineOffset: '1px',
                 opacity: future ? 0.5 : 1,
               }}
             >
-              <span
-                className="absolute inset-0 flex items-center justify-center text-[0.6rem] font-bold"
-                style={{ color: trained ? '#16202b' : '#4c5f72' }}
-              >
-                {d === today ? '•' : ''}
-              </span>
+              {played ? (
+                <Pickleball
+                  color={trained ? ON_LIME : MATCH}
+                  hole={trained ? TRAINED : RESTED}
+                />
+              ) : null}
               <span className="sr-only">{weekdayShort(d)}</span>
             </button>
           );
@@ -90,12 +128,16 @@ export function AdherenceStrip({
           entrenaste
         </span>
         <span className="flex items-center gap-1.5">
-          <span className="inline-block h-3 w-3 rounded border-2" style={{ borderColor: MATCH }} />
+          <Pickleball color={MATCH} hole={RESTED} className="h-4 w-4" />
           jugaste
         </span>
         <span className="flex items-center gap-1.5">
-          <span className="inline-block h-3 w-3 rounded" style={{ background: '#1a2430' }} />
+          <span className="inline-block h-3 w-3 rounded" style={{ background: RESTED }} />
           descanso
+        </span>
+        <span className="flex items-center gap-1.5">
+          <span className="inline-block h-3 w-3 rounded border-2" style={{ borderColor: '#a3b4c6' }} />
+          hoy
         </span>
       </div>
     </div>
