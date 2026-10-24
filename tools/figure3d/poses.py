@@ -383,7 +383,7 @@ POSES = {
         ],
     },
     'pallof-press': {
-        'orient': 'de-pie', 'camera': 'frontal', 'highlight': ['core'], 'ms': 1500,
+        'orient': 'de-pie', 'camera': 'tres-cuartos', 'highlight': ['core'], 'ms': 1500,
         'frames': [
             f('Banda al pecho, no te gires', **ARMS_CHEST, r_abd=8, l_abd=8, r_knee=12, l_knee=12),
             f('Estira los brazos al frente', r_sho=84, l_sho=84, r_elb=8, l_elb=8,
@@ -569,7 +569,7 @@ POSES = {
             f('Boca arriba, manos en las costillas', r_hip=48, r_knee=112, l_hip=48, l_knee=112, r_ankle=-26, l_ankle=-26,
               r_sho=18, l_sho=18, r_elb=104, l_elb=104, r_sabd=26, l_sabd=26),
             f('Inspira abriendo las costillas', r_hip=48, r_knee=112, l_hip=48, l_knee=112, r_ankle=-26, l_ankle=-26,
-              r_sho=26, l_sho=26, r_elb=98, l_elb=98, r_sabd=32, l_sabd=32),
+              r_sho=34, l_sho=34, r_elb=88, l_elb=88, r_sabd=46, l_sabd=46),
         ],
     },
 }

@@ -735,16 +735,18 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
       "f06.webp",
       "f07.webp",
       "f08.webp",
-      "f09.webp"
+      "f09.webp",
+      "f10.webp",
+      "f11.webp"
     ],
     "orient": "de-pie",
-    "camera": "frontal",
+    "camera": "tres-cuartos",
     "labels": [
       "Estira los brazos al frente",
       "Banda al pecho, no te gires"
     ],
-    "msPerFrame": 300,
-    "steps": 5
+    "msPerFrame": 250,
+    "steps": 6
   },
   "side-plank": {
     "key": "side-plank",
@@ -1107,7 +1109,9 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
       "f06.webp",
       "f07.webp",
       "f08.webp",
-      "f09.webp"
+      "f09.webp",
+      "f10.webp",
+      "f11.webp"
     ],
     "orient": "boca-arriba",
     "camera": "tres-cuartos-alto",
@@ -1115,7 +1119,7 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
       "Inspira abriendo las costillas",
       "Boca arriba, manos en las costillas"
     ],
-    "msPerFrame": 520,
-    "steps": 5
+    "msPerFrame": 433,
+    "steps": 6
   }
 };
