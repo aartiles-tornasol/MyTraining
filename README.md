@@ -108,7 +108,7 @@ mano**, desde la UI o por la API:
 
 ```bash
 curl -X POST -H "x-api-key: $DOKPLOY_API_KEY" -H 'Content-Type: application/json' \
-  -d '{"composeId":"<composeId>"}' "$DOKPLOY_URL/api/compose.deploy"
+  -d '{"composeId":"'"$DOKPLOY_COMPOSE_ID"'"}' "$DOKPLOY_URL/api/compose.deploy"
 ```
 
 La imagen usa la salida `standalone` de Next, corre como usuario sin privilegios,

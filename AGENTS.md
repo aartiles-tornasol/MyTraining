@@ -26,7 +26,7 @@ Después de mergear a `main` hay que lanzar el despliegue a mano:
 
 ```bash
 curl -X POST -H "x-api-key: $DOKPLOY_API_KEY" -H 'Content-Type: application/json' \
-  -d '{"composeId":"<composeId>"}' "$DOKPLOY_URL/api/compose.deploy"
+  -d '{"composeId":"'"$DOKPLOY_COMPOSE_ID"'"}' "$DOKPLOY_URL/api/compose.deploy"
 ```
 
 Las credenciales y los identificadores están en `.env.dokploy` (fuera de git).
