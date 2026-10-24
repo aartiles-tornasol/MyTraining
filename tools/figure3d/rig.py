@@ -158,6 +158,16 @@ def solve(pose, orient='de-pie'):
     # leaves the chair. `anchor` pins a named joint at a height instead, and the
     # rest of the body moves around it.
     anchor = p.get('anchor')
+    if anchor and isinstance(anchor[1], (tuple, list)):
+        # Anclaje en los tres ejes. La pelvis es el origen del esqueleto, así
+        # que al flexionar la cadera son los pies los que viajan por el mundo:
+        # en una sentadilla el talón se arrastraba 28 cm. Fijando el punto de
+        # apoyo entero, lo que se mueve es el cuerpo alrededor de él.
+        joint, (ax, ay, az) = anchor
+        jx, jy, jz = out[joint]
+        dx3, dy3, dz = ax - jx, ay - jy, az - jz
+        return {k: (v[0] + dx3, v[1] + dy3, v[2] + dz + p['lift'])
+                for k, v in out.items()}
     if anchor:
         joint, height = anchor
         dz = height - out[joint][2]

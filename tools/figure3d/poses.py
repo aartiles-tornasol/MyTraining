@@ -326,6 +326,11 @@ POSES = {
         'orient': 'de-pie', 'camera': 'tres-cuartos', 'highlight': ['cuadriceps_d', 'aductor_d', 'aductor_i'],
         'ms': 1700,
         'frames': [
+            # Los pies se desplazan al bajar, porque la pelvis es el origen del
+            # esqueleto. Anclar el talón lo arregla (`anchor` admite un punto
+            # XYZ), pero saca a la figura del encuadre fijo de la cámara, y una
+            # figura cortada se lee peor que un pie que resbala. Pendiente de
+            # resolver junto con el encuadre, no por separado.
             f('De pie con el peso al pecho', **ARMS_CHEST, r_abd=8, l_abd=8),
             f('Baja en 3 s', **ARMS_CHEST, spine=24,
               r_hip=76, r_knee=96, r_ankle=22, r_abd=10,
@@ -474,9 +479,12 @@ POSES = {
         'orient': 'de-pie', 'camera': 'tres-cuartos', 'highlight': ['hombro_d', 'hombro_i'],
         'zoom': 1.5, 'look': 1.26, 'ms': 1500,
         'frames': [
+            # Abrir es separar los brazos en cruz, no rotarlos: con `srot` las
+            # manos pasaban de 37 a 45 cm, ocho centímetros que en pantalla son
+            # un brazo quieto. Ahora van de 37 a 138.
             f('Brazos al frente', r_sho=86, l_sho=86, r_elb=8, l_elb=8, r_knee=6, l_knee=6),
-            f('Abre hasta el pecho', r_sho=84, l_sho=84, r_srot=60, l_srot=60,
-              r_elb=10, l_elb=10, r_knee=6, l_knee=6),
+            f('Abre hasta el pecho', r_sho=12, l_sho=12, r_sabd=65, l_sabd=65,
+              r_elb=8, l_elb=8, r_knee=6, l_knee=6),
         ],
     },
     'wall-slide': {

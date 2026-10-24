@@ -618,7 +618,9 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
       "f06.webp",
       "f07.webp",
       "f08.webp",
-      "f09.webp"
+      "f09.webp",
+      "f10.webp",
+      "f11.webp"
     ],
     "orient": "de-pie",
     "camera": "tres-cuartos",
@@ -626,8 +628,8 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
       "Baja en 3 s",
       "De pie con el peso al pecho"
     ],
-    "msPerFrame": 340,
-    "steps": 5
+    "msPerFrame": 283,
+    "steps": 6
   },
   "split-squat": {
     "key": "split-squat",
@@ -919,7 +921,9 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
       "f06.webp",
       "f07.webp",
       "f08.webp",
-      "f09.webp"
+      "f09.webp",
+      "f10.webp",
+      "f11.webp"
     ],
     "orient": "de-pie",
     "camera": "tres-cuartos",
@@ -927,8 +931,8 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
       "Abre hasta el pecho",
       "Brazos al frente"
     ],
-    "msPerFrame": 300,
-    "steps": 5
+    "msPerFrame": 250,
+    "steps": 6
   },
   "wall-slide": {
     "key": "wall-slide",
