@@ -365,15 +365,22 @@ POSES = {
         ],
     },
     'side-plank': {
-        'orient': 'de-lado', 'camera': 'tres-cuartos-alto', 'props': ['esterilla'],
+        'orient': 'de-lado', 'camera': 'tres-cuartos', 'props': ['esterilla'],
         'highlight': ['core'], 'ms': 1600,
         'frames': [
-            f('Apóyate en el codo', r_sho=0, r_sabd=88, r_elb=86,
-              l_sabd=16, l_elb=10, r_hip=0, r_knee=6, l_hip=0, l_knee=4,
-              roll=-4, anchor=('r_elbow', 0.06)),
-            f('Sube la cadera hasta la línea', roll=-16, r_sho=0, r_sabd=88, r_elb=86,
-              l_sabd=16, l_elb=10, r_hip=0, r_knee=4, l_hip=0, l_knee=2,
-              anchor=('r_elbow', 0.06)),
+            # Los ángulos salen de resolver el rig, no de ajustar a ojo: en los
+            # dos fotogramas el codo y la mano se quedan en el suelo, así que el
+            # antebrazo no se mueve y lo único que sube es la cadera. El hombro
+            # sí cambia de ángulo — tiene que hacerlo para que el antebrazo siga
+            # plano mientras el cuerpo pivota sobre él.
+            f('Apóyate en el codo, cadera en el suelo',
+              r_sho=0, r_sabd=91, r_elb=88, l_sabd=28, l_elb=14,
+              r_hip=0, r_knee=6, l_hip=0, l_knee=4,
+              roll=1, spine_side=-38, anchor=('r_elbow', 0.055)),
+            f('Sube la cadera hasta la línea',
+              r_sho=0, r_sabd=110, r_elb=88, l_sabd=96, l_elb=6,
+              r_hip=0, r_knee=4, l_hip=0, l_knee=2,
+              roll=-13.5, spine_side=0, anchor=('r_elbow', 0.055)),
         ],
     },
     'bird-dog': {

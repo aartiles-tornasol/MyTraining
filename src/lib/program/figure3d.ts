@@ -748,16 +748,18 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
       "f06.webp",
       "f07.webp",
       "f08.webp",
-      "f09.webp"
+      "f09.webp",
+      "f10.webp",
+      "f11.webp"
     ],
     "orient": "de-lado",
-    "camera": "tres-cuartos-alto",
+    "camera": "tres-cuartos",
     "labels": [
       "Sube la cadera hasta la línea",
-      "Apóyate en el codo"
+      "Apóyate en el codo, cadera en el suelo"
     ],
-    "msPerFrame": 320,
-    "steps": 5
+    "msPerFrame": 266,
+    "steps": 6
   },
   "bird-dog": {
     "key": "bird-dog",
