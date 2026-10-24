@@ -95,6 +95,11 @@ export function SessionPlayer({
   const [pain, setPain] = useState<Partial<Record<ZoneKey, number | null>>>({});
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState<'network' | 'server' | null>(null);
+  /* Pila de deshacer: el estado justo antes de cada avance. Saltar un ejercicio
+     entero se pulsa sin querer con el móvil en el suelo, y hasta ahora no había
+     vuelta atrás: la sesión seguía adelante con las series dadas por saltadas. */
+  const [undoStack, setUndoStack] = useState<{ index: number; logged: SetInput[]; label: string }[]>([]);
+  const [confirmSkip, setConfirmSkip] = useState(false);
   const restored = useRef(false);
 
   useWakeLock(true);
@@ -111,8 +116,10 @@ export function SessionPlayer({
       const raw = localStorage.getItem(storageKey);
       if (!raw) return;
       const d = JSON.parse(raw) as Draft;
-      if (d.index > 0 && d.index < steps.length) {
-        setIndex(d.index);
+      /* Un borrador cuenta si se avanzó o si se anotó algo: tras deshacer hasta
+         el primer paso puede haber series registradas con el índice en 0. */
+      if ((d.index > 0 || (d.sets?.length ?? 0) > 0) && d.index < steps.length) {
+        setIndex(Math.max(0, d.index));
         setElapsed(d.elapsed ?? 0);
         setLogged(d.sets ?? []);
         setLoads(d.loads ?? {});
@@ -123,8 +130,14 @@ export function SessionPlayer({
   }, [storageKey, steps.length]);
 
   useEffect(() => {
-    if (!restored.current || index === 0) return;
+    if (!restored.current) return;
     try {
+      /* Deshacer hasta el principio tiene que borrar el borrador, no dejar el
+         anterior: si no, una recarga resucitaba justo lo que se deshizo. */
+      if (index === 0 && logged.length === 0) {
+        localStorage.removeItem(storageKey);
+        return;
+      }
       localStorage.setItem(
         storageKey,
         JSON.stringify({ index, elapsed, sets: logged, loads } satisfies Draft),
@@ -143,6 +156,22 @@ export function SessionPlayer({
   const advance = useCallback(() => {
     setIndex((i) => Math.min(i + 1, steps.length - 1));
   }, [steps.length]);
+
+  /** Guarda dónde estábamos antes de avanzar, para poder volver. */
+  const remember = (label: string) => {
+    setUndoStack((u) => [...u.slice(-19), { index, logged, label }]);
+  };
+
+  const undo = () => {
+    setUndoStack((u) => {
+      const last = u[u.length - 1];
+      if (!last) return u;
+      setRunning(false);
+      setIndex(last.index);
+      setLogged(last.logged);
+      return u.slice(0, -1);
+    });
+  };
 
   useEffect(() => {
     if (!running) return;
@@ -178,6 +207,7 @@ export function SessionPlayer({
     }
     setRemaining(step.seconds);
     setRunning(false);
+    setConfirmSkip(false);
   }, [index, step]);
 
   const record = (skipped: boolean) => {
@@ -195,6 +225,7 @@ export function SessionPlayer({
 
   const finishWork = (skipped = false) => {
     unlockAudio();
+    remember(skipped ? 'serie saltada' : 'serie hecha');
     record(skipped);
     buzz(30);
     advance();
@@ -208,6 +239,8 @@ export function SessionPlayer({
   const skipExercise = () => {
     if (step.kind !== 'work' || !item) return;
     unlockAudio();
+    setConfirmSkip(false);
+    remember('ejercicio saltado');
     setRunning(false);
     const here = step.item;
     const ex = items[here];
@@ -348,7 +381,13 @@ export function SessionPlayer({
     const next = steps.slice(index + 1).find((s) => s.kind === 'work');
     const nextEx = next && next.kind === 'work' ? EXERCISES[items[next.item].exercise] : null;
     return (
-      <PlayerFrame progress={progress} elapsed={elapsed} onQuit={() => router.push('/')}>
+      <PlayerFrame
+        progress={progress}
+        elapsed={elapsed}
+        onQuit={() => router.push('/')}
+        onUndo={undoStack.length ? undo : undefined}
+        undoLabel={undoStack[undoStack.length - 1]?.label}
+      >
         <div className="flex flex-1 flex-col items-center justify-center gap-6">
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-ink-400">Descanso</p>
           <TimerRing remaining={remaining} total={step.seconds} color="#5eb0ff" label="restante" />
@@ -397,7 +436,13 @@ export function SessionPlayer({
   const load = loads[item.exercise] ?? savedLoads[item.exercise] ?? null;
 
   return (
-    <PlayerFrame progress={progress} elapsed={elapsed} onQuit={() => router.push('/')}>
+    <PlayerFrame
+      progress={progress}
+      elapsed={elapsed}
+      onQuit={() => router.push('/')}
+      onUndo={undoStack.length ? undo : undefined}
+      undoLabel={undoStack[undoStack.length - 1]?.label}
+    >
       <WorkCard
         name={exercise.name}
         subtitle={
@@ -455,12 +500,17 @@ export function SessionPlayer({
         )}
       </div>
 
+      {/* Dos toques, no uno: el primero pregunta. Con el móvil en el suelo y
+          las manos ocupadas este botón se rozaba sin querer, y saltaba un
+          ejercicio entero de una. */}
       <button
         type="button"
-        onClick={skipExercise}
-        className="mt-2 w-full py-2 text-[0.88rem] font-semibold text-ink-400"
+        onClick={() => (confirmSkip ? skipExercise() : setConfirmSkip(true))}
+        className={`mt-2 w-full py-2 text-[0.88rem] font-semibold ${
+          confirmSkip ? 'text-signal-warn' : 'text-ink-400'
+        }`}
       >
-        Saltar el ejercicio entero →
+        {confirmSkip ? '¿Seguro? Toca otra vez para saltarlo' : 'Saltar el ejercicio entero →'}
       </button>
 
       {showInfo ? <HowTo exerciseKey={item.exercise} onClose={() => setShowInfo(false)} /> : null}
@@ -473,11 +523,16 @@ function PlayerFrame({
   progress,
   elapsed,
   onQuit,
+  onUndo,
+  undoLabel,
 }: {
   children: React.ReactNode;
   progress: number;
   elapsed: number;
   onQuit: () => void;
+  /** Deshacer el último paso; ausente cuando no hay nada que deshacer. */
+  onUndo?: () => void;
+  undoLabel?: string;
 }) {
   return (
     <div
@@ -501,6 +556,17 @@ function PlayerFrame({
         </div>
         <span className="shrink-0 text-xs font-semibold tabular-nums text-ink-400">{mmss(elapsed)}</span>
       </div>
+
+      {onUndo ? (
+        <button
+          type="button"
+          onClick={onUndo}
+          className="mb-2 self-start rounded-full border border-ink-600 px-3 py-1 text-[0.8rem] font-semibold text-ink-300"
+        >
+          ↶ Deshacer{undoLabel ? ` · ${undoLabel}` : ''}
+        </button>
+      ) : null}
+
       {children}
     </div>
   );

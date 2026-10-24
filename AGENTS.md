@@ -79,6 +79,15 @@ eso, un móvil sin cobertura al salir de la pista dejaba el botón en «Guardand
 para siempre, sin forma de reintentar. La sesión vive en `localStorage` hasta
 que el guardado confirma, así que un fallo nunca la pierde.
 
+## Deshacer dentro de una sesión
+
+Cada paso que avanza guarda antes el estado (índice y series anotadas) en una
+pila, y la cabecera del reproductor ofrece deshacerlo. Saltar un ejercicio
+entero pide además un segundo toque: con el móvil en el suelo ese botón se roza
+sin querer y antes no había vuelta atrás. El borrador de `localStorage` se borra
+cuando se deshace hasta el principio; si no, una recarga resucitaba justo lo que
+se acababa de deshacer.
+
 ## Idioma
 
 Todo lo que ve el usuario va en castellano, incluidos los textos de ejercicios y
