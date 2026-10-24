@@ -288,16 +288,18 @@
    "f06.webp",
    "f07.webp",
    "f08.webp",
-   "f09.webp"
+   "f09.webp",
+   "f10.webp",
+   "f11.webp"
   ],
   "orient": "de-lado",
-  "camera": "tres-cuartos-alto",
+  "camera": "tres-cuartos",
   "labels": [
    "Sube la cadera, cuerpo recto",
-   "De lado, pie en la silla"
+   "De lado, tobillo en la silla"
   ],
-  "msPerFrame": 360,
-  "steps": 5
+  "msPerFrame": 300,
+  "steps": 6
  },
  "side-lying-adduction": {
   "key": "side-lying-adduction",

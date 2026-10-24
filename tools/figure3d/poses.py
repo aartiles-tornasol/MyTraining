@@ -147,16 +147,22 @@ POSES = {
         ],
     },
     'copenhagen-long': {
-        'orient': 'de-lado', 'camera': 'tres-cuartos-alto', 'props': ['silla', 'esterilla'],
-        'prop_place': {'silla': (-0.78, 0.0, 0.0, 90)},
+        'orient': 'de-lado', 'camera': 'tres-cuartos', 'props': ['silla', 'esterilla'],
+        'prop_place': {'silla': (-1.24, 0.0, 0.0, 270)},
         'highlight': ['gluteo_i', 'aductor_i'], 'ms': 1800,
         'frames': [
-            f('De lado, pie en la silla', spine=6,
-              r_sho=86, r_elb=84, l_sabd=8, l_elb=10,
-              l_hip=2, l_knee=8, l_abd=-30, r_hip=-4, r_knee=8),
-            f('Sube la cadera, cuerpo recto', spine=-6, roll=-14,
-              r_sho=86, r_elb=84, l_sabd=8, l_elb=10,
-              l_hip=0, l_knee=4, l_abd=-32, r_hip=-2, r_knee=4),
+            # Ángulos resueltos contra dos apoyos reales: el codo en el suelo y
+            # el tobillo de arriba sobre el asiento (0,47 m). Antes la cadera
+            # subía con `roll`, que hace rodar el cuerpo entero y despegaba el
+            # codo, y ni el antebrazo ni el tobillo llegaban a tocar nada.
+            f('De lado, tobillo en la silla',
+              r_sho=0, r_sabd=84, r_elb=88, l_sabd=10, l_elb=12,
+              l_hip=-20, l_knee=6, l_abd=6, r_hip=-24, r_knee=8,
+              roll=0, spine_side=-25, anchor=('r_elbow', 0.055)),
+            f('Sube la cadera, cuerpo recto',
+              r_sho=0, r_sabd=116, r_elb=88, l_sabd=10, l_elb=12,
+              l_hip=-20, l_knee=6, l_abd=-9, r_hip=-24, r_knee=8,
+              roll=0, spine_side=0, anchor=('r_elbow', 0.055)),
         ],
     },
     'side-lying-adduction': {
