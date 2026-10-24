@@ -134,16 +134,21 @@ POSES = {
         ],
     },
     'copenhagen-short': {
-        'orient': 'de-lado', 'camera': 'tres-cuartos-alto', 'props': ['silla', 'esterilla'],
-        'prop_place': {'silla': (-0.50, 0.0, 0.0, 90)},
+        'orient': 'de-lado', 'camera': 'tres-cuartos', 'props': ['silla', 'esterilla'],
+        'prop_place': {'silla': (0.08, 0.0, 0.0, 90)},
         'highlight': ['gluteo_i', 'aductor_i'], 'ms': 1800,
         'frames': [
-            f('De lado, rodilla en la silla', spine=6,
-              r_sho=86, r_elb=84, l_sabd=8, l_elb=10,
-              l_hip=8, l_knee=88, l_abd=-26, r_hip=-6, r_knee=16),
-            f('Sube la cadera a la línea', spine=-4, roll=-12,
-              r_sho=86, r_elb=84, l_sabd=8, l_elb=10,
-              l_hip=4, l_knee=86, l_abd=-30, r_hip=-4, r_knee=10),
+            # La rodilla de arriba descansa en el asiento (0,47 m) y el codo en
+            # el suelo; entre los dos sostienen el cuerpo. La cadera sube de 22
+            # a 45 cm por flexión lateral, no rodando el cuerpo.
+            f('De lado, rodilla en la silla',
+              r_sho=0, r_sabd=92, r_elb=88, l_sabd=10, l_elb=12,
+              l_hip=-30, l_knee=60, l_abd=-10, r_hip=-20, r_knee=10,
+              roll=0, spine_side=-30, anchor=('r_elbow', 0.055)),
+            f('Sube la cadera a la línea',
+              r_sho=0, r_sabd=120, r_elb=88, l_sabd=10, l_elb=12,
+              l_hip=-30, l_knee=60, l_abd=-10, r_hip=-20, r_knee=10,
+              roll=0, spine_side=-4, anchor=('r_elbow', 0.055)),
         ],
     },
     'copenhagen-long': {
@@ -166,13 +171,18 @@ POSES = {
         ],
     },
     'side-lying-adduction': {
-        'orient': 'de-lado', 'camera': 'tres-cuartos-alto', 'props': ['esterilla'],
+        'orient': 'de-lado', 'camera': 'tres-cuartos', 'props': ['esterilla'],
         'highlight': ['aductor_d'], 'ms': 1600,
         'frames': [
+            # Sin anclaje el cuerpo quedaba colgado a 24 cm del suelo, sostenido
+            # por el pie cruzado. Ahora la cadera de abajo descansa en la
+            # esterilla y ese pie apoya de verdad.
             f('Tumbado de lado', r_sho=84, r_elb=76, l_sabd=10, l_elb=12,
-              l_hip=54, l_knee=72, l_abd=-36, r_hip=0, r_knee=4),
+              l_hip=46, l_knee=50, l_abd=-22, r_hip=0, r_knee=4,
+              anchor=('r_hip', 0.15)),
             f('Sube la pierna de abajo', r_sho=84, r_elb=76, l_sabd=10, l_elb=12,
-              l_hip=54, l_knee=72, l_abd=-36, r_hip=0, r_knee=4, r_abd=-26),
+              l_hip=46, l_knee=50, l_abd=-22, r_hip=0, r_knee=4, r_abd=-20,
+              anchor=('r_hip', 0.15)),
         ],
     },
     'lateral-lunge': {
@@ -228,15 +238,20 @@ POSES = {
         ],
     },
     'side-plank-abduction': {
-        'orient': 'de-lado', 'camera': 'tres-cuartos-alto', 'props': ['esterilla'],
+        'orient': 'de-lado', 'camera': 'tres-cuartos', 'props': ['esterilla'],
         'highlight': ['gluteo_i', 'aductor_i'], 'ms': 1600,
         'frames': [
-            f('Plancha lateral sobre el codo', roll=-16, r_sho=0, r_sabd=88, r_elb=86,
-              l_sabd=14, l_elb=10, r_hip=0, r_knee=6, l_hip=0, l_knee=4,
-              anchor=('r_elbow', 0.06)),
-            f('Sube la pierna de arriba', roll=-16, r_sho=0, r_sabd=88, r_elb=86,
-              l_sabd=14, l_elb=10, r_hip=0, r_knee=6, l_hip=0, l_knee=2, l_abd=34,
-              anchor=('r_elbow', 0.06)),
+            # Parte de la misma plancha lateral resuelta: codo y antebrazo en el
+            # suelo, pie de abajo apoyado, cadera a 37 cm. Lo único que cambia
+            # entre fotogramas es la pierna de arriba.
+            f('Plancha lateral sobre el codo',
+              r_sho=0, r_sabd=110, r_elb=88, l_sabd=96, l_elb=6,
+              r_hip=0, r_knee=4, l_hip=0, l_knee=2, l_abd=0,
+              roll=-13.5, spine_side=0, anchor=('r_elbow', 0.055)),
+            f('Sube la pierna de arriba',
+              r_sho=0, r_sabd=110, r_elb=88, l_sabd=96, l_elb=6,
+              r_hip=0, r_knee=4, l_hip=0, l_knee=2, l_abd=24,
+              roll=-13.5, spine_side=0, anchor=('r_elbow', 0.055)),
         ],
     },
     'banded-lateral-walk': {

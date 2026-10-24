@@ -276,16 +276,18 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
       "f06.webp",
       "f07.webp",
       "f08.webp",
-      "f09.webp"
+      "f09.webp",
+      "f10.webp",
+      "f11.webp"
     ],
     "orient": "de-lado",
-    "camera": "tres-cuartos-alto",
+    "camera": "tres-cuartos",
     "labels": [
       "Sube la cadera a la línea",
       "De lado, rodilla en la silla"
     ],
-    "msPerFrame": 360,
-    "steps": 5
+    "msPerFrame": 300,
+    "steps": 6
   },
   "copenhagen-long": {
     "key": "copenhagen-long",
@@ -324,16 +326,18 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
       "f06.webp",
       "f07.webp",
       "f08.webp",
-      "f09.webp"
+      "f09.webp",
+      "f10.webp",
+      "f11.webp"
     ],
     "orient": "de-lado",
-    "camera": "tres-cuartos-alto",
+    "camera": "tres-cuartos",
     "labels": [
       "Sube la pierna de abajo",
       "Tumbado de lado"
     ],
-    "msPerFrame": 320,
-    "steps": 5
+    "msPerFrame": 266,
+    "steps": 6
   },
   "lateral-lunge": {
     "key": "lateral-lunge",
@@ -462,16 +466,18 @@ export const FIGURE3D: Record<string, Figure3DEntry> = {
       "f06.webp",
       "f07.webp",
       "f08.webp",
-      "f09.webp"
+      "f09.webp",
+      "f10.webp",
+      "f11.webp"
     ],
     "orient": "de-lado",
-    "camera": "tres-cuartos-alto",
+    "camera": "tres-cuartos",
     "labels": [
       "Sube la pierna de arriba",
       "Plancha lateral sobre el codo"
     ],
-    "msPerFrame": 320,
-    "steps": 5
+    "msPerFrame": 266,
+    "steps": 6
   },
   "banded-lateral-walk": {
     "key": "banded-lateral-walk",
