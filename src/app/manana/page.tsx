@@ -51,10 +51,10 @@ export default async function Manana() {
         cta={null}
       />
 
-      {plan.warnings.length > 0 ? (
+      {plan.changes.length + plan.warnings.length > 0 ? (
         <Card tone="warn" className="mb-4">
           <ul className="space-y-1.5">
-            {plan.warnings.map((w) => (
+            {[...plan.changes, ...plan.warnings].map((w) => (
               <li key={w} className="text-[1.0rem] leading-relaxed text-ink-100">{w}</li>
             ))}
           </ul>

@@ -87,8 +87,9 @@ export function TomorrowDetail({ plan, extras }: { plan: DayPlan; extras: ExtraS
 
       <p className="px-1 text-[0.85rem] leading-relaxed text-ink-400">
         Es una previsión con la rotación de la semana. Mañana todavía no has puntuado nada, así
-        que está calculada como si amanecieras sin dolor: si te levantas con el Aquiles alto, la
-        sesión se ajustará sola al hacer el chequeo.
+        que está calculada como si amanecieras sin dolor. Al hacer el chequeo la sesión se ajusta
+        sola: cada zona que duela retira lo que la carga, y si una está muy alta el día entero
+        pasa a descarga.
       </p>
 
       {open ? <HowTo exerciseKey={open} onClose={() => setOpen(null)} /> : null}

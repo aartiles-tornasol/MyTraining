@@ -19,7 +19,9 @@ export default async function Home() {
   );
   const phase = PHASES[plan.phase];
   const doneToday = history.some((h) => h.day === day);
-  const needsCheck = check?.achilles_am == null;
+  /* Basta con una zona puntuada: el chequeo ya no cuelga del Aquiles. */
+  const needsCheck = !ZONES.some((z) => check?.[z.column] != null);
+  const resting = check?.rest_day === true && !doneToday;
 
   return (
     <Shell
@@ -50,6 +52,7 @@ export default async function Home() {
         <Chip tone="lime">Semana {plan.week}</Chip>
         <Chip tone="info">Fase {plan.phase} · {phase.name}</Chip>
         {doneToday ? <Chip tone="lime">Entrenado hoy ✓</Chip> : null}
+        {resting ? <Chip tone="info">Día sin entrenar</Chip> : null}
       </div>
 
       <DailyCheckCard check={check} day={day} />
@@ -57,8 +60,23 @@ export default async function Home() {
       {needsCheck ? (
         <Card className="mb-4">
           <p className="text-[1.0rem] leading-relaxed text-ink-200">
-            Puntúa el chequeo de arriba y la sesión de hoy se ajusta sola a cómo has amanecido.
+            Puntúa el dolor de arriba y la sesión de hoy se ajusta sola a cómo has amanecido. Si
+            hoy no vas a entrenar, puntúalo igual: es el histórico que decide la carga de mañana.
           </p>
+        </Card>
+      ) : resting ? (
+        <Card className="mb-4">
+          <p className="text-base font-bold">Hoy no entrenas</p>
+          <p className="mt-1 text-[1.0rem] leading-relaxed text-ink-200">
+            El dolor que has puntuado queda guardado y cuenta igual para el histórico, para las
+            gráficas y para la carga de mañana.
+          </p>
+          <Link
+            href={`/sesion/${plan.sessionKey}`}
+            className="mt-3 inline-block text-[0.95rem] font-semibold text-lime-glow"
+          >
+            Cambiar de idea y hacer {plan.session.name} ({plan.minutes} min) →
+          </Link>
         </Card>
       ) : (
         <SessionCard
@@ -72,10 +90,10 @@ export default async function Home() {
         />
       )}
 
-      {plan.warnings.length > 0 ? (
+      {(resting ? plan.warnings : [...plan.changes, ...plan.warnings]).length > 0 ? (
         <Card tone="warn" className="mb-4">
           <ul className="space-y-1.5">
-            {plan.warnings.map((w) => (
+            {(resting ? plan.warnings : [...plan.changes, ...plan.warnings]).map((w) => (
               <li key={w} className="text-[1.0rem] leading-relaxed text-ink-100">
                 {w}
               </li>
@@ -84,7 +102,7 @@ export default async function Home() {
         </Card>
       ) : null}
 
-      {plan.suggestExtras.length > 0 ? (
+      {plan.suggestExtras.length > 0 && !resting ? (
         <div className="mb-4 grid grid-cols-2 gap-3">
           {plan.suggestExtras.map((key) => {
             const s = SESSIONS[key];

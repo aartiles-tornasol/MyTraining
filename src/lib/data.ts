@@ -20,6 +20,8 @@ export interface DailyCheck {
   shoulder: number | null;
   playing_today: boolean;
   played: boolean;
+  /** «Hoy no entreno», dicho a propósito. Null en el histórico anterior. */
+  rest_day: boolean | null;
   note: string | null;
 }
 

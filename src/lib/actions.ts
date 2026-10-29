@@ -16,6 +16,7 @@ export interface CheckInput {
   shoulder?: number | null;
   playingToday?: boolean;
   played?: boolean;
+  restDay?: boolean | null;
   note?: string | null;
 }
 
@@ -24,8 +25,9 @@ export async function saveCheck(input: CheckInput): Promise<{ ok: boolean }> {
   const day = input.day ?? todayISO();
   const ok = await exec(
     `INSERT INTO daily_check
-        (day, achilles_am, adductor, hamstring, piriformis, pubic, shoulder, playing_today, played, note)
-     VALUES ($1, $2, $3, $4, $5, $6, $7, COALESCE($8, false), COALESCE($9, false), $10)
+        (day, achilles_am, adductor, hamstring, piriformis, pubic, shoulder, playing_today, played,
+         rest_day, note)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, COALESCE($8, false), COALESCE($9, false), $10, $11)
      ON CONFLICT (day) DO UPDATE SET
         achilles_am   = COALESCE(EXCLUDED.achilles_am,   daily_check.achilles_am),
         adductor      = COALESCE(EXCLUDED.adductor,      daily_check.adductor),
@@ -35,6 +37,7 @@ export async function saveCheck(input: CheckInput): Promise<{ ok: boolean }> {
         shoulder      = COALESCE(EXCLUDED.shoulder,      daily_check.shoulder),
         playing_today = COALESCE($8, daily_check.playing_today),
         played        = COALESCE($9, daily_check.played),
+        rest_day      = COALESCE($10, daily_check.rest_day),
         note          = COALESCE(EXCLUDED.note,          daily_check.note),
         updated_at    = now()`,
     [
@@ -47,6 +50,7 @@ export async function saveCheck(input: CheckInput): Promise<{ ok: boolean }> {
       input.shoulder ?? null,
       input.playingToday ?? null,
       input.played ?? null,
+      input.restDay ?? null,
       input.note ?? null,
     ],
   );

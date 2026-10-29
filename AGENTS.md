@@ -67,8 +67,21 @@ por dolor en cualquier parte de la app, se pregunta por las cinco zonas, nunca
 solo por el Aquiles.
 
 Lo que se puntúa es **dolor o molestia**, 0-10, y la interfaz lo dice
-explícitamente. Cada zona retira ejercicios de la sesión del día a partir de su
-umbral; las reglas están juntas en `ZONE_RULES`, en `src/lib/program/plan.ts`.
+explícitamente. El chequeo **no depende del Aquiles**: basta con puntuar una
+zona, y se puede marcar «hoy no entreno» (`rest_day`) sin perder la puntuación,
+que es lo que alimenta el histórico y la carga de mañana.
+
+Las cinco zonas dirigen el día por igual. Cada regla de `ZONE_RULES`
+(`src/lib/program/plan.ts`) tiene tres umbrales, los mismos que el Aquiles tenía
+en exclusiva: `from` quita los ejercicios que cargan la zona, `lightFrom`
+descarta la sesión pesada y `unloadFrom` manda el día entero a descarga. Si
+quitar ejercicios deja la sesión por debajo de `MIN_ITEMS`, se busca otra de la
+rotación que esa zona no cargue antes de rendirse y descargar.
+
+`DayPlan` separa `changes` (lo que el dolor le ha hecho a la sesión de hoy) de
+`warnings` (consejo que vale igual aunque no se entrene, como ir al fisio): un
+día de descanso solo enseña los segundos.
+
 Los umbrales y qué ejercicio sale con cada zona son criterio conservador, no
 prescripción de un fisio: si el usuario dice otra cosa, manda él.
 
