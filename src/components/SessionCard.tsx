@@ -42,6 +42,7 @@ export function SessionCard({
       <div className="mt-3 flex flex-wrap gap-1.5">
         {mode === 'suave' ? <Chip tone="warn">Versión suave</Chip> : null}
         {mode === 'descarga' ? <Chip tone="alert">Día de descarga</Chip> : null}
+        {mode === 'partido' ? <Chip tone="info">Día de partido · recortada</Chip> : null}
         {session.focus.map((f) => (
           <Chip key={f}>{f}</Chip>
         ))}

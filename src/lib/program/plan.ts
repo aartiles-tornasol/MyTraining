@@ -102,7 +102,7 @@ export function animFor(exerciseKey: string, phase: Phase, offset = 0): string {
 
 /* ── Adaptive selection ─────────────────────────────────────────────────── */
 
-export type SessionMode = 'normal' | 'suave' | 'descarga';
+export type SessionMode = 'normal' | 'suave' | 'descarga' | 'partido';
 
 export interface DayInput {
   today: string;
@@ -291,12 +291,20 @@ export function planDay(input: DayInput): DayPlan {
     const items = SESSIONS[key].items[phase];
     if (m === 'suave') return softenForTendon(items);
     if (m === 'descarga') return items.filter((i) => !HEAVY_TENDON.has(i.exercise));
+    if (m === 'partido') return trimForMatch(items);
     return items;
   };
 
-  /** El modo que le toca a una sesión: solo las pesadas se suavizan. */
-  const modeFor = (key: string): SessionMode =>
-    am !== null && am >= 4 && SESSIONS[key].heavy ? 'suave' : 'normal';
+  /**
+   * El modo que le toca a una sesión. Un día de partido manda sobre todo lo
+   * demás: elegir otra sesión no basta, porque la rotación ya apunta a una
+   * ligera la mayor parte de los días y entonces marcar partido no cambiaba
+   * absolutamente nada.
+   */
+  const modeFor = (key: string): SessionMode => {
+    if (input.playingToday) return 'partido';
+    return am !== null && am >= 4 && SESSIONS[key].heavy ? 'suave' : 'normal';
+  };
 
   const unload = sore.find((z) => z.score >= z.rule.unloadFrom);
   const blockHeavy = sore.find((z) => z.score >= z.rule.lightFrom);
@@ -329,9 +337,11 @@ export function planDay(input: DayInput): DayPlan {
       'descarga — movilidad y respiración — y mañana se vuelve a mirar.';
   } else if (input.playingToday) {
     sessionKey = lightest();
+    mode = 'partido';
     reason =
-      'Hoy juegas, así que el trabajo pesado se aparta para no llegar cansado a la pista. ' +
-      'Esta sesión es corta y prepara sin fatigar. No te olvides del calentamiento antes de jugar.';
+      'Hoy juegas, así que el trabajo pesado se aparta para no llegar cansado a la pista: fuera ' +
+      'saltos y bajadas de talón, y una serie menos en todo lo demás. No te olvides del ' +
+      'calentamiento antes de jugar.';
   } else if (blockHeavy && SESSIONS[byStaleness[0]]?.heavy) {
     sessionKey = lightest();
     reason =
@@ -447,6 +457,19 @@ export function planDay(input: DayInput): DayPlan {
     changes,
     warnings,
   };
+}
+
+/**
+ * La sesión del día que se juega. Quita lo explosivo y lo excéntrico de tendón
+ * — pogos, saltos laterales, bajadas de talón — que es justo lo que deja las
+ * piernas pesadas para la pista, y recorta una serie de todo lo que lleve tres
+ * o más. Sin esto, el interruptor de «mañana juego» solo elegía otra sesión, y
+ * los días en que la rotación ya apuntaba a una ligera no hacía nada.
+ */
+function trimForMatch(items: SessionItem[]): SessionItem[] {
+  return items
+    .filter((i) => !HEAVY_TENDON.has(i.exercise))
+    .map((i) => (i.sets >= 3 ? { ...i, sets: i.sets - 1 } : i));
 }
 
 /** Swap loaded tendon work for the isometric version and trim a set. */

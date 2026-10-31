@@ -85,6 +85,15 @@ día de descanso solo enseña los segundos.
 Los umbrales y qué ejercicio sale con cada zona son criterio conservador, no
 prescripción de un fisio: si el usuario dice otra cosa, manda él.
 
+## Días de partido
+
+Marcar que se juega (`playing_today`, desde Hoy o desde Mañana) pone la sesión
+en modo `partido`: se elige una sesión ligera, se quita lo explosivo y lo
+excéntrico de tendón (`HEAVY_TENDON`) y se recorta una serie de todo lo que
+lleve tres o más. Elegir otra sesión **no basta**: la rotación ya apunta a una
+ligera la mayor parte de los días, y entonces el interruptor no cambiaba nada
+en 168 de 240 escenarios. Lo que lo hace visible siempre es el recorte.
+
 ## Guardar una sesión
 
 `saveSession` corre contra un reloj de 20 s y cualquier fallo se captura: sin
