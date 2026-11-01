@@ -80,11 +80,14 @@ export function DailyCheckCard({ check, day }: { check: DailyCheck | null; day: 
     </button>
   ) : null;
 
-  const switches = (onPlaying: (v: boolean) => void) => (
+  /* Lo de jugar se guarda al tocarlo, también con el chequeo a medias: el
+     calentamiento y la vuelta a la calma cuelgan de ello y hacen falta aunque
+     no se puntúe nada ni se entrene. */
+  const switches = (
     <>
       <label className="mt-3 flex items-center justify-between gap-3 rounded-lg bg-ink-800 px-3 py-2.5">
         <span className="text-[1.0rem] font-semibold">¿Juegas hoy al pickleball?</span>
-        <Switch checked={playing} onChange={onPlaying} />
+        <Switch checked={playing} onChange={togglePlaying} />
       </label>
       {playedRow}
       <label className="mt-2 flex items-center justify-between gap-3 rounded-lg bg-ink-800 px-3 py-2.5">
@@ -117,7 +120,7 @@ export function DailyCheckCard({ check, day }: { check: DailyCheck | null; day: 
             Editar
           </button>
         </div>
-        {switches(togglePlaying)}
+        {switches}
       </Card>
     );
   }
@@ -163,7 +166,7 @@ export function DailyCheckCard({ check, day }: { check: DailyCheck | null; day: 
         ))}
       </div>
 
-      {switches(setPlaying)}
+      {switches}
 
       <button
         type="button"

@@ -102,7 +102,9 @@ export default async function Home() {
         </Card>
       ) : null}
 
-      {plan.suggestExtras.length > 0 && !resting ? (
+      {/* Calentar y volver a la calma no son la sesión del día: se juega igual
+          aunque hoy no se entrene, así que no dependen de «hoy no entreno». */}
+      {plan.suggestExtras.length > 0 ? (
         <div className="mb-4 grid grid-cols-2 gap-3">
           {plan.suggestExtras.map((key) => {
             const s = SESSIONS[key];
@@ -115,7 +117,7 @@ export default async function Home() {
                 <p className="text-[0.95rem] font-bold leading-tight">{s.name}</p>
                 <p className="mt-0.5 text-[0.82rem] leading-snug text-ink-300">{s.tagline}</p>
                 <p className="mt-2 text-[0.88rem] font-semibold text-lime-glow">
-                  {sessionMinutes(s.items[1])} min →
+                  {sessionMinutes(s.items[plan.phase])} min →
                 </p>
               </Link>
             );
